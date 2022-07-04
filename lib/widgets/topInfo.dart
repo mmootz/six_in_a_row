@@ -14,15 +14,15 @@ class topInfo extends StatefulWidget {
 
   topInfo(
       {required this.currentPlayer,
-        required this.totalScore,
-        required this.currentScore,
-        required this.roundNumber,
-        required this.endGame});
+      required this.totalScore,
+      required this.currentScore,
+      required this.roundNumber,
+      required this.endGame});
 }
 
 class _topInfoState extends State<topInfo> {
 
-  bool gameOver = false ;
+  bool gameOver = false;
 
   @override
   Widget build(BuildContext context) {

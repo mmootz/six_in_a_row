@@ -11,6 +11,7 @@ class GameBoard extends StatefulWidget {
 }
 
 class _GameBoardState extends State<GameBoard> {
+
   Map<String, int> Scores = {};
   bool _loadedPlayers = false;
   int TotalScore = 0;
@@ -37,10 +38,15 @@ class _GameBoardState extends State<GameBoard> {
     return nxtPlayer;
   }
 
+
   void AddScore(add) {
     setState(() {
       CurrentScore = CurrentScore + add as int;
     });
+  }
+  void shootConfetti()
+  {
+    debugPrint('fire');
   }
 
   void Clear() {
@@ -63,7 +69,6 @@ class _GameBoardState extends State<GameBoard> {
       required int roundNumber,
       required List players,
       required Map<String, int>? scores}) {
-
     var newScore = 0;
     var FindNextPlayer = "";
 
@@ -72,7 +77,6 @@ class _GameBoardState extends State<GameBoard> {
     setState(() {
       scores[currentPlayer] = newScore;
     });
-
 
     FindNextPlayer = _nextPlayer(players, currentPlayer);
     if (FindNextPlayer == players.first) {
@@ -128,30 +132,30 @@ class _GameBoardState extends State<GameBoard> {
           ],
         ),
         body: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(5.0),
           child: Center(
             child: Column(
               children: [
                 topInfo(
-                    currentPlayer: CurrentPlayer,
-                    totalScore: TotalScore,
-                    currentScore: CurrentScore,
-                    roundNumber: RoundNumber,
-                    endGame: Clear),
+                  currentPlayer: CurrentPlayer,
+                  totalScore: TotalScore,
+                  currentScore: CurrentScore,
+                  roundNumber: RoundNumber,
+                  endGame: Clear,
+                ),
                 bottomButtons(AddScore),
                 ElevatedButton(
-                    onPressed: () => EndRound(
-                        roundNumber: RoundNumber,
-                        currentPlayer: CurrentPlayer,
-                        currentScore: CurrentScore,
-                        players: players,
-                        scores: Scores),
-                    child: Text('End Turn')),
-                SizedBox(height: 100),
+                      onPressed: () => EndRound(
+                          roundNumber: RoundNumber,
+                          currentPlayer: CurrentPlayer,
+                          currentScore: CurrentScore,
+                          players: players,
+                          scores: Scores),
+                      child: Text('End Turn')),
 
                 ElevatedButton(
-                    onPressed: () =>
-                        Navigator.pushNamed(context, 'WinScreen', arguments: Scores),
+                    onPressed: () => Navigator.pushNamed(context, 'WinScreen',
+                        arguments: Scores),
                     child: Text('End Game'))
               ],
             ),

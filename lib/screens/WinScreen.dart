@@ -1,4 +1,3 @@
-import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +13,21 @@ class WinScreen extends StatelessWidget {
     var WinningPlayer = "";
     var WinningScore = "";
 
-    final findWinner = SplayTreeMap<String, int>.from(
-        players, (value1, value2) => value1.compareTo(value2));
-        WinningPlayer = findWinner.entries.first.key.toString();
-        WinningScore = findWinner.entries.first.value.toString();
-        findWinner.entries.skip(1);
-    return "Winner is: $WinningPlayer, With $WinningScore Points!";
+    // final findWinner = SplayTreeMap<String, int>.from(
+    //     players, (value1, value2) => value1.compareTo(value2));
+    //     WinningPlayer = findWinner.entries.first.key.toString();
+    //     WinningScore = findWinner.entries.first.value.toString();
+    //     findWinner.entries.skip(1);
+    var Winner = players.entries.toList()..sort((b, a) =>
+        a.value.compareTo(b.value));
+    players
+    ..clear()
+    ..addEntries(Winner);
+
+    WinningPlayer = players.entries.first.key.toString();
+    WinningScore = players.entries.first.value.toString();
+
+    return "Winner is: $WinningPlayer, With $WinningScore Points! \n DEBUG: ${players}";
   }
 
 

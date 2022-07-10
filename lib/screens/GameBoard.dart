@@ -38,6 +38,16 @@ class _GameBoardState extends State<GameBoard> {
             scores: Scores);
       }
     } else {
+      debugPrint('End Game');
+      if ( CurrentScore >0) {
+        EndRound(
+            roundNumber: RoundNumber,
+            currentPlayer: CurrentPlayer,
+            currentScore: CurrentScore,
+            players: loadPlayers,
+            // loads the players form init this doesn't change
+            scores: Scores);
+      }
       Navigator.pushNamed(context, 'WinScreen', arguments: Scores);
     }
     setState(() {
@@ -168,6 +178,7 @@ class _GameBoardState extends State<GameBoard> {
                   roundNumber: RoundNumber,
                   endGame: Clear,
                 ),
+                //const SizedBox(height: 150),
                 bottomButtons(AddScore),
                 // ElevatedButton(
                 //     onPressed: () => EndRound(

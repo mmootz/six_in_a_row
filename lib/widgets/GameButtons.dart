@@ -15,7 +15,7 @@ class _bottomButtonsState extends State<bottomButtons> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
         height: 250,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -70,12 +70,6 @@ class _bottomButtonsState extends State<bottomButtons> {
                         ButtonValue: 6,
                         ShortPress: widget.addScore,
                         fireConfetti: false),
-                    // SizedBox(
-                    //   width: spacing,
-                    // ),
-                    //GameBoard_Button(ButtonText: 'Clear', ButtonValue: 0, ShortPress: clearScore)
-                    //GameBoard_Button(ButtonText: 'Clear', ButtonValue: 1, ShortPress: clearScore)
-                    //ElevatedButton(onPressed: clearScore, child: Text('Clear')),
                     GameBoard_Button(
                       ButtonText: '12',
                       ButtonValue: 12,

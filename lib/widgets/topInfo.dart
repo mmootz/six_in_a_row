@@ -36,15 +36,6 @@ class _topInfoState extends State<topInfo> {
             children: [
               Text(widget.currentPlayer,
                   textAlign: TextAlign.left, style: TextStyle(fontSize: 32)),
-              // buttons(
-              //     text: "End game" ,
-              //     style: ElevatedButton.styleFrom(
-              //         primary: Colors.lightBlue,
-              //         onPrimary: Colors.white,
-              //         minimumSize: Size(100, 40)
-              //         //shape: new RoundedRectangleBorder(borderRadius: new BorderRadius.circular(30.0),)
-              //         ),
-              //     onPressed: _endGame),
             ],
           ),
           Row(
@@ -57,7 +48,7 @@ class _topInfoState extends State<topInfo> {
                   textAlign: TextAlign.right, style: TextStyle(fontSize: 32)),
             ],
           ),
-
+          SizedBox(height: 75),
           Text(
             widget.currentScore.toString(),
             textAlign: TextAlign.center,

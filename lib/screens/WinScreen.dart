@@ -49,8 +49,9 @@ class WinScreen extends StatelessWidget {
           child: Column(
             children: [
               Text(findWinner(players)),
-              ElevatedButton(onPressed: () =>
-                  Navigator.pushReplacementNamed(context, 'MainMenu'),
+              ElevatedButton(onPressed: () => {
+                  Navigator.pop(context),
+                  Navigator.popAndPushNamed(context, 'MainMenu')},
                   child: Text('Main Menu'))
             ],
           ),

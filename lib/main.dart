@@ -33,16 +33,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   List players = ["test", "test2"];
   String player = "matt";
   final Map<String, int> WinPlayers = {"Matt": 10, "Dad": 13};
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Six in a row',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-            .copyWith(secondary: Colors.red),
+            .copyWith(secondary: Colors.lightBlueAccent),
         canvasColor: Colors.white,
 
 

@@ -11,13 +11,39 @@ class GameBoard extends StatefulWidget {
 }
 
 class _GameBoardState extends State<GameBoard> {
-
   Map<String, int> Scores = {};
   bool _loadedPlayers = false;
   int TotalScore = 0;
   int CurrentScore = 0;
   int RoundNumber = 1;
   String CurrentPlayer = "";
+
+
+  int _pageIndex = 0;
+
+
+
+  // this is void but it wouldn't let me call this as void?
+  _selectPage(int index) {
+    final loadPlayers = ModalRoute.of(context)?.settings.arguments as List;
+    // nested if not pretty
+    if (index == 0) {
+      if ( CurrentScore >0) {
+        debugPrint('End round');
+        EndRound(
+            roundNumber: RoundNumber,
+            currentPlayer: CurrentPlayer,
+            currentScore: CurrentScore,
+            players: loadPlayers,   // loads the players form init this doesn't change
+            scores: Scores);
+      }
+    } else {
+      Navigator.pushNamed(context, 'WinScreen', arguments: Scores);
+    }
+    setState(() {
+      _pageIndex = index;
+    });
+  }
 
   _nextPlayer(List players, String currentPlayer) {
     String nxtPlayer = "";
@@ -38,14 +64,13 @@ class _GameBoardState extends State<GameBoard> {
     return nxtPlayer;
   }
 
-
   void AddScore(add) {
     setState(() {
       CurrentScore = CurrentScore + add as int;
     });
   }
-  void shootConfetti()
-  {
+
+  void shootConfetti() {
     debugPrint('fire');
   }
 
@@ -117,7 +142,7 @@ class _GameBoardState extends State<GameBoard> {
 
   @override
   Widget build(BuildContext context) {
-    final players = ModalRoute.of(context)?.settings.arguments as List;
+    //final players = ModalRoute.of(context)?.settings.arguments as List;
     return Scaffold(
         appBar: AppBar(
           title: Text('Six in a row'),
@@ -144,22 +169,34 @@ class _GameBoardState extends State<GameBoard> {
                   endGame: Clear,
                 ),
                 bottomButtons(AddScore),
-                ElevatedButton(
-                      onPressed: () => EndRound(
-                          roundNumber: RoundNumber,
-                          currentPlayer: CurrentPlayer,
-                          currentScore: CurrentScore,
-                          players: players,
-                          scores: Scores),
-                      child: Text('End Turn')),
-
-                ElevatedButton(
-                    onPressed: () => Navigator.pushNamed(context, 'WinScreen',
-                        arguments: Scores),
-                    child: Text('End Game'))
+                // ElevatedButton(
+                //     onPressed: () => EndRound(
+                //         roundNumber: RoundNumber,
+                //         currentPlayer: CurrentPlayer,
+                //         currentScore: CurrentScore,
+                //         players: players,
+                //         scores: Scores),
+                //     child: Text('End Turn')),
+                // ElevatedButton(
+                //     onPressed: () => Navigator.pushNamed(context, 'WinScreen',
+                //         arguments: Scores),
+                //     child: Text('End Game'))
               ],
             ),
           ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: _selectPage,
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          unselectedItemColor: Colors.white,
+          selectedItemColor: Theme.of(context).colorScheme.secondary,
+          currentIndex: _pageIndex,
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(icon: Icon(Icons.done), label: "End Round"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.done_all), label: "End Game"),
+          ],
         ));
   }
 }

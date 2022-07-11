@@ -84,13 +84,13 @@ class _GameBoard_ButtonState extends State<GameBoard_Button> {
         ),
       ),
       Align(
-        alignment: Alignment.center,
+        alignment: Alignment.topCenter,
         child: ConfettiWidget(
           confettiController: confetti,
           blastDirectionality: BlastDirectionality.explosive,
           blastDirection: pi / 2,
           maxBlastForce: 200,
-          numberOfParticles: 20,
+          numberOfParticles: 42,
           shouldLoop: false,
           colors: const [
             Colors.green,

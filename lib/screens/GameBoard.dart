@@ -200,11 +200,11 @@ class _GameBoardState extends State<GameBoard> {
           onTap: _selectPage,
           backgroundColor: Theme.of(context).colorScheme.primary,
           unselectedItemColor: Colors.white,
-          selectedItemColor: Theme.of(context).colorScheme.secondary,
+          selectedItemColor: Colors.white,
           currentIndex: _pageIndex,
           type: BottomNavigationBarType.fixed,
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.done), label: "End Round"),
+            BottomNavigationBarItem(icon: Icon(Icons.done), label: "End Turn"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.done_all), label: "End Game"),
           ],

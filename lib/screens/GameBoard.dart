@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/GameButtons.dart';
 import '../widgets/topInfo.dart';
+import 'package:keep_screen_on/keep_screen_on.dart';
 
 class GameBoard extends StatefulWidget {
   //const GameBoard({Key? key}) : super(key: key);
@@ -21,7 +22,11 @@ class _GameBoardState extends State<GameBoard> {
 
   int _pageIndex = 0;
 
-
+  @override
+  void dispose() {
+    KeepScreenOn.turnOff();
+    super.dispose();
+  }
 
   // this is void but it wouldn't let me call this as void?
   _selectPage(int index) {
@@ -150,64 +155,60 @@ class _GameBoardState extends State<GameBoard> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     //final players = ModalRoute.of(context)?.settings.arguments as List;
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('Six in a row'),
-          centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: Clear,
-              icon: Icon(Icons.delete),
-              tooltip: 'Clear score',
-              splashColor: Theme.of(context).colorScheme.secondary,
-            )
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: Center(
-            child: Column(
-              children: [
-                topInfo(
-                  currentPlayer: CurrentPlayer,
-                  totalScore: TotalScore,
-                  currentScore: CurrentScore,
-                  roundNumber: RoundNumber,
-                  endGame: Clear,
-                ),
-                //const SizedBox(height: 150),
-                bottomButtons(AddScore),
-                // ElevatedButton(
-                //     onPressed: () => EndRound(
-                //         roundNumber: RoundNumber,
-                //         currentPlayer: CurrentPlayer,
-                //         currentScore: CurrentScore,
-                //         players: players,
-                //         scores: Scores),
-                //     child: Text('End Turn')),
-                // ElevatedButton(
-                //     onPressed: () => Navigator.pushNamed(context, 'WinScreen',
-                //         arguments: Scores),
-                //     child: Text('End Game'))
-              ],
+    bool shouldPop = false;
+    KeepScreenOn.turnOn();
+    return WillPopScope(
+      onWillPop: () async {
+      return shouldPop;
+    },
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text('Six in a row'),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                onPressed: Clear,
+                icon: Icon(Icons.delete),
+                tooltip: 'Clear score',
+                splashColor: Theme.of(context).colorScheme.secondary,
+              )
+            ],
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Center(
+              child: Column(
+                children: [
+                  topInfo(
+                    currentPlayer: CurrentPlayer,
+                    totalScore: TotalScore,
+                    currentScore: CurrentScore,
+                    roundNumber: RoundNumber,
+                    endGame: Clear,
+                  ),
+                  //const SizedBox(height: 150),
+                  bottomButtons(AddScore),
+                ],
+              ),
             ),
           ),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          onTap: _selectPage,
-          backgroundColor: Theme.of(context).colorScheme.primary,
-          unselectedItemColor: Colors.white,
-          selectedItemColor: Colors.white,
-          currentIndex: _pageIndex,
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(icon: Icon(Icons.done), label: "End Turn"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.done_all), label: "End Game"),
-          ],
-        ));
+          bottomNavigationBar: BottomNavigationBar(
+            onTap: _selectPage,
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            unselectedItemColor: Colors.white,
+            selectedItemColor: Colors.white,
+            currentIndex: _pageIndex,
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(icon: Icon(Icons.done), label: "End Turn"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.done_all), label: "End Game"),
+            ],
+          )),
+    );
   }
 }

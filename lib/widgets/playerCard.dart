@@ -23,15 +23,15 @@ class PlayerCard extends StatelessWidget {
         elevation: 6,
         margin: EdgeInsets.all(10),
         child: Container(
-          width: 150,
+          width: MediaQuery.of(context).size.width * 0.50,
           child: Column(
             children: [
               Text(
                 PlayerName,
                 style: TextStyle(fontSize: 26),
               ),
-              Text("Wins:$Wins"),
-              Text("Losses: $Losses")
+              // Text("Wins:$Wins"),
+              // Text("Losses: $Losses")
             ],
           ),
         ),

@@ -16,7 +16,7 @@ class _bottomButtonsState extends State<bottomButtons> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 250,
+        height: MediaQuery.of(context).size.height * 0.3,
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisAlignment: MainAxisAlignment.center,

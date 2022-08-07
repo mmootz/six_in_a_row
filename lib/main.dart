@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'screens/MainMenu.dart';
 import 'screens/GameBoard.dart';
 import 'screens/scores.dart';
 import 'screens/WinScreen.dart';
-
+import 'screens/tips.dart';
+import 'screens/ExitGame.dart';
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
 }
 
@@ -15,11 +20,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Six in a row',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Six in a row'),
     );
   }
 }
@@ -33,9 +38,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List players = ["test", "test2"];
-  String player = "matt";
-  final Map<String, int> WinPlayers = {"Matt": 10, "Dad": 13};
+  //List players = ["test", "test2"];
+  //String player = "matt";
+  //final Map<String, int> WinPlayers = {"Matt": 10, "Dad": 13};
+  Map<String, int> ScoresMap = {};
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +51,6 @@ class _MyHomePageState extends State<MyHomePage> {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
             .copyWith(secondary: Colors.lightBlueAccent),
         canvasColor: Colors.white,
-
-
       ),
       home: const MainMenu(),
       initialRoute: 'MainMenu',
@@ -54,7 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
         'MainMenu': (ctx) => MainMenu(),
         'GameBoard': (ctx) => GameBoard(),
         'Scores': (ctx) => Scores(),
-        'WinScreen': (ctx) => WinScreen()
+        'WinScreen': (ctx) => WinScreen(),
+        'Tips': (ctx) => TipsPage(),
+        'Quit': (ctx) => QuitGame()
       }, // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

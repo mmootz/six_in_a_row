@@ -73,8 +73,8 @@ class _GameBoard_ButtonState extends State<GameBoard_Button> {
           elevation: 6,
           margin: EdgeInsets.all(5),
           child: Container(
-            width: 150,
-            height: 45,
+            width: MediaQuery.of(context).size.width * 0.40,
+            height: MediaQuery.of(context).size.height * 0.06,
             child: Center(
                 child: Text(
                   widget.ButtonText,

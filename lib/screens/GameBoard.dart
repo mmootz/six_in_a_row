@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../widgets/GameButtons.dart';
 import '../widgets/topInfo.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
-
+import '../widgets/SideBar.dart';
 class GameBoard extends StatefulWidget {
   //const GameBoard({Key? key}) : super(key: key);
   static const routeName = 'GameBoard';
@@ -18,8 +18,6 @@ class _GameBoardState extends State<GameBoard> {
   int CurrentScore = 0;
   int RoundNumber = 1;
   String CurrentPlayer = "";
-
-
   int _pageIndex = 0;
 
   @override
@@ -31,7 +29,7 @@ class _GameBoardState extends State<GameBoard> {
   // this is void but it wouldn't let me call this as void?
   _selectPage(int index) {
     final loadPlayers = ModalRoute.of(context)?.settings.arguments as List;
-    // nested if not pretty
+    // nested it's not pretty
     if (index == 0) {
       if ( CurrentScore >0) {
         debugPrint('End round');
@@ -61,13 +59,15 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   _nextPlayer(List players, String currentPlayer) {
+    // Find the next player by going though the list of players
+    // if at last player return the first player
     String nxtPlayer = "";
     for (int i = 0; i < players.length; i++) {
       String match = "";
       int nextPlayerIndex = 0;
       match = players[i];
       if (currentPlayer == match) {
-        // check if we will go out of bounds.
+
         nextPlayerIndex = i + 1;
         if (nextPlayerIndex >= players.length) {
           nxtPlayer = players[0];
@@ -158,7 +158,7 @@ class _GameBoardState extends State<GameBoard> {
 
   @override
   Widget build(BuildContext context) {
-    //final players = ModalRoute.of(context)?.settings.arguments as List;
+    // This keeps the screen on during the scoring
     bool shouldPop = false;
     KeepScreenOn.turnOn();
     return WillPopScope(
@@ -175,9 +175,10 @@ class _GameBoardState extends State<GameBoard> {
                 icon: Icon(Icons.delete),
                 tooltip: 'Clear score',
                 splashColor: Theme.of(context).colorScheme.secondary,
-              )
+              ),
             ],
           ),
+          drawer: SideBar(Scores),
           body: Padding(
             padding: const EdgeInsets.all(5.0),
             child: Center(

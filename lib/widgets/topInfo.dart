@@ -48,7 +48,7 @@ class _topInfoState extends State<topInfo> {
                   textAlign: TextAlign.right, style: TextStyle(fontSize: 32)),
             ],
           ),
-          SizedBox(height: 75),
+         // SizedBox(height: 75),
           Text(
             widget.currentScore.toString(),
             textAlign: TextAlign.center,

@@ -64,56 +64,59 @@ class _WinScreenState extends State<WinScreen> {
         children: [
           Text(WinningPlayer, style: TextStyle(fontSize: 76),
               textAlign: TextAlign.center),
-          Stack(
-            alignment: Alignment(-0.07, -0.3),
-            children: [
-              Image.asset(
-                'lib/images/Trophy.png',
-              ),
-              Text(
-                WinningScore,
-                style: TextStyle(fontSize: 76),
-                textAlign: TextAlign.center,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: ConfettiWidget(
-                  confettiController: confetti,
-                  blastDirectionality: BlastDirectionality.explosive,
-                  blastDirection: pi ,
-                  maxBlastForce: 200,
-                  numberOfParticles: 7,
-                  emissionFrequency: 0.25,
-                  gravity: 1,
-                  shouldLoop: false,
-                  colors: const [
-                    Colors.green,
-                    Colors.blue,
-                    Colors.red,
-                    Colors.green,
-                    Colors.yellow
-                  ],
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.5,
+            child: Stack(
+              alignment: Alignment(-0.07, -0.3),
+              children: [
+                Image.asset(
+                  'lib/images/Trophy.png',
                 ),
-              ),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: ConfettiWidget(
-                  confettiController: confetti,
-                  blastDirectionality: BlastDirectionality.explosive,
-                  blastDirection: pi /2 ,
-                  maxBlastForce: 200,
-                  numberOfParticles: 42,
-                  shouldLoop: false,
-                  colors: const [
-                    Colors.green,
-                    Colors.blue,
-                    Colors.red,
-                    Colors.green,
-                    Colors.yellow
-                  ],
+                Text(
+                  WinningScore,
+                  style: TextStyle(fontSize: 76),
+                  textAlign: TextAlign.center,
                 ),
-              )
-            ],
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: ConfettiWidget(
+                    confettiController: confetti,
+                    blastDirectionality: BlastDirectionality.explosive,
+                    blastDirection: pi ,
+                    maxBlastForce: 200,
+                    numberOfParticles: 7,
+                    emissionFrequency: 0.25,
+                    gravity: 1,
+                    shouldLoop: false,
+                    colors: const [
+                      Colors.green,
+                      Colors.blue,
+                      Colors.red,
+                      Colors.green,
+                      Colors.yellow
+                    ],
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: ConfettiWidget(
+                    confettiController: confetti,
+                    blastDirectionality: BlastDirectionality.explosive,
+                    blastDirection: pi /2 ,
+                    maxBlastForce: 200,
+                    numberOfParticles: 42,
+                    shouldLoop: false,
+                    colors: const [
+                      Colors.green,
+                      Colors.blue,
+                      Colors.red,
+                      Colors.green,
+                      Colors.yellow
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
           ElevatedButton(
               onPressed: () =>

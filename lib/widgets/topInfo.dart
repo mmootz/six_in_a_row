@@ -21,9 +21,7 @@ class topInfo extends StatefulWidget {
 }
 
 class _topInfoState extends State<topInfo> {
-
   bool gameOver = false;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -42,13 +40,12 @@ class _topInfoState extends State<topInfo> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Score: ${widget.totalScore}",
+              Text("Score: ${widget.totalScore + widget.currentScore}",
                   textAlign: TextAlign.left, style: TextStyle(fontSize: 32)),
               Text("Round: ${widget.roundNumber}",
                   textAlign: TextAlign.right, style: TextStyle(fontSize: 32)),
             ],
           ),
-         // SizedBox(height: 75),
           Text(
             widget.currentScore.toString(),
             textAlign: TextAlign.center,

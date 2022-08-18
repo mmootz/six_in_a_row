@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-
+import 'package:six/widgets/scoresTable.dart';
 class Scores extends StatelessWidget {
   static const routeName = 'Scores';
   //const Scores({Key? key}) : super(key: key);
@@ -21,6 +21,6 @@ class Scores extends StatelessWidget {
         title: Text('Scores'),
     centerTitle: true,
     ),
-    body: Text(Scores.toString()));
+    body: scoresTable(Scores));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'GameBoard.dart';
+import 'package:six/widgets/getPlayers.dart';
 import '../data/players.dart';
 import 'package:six/widgets/playerCard.dart';
 
@@ -17,7 +18,7 @@ class _MainMenuState extends State<MainMenu> {
   _isSelected(player) {}
 
   void PlayersMangment(player) {
-   // logic to check if player is already added
+    // logic to check if player is already added
     // logic to check how many players in already added
     // maybe change Main Menu text?
 
@@ -29,7 +30,6 @@ class _MainMenuState extends State<MainMenu> {
     // setState(() {
     //   currentPlayers.add(player);
     // });
-
   }
 
   void _showGameboard(context) {
@@ -51,10 +51,11 @@ class _MainMenuState extends State<MainMenu> {
           child: Column(
             children: [
               Text('Main Menu'),
+              getPlayers(),
 
-              PlayerCard('Matt', '0', '1', PlayersMangment),
-              PlayerCard('Dad', '1', '0', PlayersMangment),
-              PlayerCard('Tom', '0', '1', PlayersMangment),
+              // PlayerCard('Matt', '0', '1', PlayersMangment),
+              // PlayerCard('Dad', '1', '0', PlayersMangment),
+              // PlayerCard('Tom', '0', '1', PlayersMangment),
               // not sure why this doesn't work
               // Container(
               //   height: 300,

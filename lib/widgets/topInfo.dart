@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-
+import '../providers/scores.dart';
+import 'package:provider/provider.dart';
 class topInfo extends StatefulWidget {
   //const top_info({Key? key}) : super(key: key);
 

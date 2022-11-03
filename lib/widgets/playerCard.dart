@@ -8,14 +8,15 @@ class PlayerCard extends StatelessWidget {
   final String Losses;
 
   //final Function selectedButton;
-  final Function playerManagment;
+  //final Function playerManagment;
 
-  PlayerCard(this.PlayerName, this.Wins, this.Losses, this.playerManagment);
+  PlayerCard(this.PlayerName, this.Wins, this.Losses);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => playerManagment(PlayerName),
+       onTap: null,
+      //onTap: () => playerManagment(PlayerName),
       splashColor: Theme.of(context).colorScheme.primary,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

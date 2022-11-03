@@ -46,9 +46,9 @@ class _SideBarState extends State<SideBar> {
             onTap: null,
           ),
           ListTile(
-            leading: Icon(Icons.help),
-            title: Text("Tips"),
-            onTap: () => Navigator.pushNamed(context, 'Tips'),
+            leading: Icon(Icons.people),
+            title: Text("Players"),
+            onTap: () => Navigator.pushNamed(context, 'Players'),
           ),
           ListTile(
               leading: Icon(Icons.clear),

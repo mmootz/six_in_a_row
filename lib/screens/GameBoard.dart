@@ -146,7 +146,8 @@ class _GameBoardState extends State<GameBoard> {
       for (String player in loadPlayers) {
         loadPlayersIntoMap[player] = 0;
       }
-
+      /// maybe call scores.dart here?
+      /// setup the map there and then handle all the data that way
       setState(() {
         CurrentPlayer = loadPlayers.first;
         Scores = loadPlayersIntoMap;
@@ -154,7 +155,6 @@ class _GameBoardState extends State<GameBoard> {
       _loadedPlayers = true;
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -167,12 +167,12 @@ class _GameBoardState extends State<GameBoard> {
     },
       child: Scaffold(
           appBar: AppBar(
-            title: Text('Six in a row'),
+            title: const Text('Six in a row'),
             centerTitle: true,
             actions: [
               IconButton(
                 onPressed: Clear,
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 tooltip: 'Clear score',
                 splashColor: Theme.of(context).colorScheme.secondary,
               ),
@@ -204,7 +204,7 @@ class _GameBoardState extends State<GameBoard> {
             selectedItemColor: Colors.white,
             currentIndex: _pageIndex,
             type: BottomNavigationBarType.fixed,
-            items: [
+            items: const [
               BottomNavigationBarItem(icon: Icon(Icons.done), label: "End Turn"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.done_all), label: "End Game"),

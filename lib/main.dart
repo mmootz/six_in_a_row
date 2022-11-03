@@ -6,6 +6,7 @@ import 'screens/scores.dart';
 import 'screens/WinScreen.dart';
 import 'screens/tips.dart';
 import 'screens/ExitGame.dart';
+import 'screens/Players.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
@@ -59,6 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         'GameBoard': (ctx) => GameBoard(),
         'Scores': (ctx) => Scores(),
         'WinScreen': (ctx) => WinScreen(),
+        'Players' : (ctx) => playersPage(),
         'Tips': (ctx) => TipsPage(),
         'Quit': (ctx) => QuitGame()
       }, // This trailing comma makes auto-formatting nicer for build methods.

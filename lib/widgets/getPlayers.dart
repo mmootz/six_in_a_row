@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:six/screens/Players.dart';
 import '../data/playerData.dart';
@@ -5,34 +7,75 @@ import '../models/player.dart';
 import 'package:six/widgets/playerCard.dart';
 
 class getPlayers extends StatefulWidget {
+  final List selectedPlayers;
+
+  //final Function Selection;
+
+  getPlayers({required this.selectedPlayers});
+
   @override
   State<getPlayers> createState() => _getPlayersState();
 }
 
+//HashSet<Player> players = HashSet();
+
 class _getPlayersState extends State<getPlayers> {
   //const getPlayers({Key? key}) : super(key: key);
   //late final List<Map<String, dynamic>> playerList;
+
+  //List selectedPlayers = [];
+
+  // void multiSelection(String player) {
+  //   if (selectedPlayers.contains(player)) {
+  //     debugPrint('removed player');
+  //     selectedPlayers.remove(player);
+  //   } else {
+  //     selectedPlayers.add(player);
+  //     debugPrint('added player');
+  //   }
+  //    setState(() {
+  //    });
+  // }
+
+  void multiSelection(String player) {
+    if (widget.selectedPlayers.contains(player)) {
+      debugPrint('removed player');
+      widget.selectedPlayers.remove(player);
+    } else {
+      widget.selectedPlayers.add(player);
+      debugPrint('added player');
+    }
+    setState(() {});
+  }
+
   Future<List<Widget>> getPlayers() async {
     List<Widget> _loaded_players = [];
     final listplayers = await DBHelper.getData('players');
     listplayers.forEach((element) {
-      _loaded_players.add( InkWell(
-        onTap: () => debugPrint(element['playername']),
+      _loaded_players.add(InkWell(
+        onTap: () {
+          multiSelection(element['playername']);
+        },
         child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
           color: Colors.white,
-          elevation: 6,
-          margin: EdgeInsets.all(10),
+          elevation: 4,
+          margin: EdgeInsets.all(5),
           child: Container(
             width: MediaQuery.of(context).size.width * 0.50,
-            child: Column(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-
                 Text(
                   element['playername'],
-                  style: TextStyle(fontSize: 26),
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontSize: 32),
                 ),
-                Text("Wins:" + element['wins'].toString()),
+                widget.selectedPlayers.contains(element['playername'])
+                    ? Icon(Icons.circle)
+                    : Icon(Icons.circle_outlined)
+                //Text("Wins:" + element['wins'].toString()),
                 //Text(element['wins']),
                 // Text(element['losses']),
               ],
@@ -41,11 +84,12 @@ class _getPlayersState extends State<getPlayers> {
         ),
       ));
     });
+
     return _loaded_players;
   }
 
 // https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html
-  // likely need to figure this out.
+// likely need to figure this out.
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +100,17 @@ class _getPlayersState extends State<getPlayers> {
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData) {
                 final players = snapshot.data as List<Widget>;
-                return Card(
-                    child: Column(
+                return Column(
+                  children: [
+                    Text(widget.selectedPlayers.length.toString(),
+                        style: TextStyle(fontSize: 25)),
+                    Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: players));
+                        children: players),
+                  ],
+                );
               } else {
-                return Container();
+                return const Text('Add players to begin!');
               }
             }));
   }

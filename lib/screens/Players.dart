@@ -15,8 +15,18 @@ class _playersPageState extends State<playersPage> {
   final newPlayerName = TextEditingController();
 
   submitData() async {
+    int newID = 0;
+    //getId = await DBHelper.runCommand('SELECT MAX(id) FROM players);
+    final getid = await DBHelper.getRawData('SELECT MAX(id) FROM players');
+    //debugPrint(getid[0]['MAX(id)'].toString());
+    if (getid[0]['MAX(id)'] != null) {
+      newID = getid[0]['MAX(id)'];
+      newID ++;
+    }
+    debugPrint(newID.toString());
     DBHelper.insert('players',
-        {'id': 2, 'playername': newPlayerName.text, 'wins': 0, 'losses': 0});
+        {'id': newID, 'playername': newPlayerName.text, 'wins': 0, 'losses': 0});
+    Navigator.pop(context);
   }
 
   @override
@@ -40,7 +50,7 @@ class _playersPageState extends State<playersPage> {
             onPressed: submitData,
             child: Text('Submit'),
           ),
-          getPlayers()
+          //getPlayers()
         ],
       ),
     );

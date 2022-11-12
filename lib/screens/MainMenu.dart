@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:six/screens/Players.dart';
 import 'GameBoard.dart';
 import 'package:six/widgets/getPlayers.dart';
 import '../data/players.dart';
@@ -13,7 +14,8 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
-  List currentPlayers = [];
+  //List currentPlayers = ['Matt', 'Dad'];
+  List selectedPlayers = [];
 
   _isSelected(player) {}
 
@@ -23,19 +25,26 @@ class _MainMenuState extends State<MainMenu> {
     // maybe change Main Menu text?
 
     debugPrint(player);
-    setState(() {
-      currentPlayers.add(player);
-    });
+    // setState(() {
+    //   currentPlayers.add(player);
+    // });
     //
     // setState(() {
     //   currentPlayers.add(player);
     // });
   }
 
+
+
+  void _showaddPlayer(context) {
+    //Navigator.pop(context);
+    Navigator.pushNamed(context, playersPage.routeName);
+  }
+
   void _showGameboard(context) {
     Navigator.pop(context);
     Navigator.pushNamed(context, GameBoard.routeName,
-        arguments: currentPlayers);
+        arguments: selectedPlayers);
   }
 
   @override
@@ -44,18 +53,28 @@ class _MainMenuState extends State<MainMenu> {
       appBar: AppBar(
         title: Text('Six in a row'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () => _showaddPlayer(context),
+            icon: const Icon(Icons.people),
+            tooltip: 'Clear score',
+            splashColor: Theme.of(context).colorScheme.secondary,
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text('Main Menu'),
-              getPlayers(),
+              Text('Select Players'),
+              getPlayers(
+                  selectedPlayers: selectedPlayers),
 
-              // PlayerCard('Matt', '0', '1', PlayersMangment),
-              // PlayerCard('Dad', '1', '0', PlayersMangment),
-              // PlayerCard('Tom', '0', '1', PlayersMangment),
+              // PlayerCard('Matt', '0', '1'),
+              // PlayerCard('Dad', '1', '0'),
+              // PlayerCard('Tom', '0', '1'),
               // not sure why this doesn't work
               // Container(
               //   height: 300,

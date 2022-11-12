@@ -10,4 +10,5 @@ class Player {
       required this.PlayerName,
       required this.Wins,
       required this.Losses});
+
 }

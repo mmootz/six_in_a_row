@@ -1,17 +1,14 @@
-import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:six/screens/Players.dart';
-import '../data/playerData.dart';
-import '../models/player.dart';
-import 'package:six/widgets/playerCard.dart';
+
 
 class getPlayers extends StatefulWidget {
   final List selectedPlayers;
+  final List loadedPlayers;
 
   //final Function Selection;
 
-  getPlayers({required this.selectedPlayers});
+  getPlayers({required this.selectedPlayers, required this.loadedPlayers});
 
   @override
   State<getPlayers> createState() => _getPlayersState();
@@ -22,20 +19,7 @@ class getPlayers extends StatefulWidget {
 class _getPlayersState extends State<getPlayers> {
   //const getPlayers({Key? key}) : super(key: key);
   //late final List<Map<String, dynamic>> playerList;
-
-  //List selectedPlayers = [];
-
-  // void multiSelection(String player) {
-  //   if (selectedPlayers.contains(player)) {
-  //     debugPrint('removed player');
-  //     selectedPlayers.remove(player);
-  //   } else {
-  //     selectedPlayers.add(player);
-  //     debugPrint('added player');
-  //   }
-  //    setState(() {
-  //    });
-  // }
+  int selectedPlayersNum = 0;
 
   void multiSelection(String player) {
     if (widget.selectedPlayers.contains(player)) {
@@ -48,70 +32,46 @@ class _getPlayersState extends State<getPlayers> {
     setState(() {});
   }
 
-  Future<List<Widget>> getPlayers() async {
-    List<Widget> _loaded_players = [];
-    final listplayers = await DBHelper.getData('players');
-    listplayers.forEach((element) {
-      _loaded_players.add(InkWell(
-        onTap: () {
-          multiSelection(element['playername']);
-        },
-        child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          color: Colors.white,
-          elevation: 4,
-          margin: EdgeInsets.all(5),
-          child: Container(
-            width: MediaQuery.of(context).size.width * 0.50,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Text(
-                  element['playername'],
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontSize: 32),
-                ),
-                widget.selectedPlayers.contains(element['playername'])
-                    ? Icon(Icons.circle)
-                    : Icon(Icons.circle_outlined)
-                //Text("Wins:" + element['wins'].toString()),
-                //Text(element['wins']),
-                // Text(element['losses']),
-              ],
-            ),
-          ),
-        ),
-      ));
-    });
-
-    return _loaded_players;
-  }
-
 // https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html
 // likely need to figure this out.
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: FutureBuilder(
-            future: getPlayers(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done &&
-                  snapshot.hasData) {
-                final players = snapshot.data as List<Widget>;
-                return Column(
+    return Flexible(
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        elevation: 6,
+        margin: EdgeInsets.all(10),
+        child: ListView.separated(
+            padding: const EdgeInsets.all(8),
+            shrinkWrap: true,
+            itemCount: widget.loadedPlayers.length,
+            itemBuilder: (context, index) {
+              return InkWell(
+                splashColor: Theme.of(context).primaryColor,
+                onTap: () {
+                  multiSelection(widget.loadedPlayers[index]);
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //crossAxisAlignment: CrossAxisAlignment,
                   children: [
-                    Text(widget.selectedPlayers.length.toString(),
-                        style: TextStyle(fontSize: 25)),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: players),
+                    Text(
+                      widget.loadedPlayers[index],
+                      textAlign: TextAlign.right,
+                      style: TextStyle(fontSize: 32),
+                    ),
+                    widget.selectedPlayers.contains(widget.loadedPlayers[index])
+                        ? Icon(Icons.check_box, color: Theme.of(context).primaryColor,)
+                        : Icon(Icons.check_box_outline_blank, color: Theme.of(context).primaryColor),
                   ],
-                );
-              } else {
-                return const Text('Add players to begin!');
-              }
-            }));
-  }
-}
+                ),
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+      return Divider(thickness: 2.0);
+      },
+            ),
+      ),
+    );
+  }}

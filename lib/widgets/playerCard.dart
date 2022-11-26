@@ -33,6 +33,7 @@ class PlayerCard extends StatelessWidget {
               ),
               // Text("Wins:$Wins"),
               // Text("Losses: $Losses")
+
             ],
           ),
         ),

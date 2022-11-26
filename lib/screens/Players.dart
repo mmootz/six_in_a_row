@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:six/data/playerData.dart';
-import 'package:six/models/player.dart';
 import 'package:six/widgets/getPlayers.dart';
+import 'package:six/data/player.dart';
 
 class playersPage extends StatefulWidget {
   //const playersPage({Key? key}) : super(key: key);
@@ -13,20 +12,35 @@ class playersPage extends StatefulWidget {
 
 class _playersPageState extends State<playersPage> {
   final newPlayerName = TextEditingController();
+  List selectedPlayers = [];
+  List loadedPlayers = [];
+  List deletedplayers = [];
+
+  Future<List> loadplayers() async {
+    loadedPlayers = await player.getPlayers();
+    return loadedPlayers;
+  }
+
+  void deletePlayer(String playername) {
+    List stupidworkaround = [];
+    stupidworkaround.add(playername);
+    player.deletePlayer(stupidworkaround);
+  }
+
+  @override
+  didChangeDependencies() async {
+    loadedPlayers = await loadplayers();
+  }
 
   submitData() async {
-    int newID = 0;
-    //getId = await DBHelper.runCommand('SELECT MAX(id) FROM players);
-    final getid = await DBHelper.getRawData('SELECT MAX(id) FROM players');
-    //debugPrint(getid[0]['MAX(id)'].toString());
-    if (getid[0]['MAX(id)'] != null) {
-      newID = getid[0]['MAX(id)'];
-      newID ++;
+    if (newPlayerName.text.isNotEmpty) {
+      player.addPlayer(newPlayerName.text);
+      Navigator.pop(context, newPlayerName.text);
+    } else {
+      // popup here or toast I guess
+      debugPrint('empty');
     }
-    debugPrint(newID.toString());
-    DBHelper.insert('players',
-        {'id': newID, 'playername': newPlayerName.text, 'wins': 0, 'losses': 0});
-    Navigator.pop(context);
+    //Navigator.pushNamed(context, 'MainMenu');
   }
 
   @override
@@ -35,22 +49,33 @@ class _playersPageState extends State<playersPage> {
       appBar: AppBar(
         title: Text('Players'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () => {
+              selectedPlayers.forEach((element) {
+                deletePlayer(element);
+              }),
+            },
+            icon: const Icon(Icons.delete),
+            tooltip: 'Clear score',
+            splashColor: Theme.of(context).colorScheme.secondary,
+          ),
+        ],
       ),
       body: Column(
         children: [
           TextField(
-            decoration: InputDecoration(labelText: "Playname"),
+            decoration: InputDecoration(labelText: "Playername"),
             controller: newPlayerName,
             onSubmitted: (_) => submitData(),
-            // onChanged: (value) {
-            //   titleInput = value;
-            // },
           ),
           TextButton(
             onPressed: submitData,
-            child: Text('Submit'),
+            child: Text('Submit1'),
           ),
           //getPlayers()
+          getPlayers(
+              selectedPlayers: selectedPlayers, loadedPlayers: loadedPlayers)
         ],
       ),
     );

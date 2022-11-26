@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
         canvasColor: Colors.white,
       ),
       home: const MainMenu(),
-      initialRoute: 'MainMenu',
+      initialRoute: 'MainMenu' ,
       routes: {
         'MainMenu': (ctx) => MainMenu(),
         'GameBoard': (ctx) => GameBoard(),

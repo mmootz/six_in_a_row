@@ -4,6 +4,7 @@ class QuitGame extends StatelessWidget {
   const QuitGame({Key? key}) : super(key: key);
   static const routeName = 'ExitGame';
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

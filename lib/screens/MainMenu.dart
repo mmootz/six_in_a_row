@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:six/screens/Players.dart';
 import 'GameBoard.dart';
 import 'package:six/widgets/getPlayers.dart';
-import '../data/players.dart';
-import 'package:six/widgets/playerCard.dart';
+import 'package:six/data/player.dart';
+import 'package:six/data/games.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -14,27 +14,43 @@ class MainMenu extends StatefulWidget {
 }
 
 class _MainMenuState extends State<MainMenu> {
-  //List currentPlayers = ['Matt', 'Dad'];
   List selectedPlayers = [];
+  List loadedPlayers = [];
+  List pastGames = [];
 
-  _isSelected(player) {}
-
-  void PlayersMangment(player) {
-    // logic to check if player is already added
-    // logic to check how many players in already added
-    // maybe change Main Menu text?
-
-    debugPrint(player);
-    // setState(() {
-    //   currentPlayers.add(player);
-    // });
-    //
-    // setState(() {
-    //   currentPlayers.add(player);
-    // });
+  Future<List> loadplayers() async {
+    loadedPlayers = await player.getPlayers();
+    return loadedPlayers;
   }
 
+  initpastGames() async {
+    final List initpastGames = await Game.getGames();
+    if (initpastGames.isEmpty) {
+      debugPrint('print');
+    }
+    setState(() {
+      pastGames = initpastGames;
+    });
+  }
 
+  initloadedPlayers() async {
+    final List initLoadedplayers = await player.getPlayers();
+    if (initLoadedplayers.isEmpty) {
+      debugPrint('print');
+    }
+    setState(() {
+      loadedPlayers = initLoadedplayers;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      initloadedPlayers();
+      initpastGames();
+    });
+  }
 
   void _showaddPlayer(context) {
     //Navigator.pop(context);
@@ -42,9 +58,20 @@ class _MainMenuState extends State<MainMenu> {
   }
 
   void _showGameboard(context) {
-    Navigator.pop(context);
-    Navigator.pushNamed(context, GameBoard.routeName,
-        arguments: selectedPlayers);
+    if (selectedPlayers.length <= 1) {
+      var snackBar = SnackBar(
+        content: Text('Not enough players!'),
+        backgroundColor: Theme.of(context).primaryColor,
+        action:
+            SnackBarAction(label: 'Okay', textColor: Theme.of(context).canvasColor , onPressed: () => debugPrint('test')),
+      );
+      // debugPrint('Not enough players');
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    } else {
+      Navigator.pop(context);
+      Navigator.pushNamed(context, GameBoard.routeName,
+          arguments: selectedPlayers);
+    }
   }
 
   @override
@@ -68,33 +95,19 @@ class _MainMenuState extends State<MainMenu> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
+              ElevatedButton(
+                  onPressed: initloadedPlayers, child: Text('Refesh')),
               Text('Select Players'),
-              getPlayers(
-                  selectedPlayers: selectedPlayers),
-
-              // PlayerCard('Matt', '0', '1'),
-              // PlayerCard('Dad', '1', '0'),
-              // PlayerCard('Tom', '0', '1'),
-              // not sure why this doesn't work
-              // Container(
-              //   height: 300,
-              //   child: GridView(
-              //       //padding: EdgeInsets.all(20),
-              //       children: PLAYERS
-              //           .map((playerData) => PlayerCard(
-              //               playerData.PlayerName,
-              //               playerData.Wins.toString(),
-              //               playerData.Losses.toString()))
-              //           .toList(),
-              //       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              //           maxCrossAxisExtent: 10,
-              //           childAspectRatio: 2 / 2,
-              //           crossAxisSpacing: 20,
-              //           mainAxisSpacing: 20)),
-              // ),
+              loadedPlayers.isNotEmpty
+                  ? getPlayers(
+                      loadedPlayers: loadedPlayers,
+                      selectedPlayers: selectedPlayers)
+                  : Text('Add players to start!\n or not I am not your boss'),
               ElevatedButton(
                   onPressed: () => _showGameboard(context),
-                  child: Text('StartGame'))
+                  child: Text('StartGame')),
+              Text('Past Games'),
+              getPlayers(selectedPlayers: selectedPlayers, loadedPlayers: pastGames)
             ],
           ),
         ),

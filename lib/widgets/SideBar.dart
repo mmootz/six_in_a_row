@@ -11,19 +11,31 @@ class SideBar extends StatefulWidget {
   State<SideBar> createState() => _SideBarState();
 }
 
+void quitGame(context) {
+  Navigator.pop(context);
+}
+
 class _SideBarState extends State<SideBar> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
       elevation: 3,
-      backgroundColor: Theme.of(context).backgroundColor,
+      backgroundColor: Theme
+          .of(context)
+          .backgroundColor,
       child: ListView(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.10,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.10,
             width: double.infinity,
             alignment: Alignment.center,
-            color: Theme.of(context).colorScheme.secondary,
+            color: Theme
+                .of(context)
+                .colorScheme
+                .secondary,
             child: const Text(
               'Sidebar',
               style: TextStyle(
@@ -35,11 +47,12 @@ class _SideBarState extends State<SideBar> {
           ListTile(
               leading: Icon(Icons.score),
               title: Text("Current Scores"),
-              onTap: () => {
-                    Navigator.pop(context),
-                    Navigator.pushNamed(context, 'Scores',
-                        arguments: widget.currentscores)
-                  }),
+              onTap: () =>
+              {
+                Navigator.pop(context),
+                Navigator.pushNamed(context, 'Scores',
+                    arguments: widget.currentscores)
+              }),
           ListTile(
             leading: Icon(Icons.rule),
             title: Text("Rules"),
@@ -53,12 +66,45 @@ class _SideBarState extends State<SideBar> {
           ListTile(
               leading: Icon(Icons.clear),
               title: Text("Quit Game"),
-              onTap: () => Navigator.pushNamed(context, 'Quit')),
+              onTap: () =>
+              {
+                Navigator.pop(context),
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('Quit'),
+                    backgroundColor: Theme
+                        .of(context)
+                        .primaryColorDark,
+                    action: SnackBarAction(
+                      label: 'Okay',
+                      textColor: Theme
+                          .of(context)
+                          .canvasColor,
+                      onPressed: () => debugPrint('Quit Game'),
+                    )))
+              }),
           ListTile(
             leading: Icon(Icons.info_sharp),
             title: Text("About"),
             onTap: null,
-          )
+          ),
+          ListTile(
+              leading: Icon(Icons.done_all),
+              title: Text("End Game"),
+              onTap: () =>
+              {
+                Navigator.pop(context),
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('End Game'),
+                    backgroundColor: Theme
+                        .of(context)
+                        .primaryColorDark,
+                    action: SnackBarAction(
+                        label: 'Yes',
+                        textColor: Theme
+                            .of(context)
+                            .canvasColor,
+                        onPressed: () => debugPrint('End Game'))))
+              })
         ],
       ),
     );

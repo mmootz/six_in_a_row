@@ -3,6 +3,7 @@ import '../widgets/GameButtons.dart';
 import '../widgets/topInfo.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
 import '../widgets/SideBar.dart';
+import 'package:six/data/games.dart';
 class GameBoard extends StatefulWidget {
   //const GameBoard({Key? key}) : super(key: key);
   static const routeName = 'GameBoard';
@@ -52,6 +53,8 @@ class _GameBoardState extends State<GameBoard> {
             scores: Scores);
       }
       Navigator.pushNamed(context, 'WinScreen', arguments: Scores);
+      // Navigator.pushNamed(context, 'Scores',
+      //     arguments: Scores);
     }
     setState(() {
       _pageIndex = index;
@@ -152,6 +155,7 @@ class _GameBoardState extends State<GameBoard> {
         CurrentPlayer = loadPlayers.first;
         Scores = loadPlayersIntoMap;
       });
+      Game.newGame(loadPlayers);
       _loadedPlayers = true;
     }
   }
@@ -204,7 +208,7 @@ class _GameBoardState extends State<GameBoard> {
             selectedItemColor: Colors.white,
             currentIndex: _pageIndex,
             type: BottomNavigationBarType.fixed,
-            items: const [
+            items: [
               BottomNavigationBarItem(icon: Icon(Icons.done), label: "End Turn"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.done_all), label: "End Game"),

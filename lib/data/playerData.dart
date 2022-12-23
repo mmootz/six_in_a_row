@@ -21,16 +21,15 @@ class DBHelper {
     );
   }
 
+
   static Future<List<Map<String, dynamic>>> getData(String table) async {
     final db = await DBHelper.database();
     final List<Map<String, dynamic>> maps = await db.query(table);
-
     return maps;
   }
   static Future<List<Map<String, dynamic>>> getRawData(String command) async {
     final db = await DBHelper.database();
     final List<Map<String, dynamic>> maps = await db.rawQuery(command);
-
     return maps;
   }
 

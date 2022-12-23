@@ -4,6 +4,10 @@ import '../widgets/topInfo.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
 import '../widgets/SideBar.dart';
 import 'package:six/data/games.dart';
+
+// need to pop call back to reload scores again?
+// not sure if you can do that but will need to trigger a reload after scores change.
+
 class GameBoard extends StatefulWidget {
   //const GameBoard({Key? key}) : super(key: key);
   static const routeName = 'GameBoard';
@@ -20,6 +24,7 @@ class _GameBoardState extends State<GameBoard> {
   int RoundNumber = 1;
   String CurrentPlayer = "";
   int _pageIndex = 0;
+  int gameId = 0;
 
   @override
   void dispose() {
@@ -32,18 +37,19 @@ class _GameBoardState extends State<GameBoard> {
     final loadPlayers = ModalRoute.of(context)?.settings.arguments as List;
     // nested it's not pretty
     if (index == 0) {
-      if ( CurrentScore >0) {
+      if (CurrentScore > 0) {
         debugPrint('End round');
         EndRound(
             roundNumber: RoundNumber,
             currentPlayer: CurrentPlayer,
             currentScore: CurrentScore,
-            players: loadPlayers,   // loads the players form init this doesn't change
+            players: loadPlayers,
+            // loads the players form init this doesn't change
             scores: Scores);
       }
     } else {
       debugPrint('End Game');
-      if ( CurrentScore >0) {
+      if (CurrentScore > 0) {
         EndRound(
             roundNumber: RoundNumber,
             currentPlayer: CurrentPlayer,
@@ -70,7 +76,6 @@ class _GameBoardState extends State<GameBoard> {
       int nextPlayerIndex = 0;
       match = players[i];
       if (currentPlayer == match) {
-
         nextPlayerIndex = i + 1;
         if (nextPlayerIndex >= players.length) {
           nxtPlayer = players[0];
@@ -93,6 +98,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void Clear() {
+    //ebugPrint(test);
     setState(() {
       CurrentScore = 0;
     });
@@ -102,6 +108,11 @@ class _GameBoardState extends State<GameBoard> {
     int updatedScore = 0;
     int playerScore = scores[player] as int;
     updatedScore = playerScore + score;
+    scores[player] = updatedScore;
+    Game.updateGame({
+      'FirstPlayerScore': scores.entries.first.value,
+      'SecondPlayerScore': scores.entries.elementAt(1).value
+    });
 
     return updatedScore;
   }
@@ -116,9 +127,10 @@ class _GameBoardState extends State<GameBoard> {
     var FindNextPlayer = "";
 
     newScore = updateScore(currentPlayer, currentScore, scores!);
-
+    var loadScores = Game.getScores();
     setState(() {
       scores[currentPlayer] = newScore;
+     // scores = loadScores as Map<String, int>?;
     });
 
     FindNextPlayer = _nextPlayer(players, currentPlayer);
@@ -149,13 +161,15 @@ class _GameBoardState extends State<GameBoard> {
       for (String player in loadPlayers) {
         loadPlayersIntoMap[player] = 0;
       }
+
       /// maybe call scores.dart here?
       /// setup the map there and then handle all the data that way
       setState(() {
         CurrentPlayer = loadPlayers.first;
         Scores = loadPlayersIntoMap;
       });
-      Game.newGame(loadPlayers);
+
+       Game.newGame(loadPlayers);
       _loadedPlayers = true;
     }
   }
@@ -167,8 +181,8 @@ class _GameBoardState extends State<GameBoard> {
     KeepScreenOn.turnOn();
     return WillPopScope(
       onWillPop: () async {
-      return shouldPop;
-    },
+        return shouldPop;
+      },
       child: Scaffold(
           appBar: AppBar(
             title: const Text('Six in a row'),
@@ -209,7 +223,8 @@ class _GameBoardState extends State<GameBoard> {
             currentIndex: _pageIndex,
             type: BottomNavigationBarType.fixed,
             items: [
-              BottomNavigationBarItem(icon: Icon(Icons.done), label: "End Turn"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.done), label: "End Turn"),
               BottomNavigationBarItem(
                   icon: Icon(Icons.done_all), label: "End Game"),
             ],

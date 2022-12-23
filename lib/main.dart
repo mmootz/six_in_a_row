@@ -7,6 +7,7 @@ import 'screens/WinScreen.dart';
 import 'screens/tips.dart';
 import 'screens/ExitGame.dart';
 import 'screens/Players.dart';
+import 'screens/EditScore.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
@@ -23,7 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Six in a row',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.lightBlue,
       ),
       home: const MyHomePage(title: 'Six in a row'),
     );
@@ -50,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Six in a row',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-            .copyWith(secondary: Colors.lightBlueAccent),
+            .copyWith(secondary: Colors.lightBlue),
         canvasColor: Colors.white,
       ),
       home: const MainMenu(),
@@ -61,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
         'Scores': (ctx) => Scores(),
         'WinScreen': (ctx) => WinScreen(),
         'Players' : (ctx) => playersPage(),
-        'Tips': (ctx) => TipsPage(),
+        'Edit': (ctx) => editScore(),
         'Quit': (ctx) => QuitGame()
       }, // This trailing comma makes auto-formatting nicer for build methods.
     );

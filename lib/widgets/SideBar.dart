@@ -11,8 +11,9 @@ class SideBar extends StatefulWidget {
   State<SideBar> createState() => _SideBarState();
 }
 
-void quitGame(context) {
+  quitGame(context) {
   Navigator.pop(context);
+  Navigator.pushNamed(context, 'MainMenu');
 }
 
 class _SideBarState extends State<SideBar> {
@@ -54,6 +55,15 @@ class _SideBarState extends State<SideBar> {
                     arguments: widget.currentscores)
               }),
           ListTile(
+              leading: Icon(Icons.edit),
+              title: Text("Edit Scores"),
+              onTap: () =>
+              {
+                Navigator.pop(context),
+                Navigator.pushNamed(context, 'Edit',
+                    arguments: widget.currentscores)
+              }),
+          ListTile(
             leading: Icon(Icons.rule),
             title: Text("Rules"),
             onTap: null,
@@ -79,7 +89,7 @@ class _SideBarState extends State<SideBar> {
                       textColor: Theme
                           .of(context)
                           .canvasColor,
-                      onPressed: () => debugPrint('Quit Game'),
+                      onPressed: () => Navigator.pushNamed(context, 'MainMenu'),
                     )))
               }),
           ListTile(

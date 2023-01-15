@@ -1,7 +1,6 @@
-
 import 'package:flutter/material.dart';
-import '../providers/scores.dart';
-import 'package:provider/provider.dart';
+
+
 class topInfo extends StatefulWidget {
   //const top_info({Key? key}) : super(key: key);
 
@@ -23,6 +22,7 @@ class topInfo extends StatefulWidget {
 
 class _topInfoState extends State<topInfo> {
   bool gameOver = false;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,7 +41,7 @@ class _topInfoState extends State<topInfo> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("Score: ${widget.totalScore + widget.currentScore}",
+              Text("Score: ${widget.totalScore}",
                   textAlign: TextAlign.left, style: TextStyle(fontSize: 32)),
               Text("Round: ${widget.roundNumber}",
                   textAlign: TextAlign.right, style: TextStyle(fontSize: 32)),
@@ -50,9 +50,16 @@ class _topInfoState extends State<topInfo> {
           Text(
             widget.currentScore.toString(),
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 128),
+            style: TextStyle(fontSize: 75),
           ),
-
+          // Consumer<ScoreProvider>(
+          //   builder: (context, ScoreProvider, child) => Text(
+          //     //widget.currentScore.toString(),
+          //     '${ScoreProvider.value}',
+          //     textAlign: TextAlign.center,
+          //     style: TextStyle(fontSize: 32),
+          //   ),
+          // ),
         ]);
   }
 }

@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 //import 'package:six/main.dart';
 class SideBar extends StatefulWidget {
   //const SideBar({Key? key}) : super(key: key);
-  Map<String, int> currentscores;
+  Map players;
 
-  SideBar(this.currentscores);
+  SideBar(this.players);
 
   @override
   State<SideBar> createState() => _SideBarState();
@@ -45,15 +45,15 @@ class _SideBarState extends State<SideBar> {
                   fontSize: 18),
             ),
           ),
-          ListTile(
-              leading: Icon(Icons.score),
-              title: Text("Current Scores"),
-              onTap: () =>
-              {
-                Navigator.pop(context),
-                Navigator.pushNamed(context, 'Scores',
-                    arguments: widget.currentscores)
-              }),
+          // ListTile(
+          //     leading: Icon(Icons.score),
+          //     title: Text("Current Scores"),
+          //     onTap: () =>
+          //     {
+          //       Navigator.pop(context),
+          //       Navigator.pushNamed(context, 'Scores',
+          //           arguments: widget.players)
+          //     }),
           ListTile(
               leading: Icon(Icons.edit),
               title: Text("Edit Scores"),
@@ -61,7 +61,7 @@ class _SideBarState extends State<SideBar> {
               {
                 Navigator.pop(context),
                 Navigator.pushNamed(context, 'Edit',
-                    arguments: widget.currentscores)
+                    arguments: widget.players)
               }),
           ListTile(
             leading: Icon(Icons.rule),

@@ -1,34 +1,54 @@
 import 'package:flutter/material.dart';
 
-class Scores with ChangeNotifier {
+class ScoreProvider with ChangeNotifier {
+  int value = 0;
+  int total = 0;
 
-  // Map<String, int> _scores = {};
+  void increment(int add) {
+    value += add;
+    notifyListeners();
+    totalScore(add);
+  }
 
-
-  nextPlayer(List players, currentPlayer)
-  {
-    String player = "";
-    for (int i = 0; i < players.length; i++) {
-      String match = "";
-      int nextPlayerIndex = 0;
-      match = players[i];
-      if (currentPlayer == match) {
-
-        nextPlayerIndex = i + 1;
-        if (nextPlayerIndex >= players.length) {
-          player = players[0];
-        } else {
-          player = players[nextPlayerIndex];
-        }
-      }
+  void totalScore(int score, [bool loadScores = false]) {
+    if (loadScores) {
+      debugPrint('totalScore:' + score.toString());
+      total = score;
+      notifyListeners();
+    } else {
+      total += score;
+      notifyListeners();
     }
-    return player;
   }
 
-  currentScore()
-  {
-    return 'test' ;
+  void addScore(player, score) {}
+
+  void clearScore() {
+    total -= value;
+    value = 0;
+    notifyListeners();
   }
 
+  updateScore(player, score) {}
 
+  getScores() {
+    // query db and get scores and return them as map
+    Map<String, int> scoresMap = {};
+
+    return scoresMap;
+  }
+
+  //this likely isn't useful'
+  // void generateScoresMap(List Players)
+  // {
+  //   for (String player in Players) {
+  //     scoresMap[player] = 0;
+  //   }
+  //   debugPrint("Generate scores" +  scoresMap.toString());
+  //
+  // }
+  // load edited scores from database
+  // or just modify them here?
+  // depends on what makes more sense
+  editScores() {}
 }

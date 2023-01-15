@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../data/games.dart';
-
 class scoresTable extends StatefulWidget {
   //const scoresTable({Key? key}) : super(key: key);
 
-  final Map<String, int> scores;
+  final Map<String, String> scores;
   final bool editMode;
 
   scoresTable(this.scores, [this.editMode = false]);
@@ -17,7 +15,7 @@ class scoresTable extends StatefulWidget {
 class _scoresTableState extends State<scoresTable> {
   final List<int> colorCodes = <int>[600, 500, 100];
 
-  SortScores(Map<String, int> players) {
+  SortScores(Map<String, String> players) {
     var sortedlist = players.entries.toList()
       ..sort((b, a) => a.value.compareTo(b.value));
     players
@@ -32,7 +30,7 @@ class _scoresTableState extends State<scoresTable> {
     newScore = currentScore + 1;
     debugPrint(newScore.toString());
     setState(() {
-      widget.scores[playername] = newScore;
+      widget.scores[playername] = newScore.toString();
     });
   }
 
@@ -42,15 +40,15 @@ class _scoresTableState extends State<scoresTable> {
     newScore = currentScore - 1;
     debugPrint(newScore.toString());
     setState(() {
-      widget.scores[playername] = newScore;
+      widget.scores[playername] = newScore.toString();
     });
   }
 
   void updateScores() {
-    Game.updateGame({
-      'FirstPlayerScore': widget.scores.entries.first.value,
-      'SecondPlayerScore': widget.scores.entries.elementAt(1).value
-    });
+    // Game.updateGame({
+    //   'FirstPlayerScore': widget.scores.entries.first.value,
+    //   'SecondPlayerScore': widget.scores.entries.elementAt(1).value
+    // });
   Navigator.pop(context);
   }
 

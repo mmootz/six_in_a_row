@@ -1,18 +1,23 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'screens/MainMenu.dart';
 import 'screens/GameBoard.dart';
 import 'screens/scores.dart';
 import 'screens/WinScreen.dart';
-import 'screens/tips.dart';
 import 'screens/ExitGame.dart';
 import 'screens/Players.dart';
 import 'screens/EditScore.dart';
+import 'providers/scores.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => ScoreProvider(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -55,13 +60,13 @@ class _MyHomePageState extends State<MyHomePage> {
         canvasColor: Colors.white,
       ),
       home: const MainMenu(),
-      initialRoute: 'MainMenu' ,
+      initialRoute: 'MainMenu',
       routes: {
         'MainMenu': (ctx) => MainMenu(),
         'GameBoard': (ctx) => GameBoard(),
         'Scores': (ctx) => Scores(),
         'WinScreen': (ctx) => WinScreen(),
-        'Players' : (ctx) => playersPage(),
+        'Players': (ctx) => playersPage(),
         'Edit': (ctx) => editScore(),
         'Quit': (ctx) => QuitGame()
       }, // This trailing comma makes auto-formatting nicer for build methods.

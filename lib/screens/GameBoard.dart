@@ -1,9 +1,12 @@
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../widgets/GameButtons.dart';
 import '../widgets/topInfo.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
 import '../widgets/SideBar.dart';
 import 'package:six/data/games.dart';
+import 'package:six/providers/scores.dart';
 
 // need to pop call back to reload scores again?
 // not sure if you can do that but will need to trigger a reload after scores change.
@@ -17,7 +20,7 @@ class GameBoard extends StatefulWidget {
 }
 
 class _GameBoardState extends State<GameBoard> {
-  Map<String, int> Scores = {};
+  Map<String, String> Scores = {};
   bool _loadedPlayers = false;
   int TotalScore = 0;
   int CurrentScore = 0;
@@ -33,7 +36,7 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   // this is void but it wouldn't let me call this as void?
-  _selectPage(int index) {
+  _selectPage(int index) async {
     final loadPlayers = ModalRoute.of(context)?.settings.arguments as List;
     // nested it's not pretty
     if (index == 0) {
@@ -49,16 +52,18 @@ class _GameBoardState extends State<GameBoard> {
       }
     } else {
       debugPrint('End Game');
-      if (CurrentScore > 0) {
-        EndRound(
-            roundNumber: RoundNumber,
-            currentPlayer: CurrentPlayer,
-            currentScore: CurrentScore,
-            players: loadPlayers,
-            // loads the players form init this doesn't change
-            scores: Scores);
-      }
-      Navigator.pushNamed(context, 'WinScreen', arguments: Scores);
+      // if (CurrentScore > 0) {
+      //   EndRound(
+      //       roundNumber: RoundNumber,
+      //       currentPlayer: CurrentPlayer,
+      //       currentScore: CurrentScore,
+      //       players: loadPlayers,
+      //       // loads the players form init this doesn't change
+      //       scores: Scores);
+      // }
+      Scores = await Game.getScoresMAP(loadPlayers);
+      Navigator.pushNamed(context, 'Scores', arguments: Scores);
+      //Navigator.pushNamed(context, 'WinScreen', arguments: Scores);
       // Navigator.pushNamed(context, 'Scores',
       //     arguments: Scores);
     }
@@ -96,59 +101,39 @@ class _GameBoardState extends State<GameBoard> {
   void shootConfetti() {
     debugPrint('fire');
   }
-
-  void Clear() {
-    //ebugPrint(test);
-    setState(() {
-      CurrentScore = 0;
-    });
-  }
-
-  updateScore(String player, int score, Map<String, int> scores) {
-    int updatedScore = 0;
-    int playerScore = scores[player] as int;
-    updatedScore = playerScore + score;
-    scores[player] = updatedScore;
-    Game.updateGame({
-      'FirstPlayerScore': scores.entries.first.value,
-      'SecondPlayerScore': scores.entries.elementAt(1).value
-    });
-
-    return updatedScore;
-  }
-
-  void EndRound(
+  Future<void> EndRound(
       {required int currentScore,
       required String currentPlayer,
       required int roundNumber,
       required List players,
-      required Map<String, int>? scores}) {
-    var newScore = 0;
+      required Map<String, String>? scores}) async {
     var FindNextPlayer = "";
+    var playerIndex = 0;
+    int newTotalScore = 0;
 
-    newScore = updateScore(currentPlayer, currentScore, scores!);
-    var loadScores = Game.getScores();
-    setState(() {
-      scores[currentPlayer] = newScore;
-     // scores = loadScores as Map<String, int>?;
-    });
-
+    playerIndex = players.indexOf(currentPlayer);
+    Game.updatePlayerScore(playerIndex, currentScore );
     FindNextPlayer = _nextPlayer(players, currentPlayer);
+    newTotalScore = await Game.loadPlayerScore(players.indexOf(FindNextPlayer));
+    scores = await Game.getScoresMAP(players);
+    //ScoreProvider().totalScore(newTotalScore, true);
     if (FindNextPlayer == players.first) {
-      // debugPrint(
+      // debugPrint(1
       //     "player: $FindNextPlayer, Total score: $currentScore, round: ${roundNumber++} ");
       setState(() {
         RoundNumber++;
         CurrentPlayer = FindNextPlayer;
-        TotalScore = scores[FindNextPlayer] as int;
+        CurrentScore = 0;
+        TotalScore = newTotalScore;
       });
-      Clear();
+      //ScoreProvider().clearScore();
     } else {
       setState(() {
         CurrentPlayer = FindNextPlayer;
-        TotalScore = scores[FindNextPlayer] as int;
+        CurrentScore = 0;
+        TotalScore = newTotalScore;
       });
-      Clear();
+      //ScoreProvider().clearScore();
     }
   }
 
@@ -156,8 +141,8 @@ class _GameBoardState extends State<GameBoard> {
   void didChangeDependencies() {
     if (!_loadedPlayers) {
       final loadPlayers = ModalRoute.of(context)?.settings.arguments as List;
-      final Map<String, int> loadPlayersIntoMap = {};
-
+      Map<String, int> loadPlayersIntoMap = {};
+      //ScoreProvider().generateScoresMap(loadPlayers);
       for (String player in loadPlayers) {
         loadPlayersIntoMap[player] = 0;
       }
@@ -166,10 +151,10 @@ class _GameBoardState extends State<GameBoard> {
       /// setup the map there and then handle all the data that way
       setState(() {
         CurrentPlayer = loadPlayers.first;
-        Scores = loadPlayersIntoMap;
+        //Scores = ScoreProvider().getScores();
       });
 
-       Game.newGame(loadPlayers);
+      Game.newGame(loadPlayers);
       _loadedPlayers = true;
     }
   }
@@ -189,7 +174,10 @@ class _GameBoardState extends State<GameBoard> {
             centerTitle: true,
             actions: [
               IconButton(
-                onPressed: Clear,
+                onPressed: () {
+                  var score = context.read<ScoreProvider>();
+                  score.clearScore();
+                },
                 icon: const Icon(Icons.delete),
                 tooltip: 'Clear score',
                 splashColor: Theme.of(context).colorScheme.secondary,
@@ -207,7 +195,7 @@ class _GameBoardState extends State<GameBoard> {
                     totalScore: TotalScore,
                     currentScore: CurrentScore,
                     roundNumber: RoundNumber,
-                    endGame: Clear,
+                    endGame: () => debugPrint('Null for some reason'),
                   ),
                   //const SizedBox(height: 150),
                   bottomButtons(AddScore),
@@ -226,7 +214,7 @@ class _GameBoardState extends State<GameBoard> {
               BottomNavigationBarItem(
                   icon: Icon(Icons.done), label: "End Turn"),
               BottomNavigationBarItem(
-                  icon: Icon(Icons.done_all), label: "End Game"),
+                  icon: Icon(Icons.score), label: "Scores"),
             ],
           )),
     );

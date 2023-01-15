@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:six/data/games.dart';
+
 
 import '../widgets/scoresTable.dart';
 
@@ -28,27 +28,28 @@ SortScores(Map<String, int> players) {
 
 class _editScoreState extends State<editScore> {
   Map<String, int>LoadedScores = {};
-  initloadedScore() async {
-    Map<String, int>initLoadedScores = await Game.getScores();
-    if (initLoadedScores.isEmpty) {
-      debugPrint('print');
-    }
-    setState(() {
-      LoadedScores = initLoadedScores;
-    });
-  }
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      initloadedScore();
-    });
-  }
+  // initloadedScore() async {
+  //   Map<String, int>initLoadedScores = await Game.getScoresMAP();
+  //   if (initLoadedScores.isEmpty) {
+  //     debugPrint('print');
+  //   }
+  //   setState(() {
+  //     LoadedScores = initLoadedScores;
+  //   });
+  // }
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     initloadedScore();
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-
+    final Map<String, String> LoadedScores = ModalRoute.of(context)?.settings.arguments as Map<String, String>;
     // final Scores =
     // ModalRoute.of(context)?.settings.arguments as Map<String, int>;
     return Scaffold(

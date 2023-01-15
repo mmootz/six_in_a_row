@@ -10,7 +10,7 @@ class Scores extends StatelessWidget {
   //
   // Scores(this.selectedPlayer);
 
-  SortScores(Map<String, int> players) {
+  SortScores(Map<String, String> players) {
     var sortedlist = players.entries.toList()
       ..sort((b, a) => a.value.compareTo(b.value));
     players
@@ -22,7 +22,7 @@ class Scores extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Scores =
-        ModalRoute.of(context)?.settings.arguments as Map<String, int>;
+        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
     return Scaffold(
         appBar: AppBar(
           title: Text('Scores'),

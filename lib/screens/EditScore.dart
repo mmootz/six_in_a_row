@@ -12,40 +12,8 @@ class editScore extends StatefulWidget {
   State<editScore> createState() => _editScoreState();
 }
 
-
-
-SortScores(Map<String, int> players) {
-  var sortedlist = players.entries.toList()
-    ..sort((b, a) => a.value.compareTo(b.value));
-  players
-    ..clear()
-    ..addEntries(sortedlist);
-  return players;
-}
-
-
-
-
 class _editScoreState extends State<editScore> {
   Map<String, int>LoadedScores = {};
-
-  // initloadedScore() async {
-  //   Map<String, int>initLoadedScores = await Game.getScoresMAP();
-  //   if (initLoadedScores.isEmpty) {
-  //     debugPrint('print');
-  //   }
-  //   setState(() {
-  //     LoadedScores = initLoadedScores;
-  //   });
-  // }
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     initloadedScore();
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

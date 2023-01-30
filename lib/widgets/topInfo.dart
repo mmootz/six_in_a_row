@@ -47,11 +47,17 @@ class _topInfoState extends State<topInfo> {
                   textAlign: TextAlign.right, style: TextStyle(fontSize: 32)),
             ],
           ),
+          Container(
+              height: MediaQuery.of(context).size.height * 0.05
+          ),
           Text(
             widget.currentScore.toString(),
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 75),
           ),
+          // Container(
+          //     height: MediaQuery.of(context).size.height * 0.09
+          // )
           // Consumer<ScoreProvider>(
           //   builder: (context, ScoreProvider, child) => Text(
           //     //widget.currentScore.toString(),

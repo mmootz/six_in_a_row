@@ -45,9 +45,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  //List players = ["test", "test2"];
-  //String player = "matt";
-  //final Map<String, int> WinPlayers = {"Matt": 10, "Dad": 13};
+
   Map<String, int> ScoresMap = {};
 
   @override
@@ -56,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
       title: 'Six in a row',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-            .copyWith(secondary: Colors.lightBlue),
+            .copyWith(secondary: Colors.blue),
         canvasColor: Colors.white,
       ),
       home: const MainMenu(),

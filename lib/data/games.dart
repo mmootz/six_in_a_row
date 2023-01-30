@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:six/data/gamesData.dart';
 
@@ -202,19 +204,44 @@ class Game {
       'Date': "2022-11-25 19:29:32:321"
     });
   }
+  static Future<Map<String, String>> findEditedScores(Map<String, String> edited, Map<String, String> currentScores  )
+  async {
+    // take in the map from the edited page and compare it to what is in database
+    // find the diff and get the index for each.
+    // update score with the new index.
 
-  static Future<void> updatePlayerScore(int playerIndex, int Score) async {
+      //edited(Map currentScores, Map editedScores ) {
+      Map<String, String> foundScores = {};
+      int index = 0;
+      edited.forEach((k,v) => {
+        if (v != currentScores.entries.elementAt(index).value) {
+          foundScores[index.toString()] = v
+        },
+        index++
+      });
+      return foundScores;
+      //print(foundScores);
+    }
+
+
+  static Future<void> updatePlayerScore(int playerIndex, int Score, [ edit = false]) async {
     String playerPostion = "";
     int loadedScore = 0;
     int updatedScore = 0;
 
     playerPostion = Game._getPlayerIndex(playerIndex);
 
-    loadedScore = await loadPlayerScore(playerIndex);
 
-    updatedScore = loadedScore + Score;
-    DBHelper.update(
-        'games', {playerPostion: updatedScore}, 'Active = ?', ['Yes']);
+    if (edit) {
+      DBHelper.update(
+          'games', {playerPostion: Score}, 'Active = ?', ['Yes']);
+    }
+    else {
+      loadedScore = await loadPlayerScore(playerIndex);
+      updatedScore = loadedScore + Score;
+      DBHelper.update(
+          'games', {playerPostion: updatedScore}, 'Active = ?', ['Yes']);
+    }
     debugPrint('update: $playerPostion :' + updatedScore.toString());
   }
 

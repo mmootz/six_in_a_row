@@ -64,8 +64,8 @@ class _GameBoard_ButtonState extends State<GameBoard_Button> {
             .colorScheme
             .secondary,
         child: Card(
-          shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          // shape:
+          // RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           color: Theme
               .of(context)
               .colorScheme

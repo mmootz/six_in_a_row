@@ -22,8 +22,7 @@ class _SideBarState extends State<SideBar> {
     return Drawer(
       elevation: 3,
       backgroundColor: Theme
-          .of(context)
-          .backgroundColor,
+          .of(context).colorScheme.background,
       child: ListView(
         children: [
           Container(
@@ -34,11 +33,9 @@ class _SideBarState extends State<SideBar> {
             width: double.infinity,
             alignment: Alignment.center,
             color: Theme
-                .of(context)
-                .colorScheme
-                .secondary,
+                .of(context).colorScheme.secondary,
             child: const Text(
-              'Sidebar',
+              'Options',
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.white,

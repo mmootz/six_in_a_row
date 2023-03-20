@@ -1,12 +1,9 @@
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../widgets/GameButtons.dart';
 import '../widgets/topInfo.dart';
 import 'package:keep_screen_on/keep_screen_on.dart';
-import '../widgets/SideBar.dart';
 import 'package:six/data/games.dart';
-import 'package:six/providers/scores.dart';
+import 'package:six/widgets/BottomButton.dart';
 
 // need to pop call back to reload scores again?
 // not sure if you can do that but will need to trigger a reload after scores change.
@@ -35,43 +32,6 @@ class _GameBoardState extends State<GameBoard> {
     super.dispose();
   }
 
-  // this is void but it wouldn't let me call this as void?
-  _selectPage(int index) async {
-    final loadPlayers = ModalRoute.of(context)?.settings.arguments as List;
-    // nested it's not pretty
-    if (index == 0) {
-      if (CurrentScore > 0) {
-        debugPrint('End round');
-        EndRound(
-            roundNumber: RoundNumber,
-            currentPlayer: CurrentPlayer,
-            currentScore: CurrentScore,
-            players: loadPlayers,
-            // loads the players form init this doesn't change
-            scores: Scores);
-      }
-    } else {
-      debugPrint('End Game');
-      // if (CurrentScore > 0) {
-      //   EndRound(
-      //       roundNumber: RoundNumber,
-      //       currentPlayer: CurrentPlayer,
-      //       currentScore: CurrentScore,
-      //       players: loadPlayers,
-      //       // loads the players form init this doesn't change
-      //       scores: Scores);
-      // }
-      Scores = await Game.getScoresMAP(loadPlayers);
-      Navigator.pushNamed(context, 'Scores', arguments: Scores);
-      //Navigator.pushNamed(context, 'WinScreen', arguments: Scores);
-      // Navigator.pushNamed(context, 'Scores',
-      //     arguments: Scores);
-    }
-    setState(() {
-      _pageIndex = index;
-    });
-  }
-
   _nextPlayer(List players, String currentPlayer) {
     // Find the next player by going though the list of players
     // if at last player return the first player
@@ -98,9 +58,16 @@ class _GameBoardState extends State<GameBoard> {
     });
   }
 
+  void ClearScore() {
+    setState(() {
+      CurrentScore = 0;
+    });
+  }
+
   void shootConfetti() {
     debugPrint('fire');
   }
+
   Future<void> EndRound(
       {required int currentScore,
       required String currentPlayer,
@@ -108,14 +75,22 @@ class _GameBoardState extends State<GameBoard> {
       required List players,
       required Map<String, String>? scores}) async {
     var FindNextPlayer = "";
+    bool newHighScore = false;
     var playerIndex = 0;
     int newTotalScore = 0;
 
     playerIndex = players.indexOf(currentPlayer);
-    Game.updatePlayerScore(playerIndex, currentScore );
+    Game.updatePlayerScore(playerIndex, currentScore);
+    newHighScore = await Game.checkHighScore(CurrentScore, CurrentPlayer);
+    if (newHighScore) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('New HighScore!'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+      ));
+    }
     FindNextPlayer = _nextPlayer(players, currentPlayer);
     newTotalScore = await Game.loadPlayerScore(players.indexOf(FindNextPlayer));
-    scores = await Game.getScoresMAP(players);
+    Scores = await Game.getScoresMAP(players);
     //ScoreProvider().totalScore(newTotalScore, true);
     if (FindNextPlayer == players.first) {
       // debugPrint(1
@@ -162,6 +137,7 @@ class _GameBoardState extends State<GameBoard> {
   @override
   Widget build(BuildContext context) {
     // This keeps the screen on during the scoring
+    final loadPlayers = ModalRoute.of(context)?.settings.arguments as List;
     bool shouldPop = false;
     KeepScreenOn.turnOn();
     return WillPopScope(
@@ -169,54 +145,126 @@ class _GameBoardState extends State<GameBoard> {
         return shouldPop;
       },
       child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Six in a row'),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                onPressed: () {
-                  var score = context.read<ScoreProvider>();
-                  score.clearScore();
-                },
-                icon: const Icon(Icons.delete),
-                tooltip: 'Clear score',
-                splashColor: Theme.of(context).colorScheme.secondary,
+        appBar: AppBar(
+          title: const Text('Six in a row'),
+          centerTitle: true,
+          actions: [
+            IconButton(
+              onPressed: () {
+                ClearScore();
+              },
+              icon: const Icon(Icons.delete),
+              tooltip: 'Clear score',
+              splashColor: Theme.of(context).colorScheme.secondary,
+            ),
+          ],
+        ),
+        // this doesn't work in the sidebar widget because of context error
+        // not sure how to pass it
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.10,
+                width: double.infinity,
+                alignment: Alignment.center,
+                color: Theme.of(context).colorScheme.secondary,
+                child: const Text(
+                  'Options',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 18),
+                ),
               ),
+              ListTile(
+                  leading: Icon(Icons.score),
+                  title: Text("Current Scores"),
+                  onTap: () => {
+                        Navigator.pop(context),
+                        Navigator.pushNamed(context, 'Scores',
+                            arguments: Scores)
+                      }),
+              ListTile(
+                  leading: Icon(Icons.edit),
+                  title: Text("Edit Scores"),
+                  onTap: () => {
+                        Navigator.pop(context),
+                        Navigator.pushNamed(context, 'Edit', arguments: Scores)
+                      }),
+              ListTile(
+                leading: Icon(Icons.delete),
+                title: Text("Clear Score"),
+                onTap: ClearScore,
+              ),
+              ListTile(
+                  leading: Icon(Icons.clear),
+                  title: Text("Quit Game"),
+                  onTap: () => {
+                        Navigator.pop(context),
+                        debugPrint(context.toString()),
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('Quit'),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            action: SnackBarAction(
+                              label: 'Okay',
+                              textColor: Theme.of(context).canvasColor,
+                              onPressed: () =>
+                                  Navigator.pushNamed(context, 'MainMenu'),
+                            )))
+                      }),
+              ListTile(
+                  leading: Icon(Icons.done_all),
+                  title: Text("End Game"),
+                  onTap: () => {
+                        Navigator.pop(context),
+                        debugPrint(context.toString()),
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text('End Game?'),
+                            backgroundColor:
+                                Theme.of(context).colorScheme.primary,
+                            action: SnackBarAction(
+                              label: 'Yes',
+                              textColor: Theme.of(context).canvasColor,
+                              onPressed: () => Navigator.pushNamed(
+                                  context, 'WinScreen',
+                                  arguments: Scores),
+                            )))
+                      }
+                  // Navigator.pushNamed(context, 'WinScreen', arguments: Scores )),
+                  )
             ],
           ),
-          drawer: SideBar(Scores),
-          body: Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: Center(
-              child: Column(
-                children: [
-                  topInfo(
-                    currentPlayer: CurrentPlayer,
-                    totalScore: TotalScore,
-                    currentScore: CurrentScore,
-                    roundNumber: RoundNumber,
-                    endGame: () => debugPrint('Null for some reason'),
-                  ),
-                  //const SizedBox(height: 150),
-                  bottomButtons(AddScore),
-                ],
-              ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Center(
+            child: Column(
+              children: [
+                topInfo(
+                  currentPlayer: CurrentPlayer,
+                  totalScore: TotalScore,
+                  currentScore: CurrentScore,
+                  roundNumber: RoundNumber,
+                  endGame: () => debugPrint('Null for some reason'),
+                ),
+                //const SizedBox(height: 150),
+                bottomButtons(AddScore),
+                BottomButton(
+                    text: 'End Turn',
+                    call: () => EndRound(
+                        roundNumber: RoundNumber,
+                        currentPlayer: CurrentPlayer,
+                        currentScore: CurrentScore,
+                        players: loadPlayers,
+                        // loads the players form init this doesn't change
+                        scores: Scores))
+              ],
             ),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            onTap: _selectPage,
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            unselectedItemColor: Colors.white,
-            selectedItemColor: Colors.white,
-            currentIndex: _pageIndex,
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.done), label: "End Turn"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.score), label: "Scores"),
-            ],
-          )),
+        ),
+      ),
     );
   }
 }

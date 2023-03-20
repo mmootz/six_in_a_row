@@ -2,22 +2,24 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:six/screens/PlayersMoreInfo.dart';
+import 'package:six/screens/players.dart';
 import 'screens/MainMenu.dart';
 import 'screens/GameBoard.dart';
 import 'screens/scores.dart';
 import 'screens/WinScreen.dart';
 import 'screens/ExitGame.dart';
-import 'screens/Players.dart';
+import 'screens/AddPlayer.dart';
 import 'screens/EditScore.dart';
-import 'providers/scores.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  runApp(ChangeNotifierProvider(
-      create: (context) => ScoreProvider(), child: const MyApp()));
+  runApp(MyApp());
+}
+
+class ChangeNotifierProvider {
 }
 
 class MyApp extends StatelessWidget {
@@ -53,8 +55,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return MaterialApp(
       title: 'Six in a row',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blue)
-            .copyWith(secondary: Colors.blue),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue)
+            .copyWith(secondary: Colors.blueAccent),
         canvasColor: Colors.white,
       ),
       home: const MainMenu(),
@@ -64,7 +66,9 @@ class _MyHomePageState extends State<MyHomePage> {
         'GameBoard': (ctx) => GameBoard(),
         'Scores': (ctx) => Scores(),
         'WinScreen': (ctx) => WinScreen(),
-        'Players': (ctx) => playersPage(),
+        'AddPlayer': (ctx) => AddplayersPage(),
+        'PlayersPage' : (ctx) => PlayersPage(),
+        'PlayersPageMoreInfo' : (ctx) => PlayersPageMoreInfo(),
         'Edit': (ctx) => editScore(),
         'Quit': (ctx) => QuitGame()
       }, // This trailing comma makes auto-formatting nicer for build methods.

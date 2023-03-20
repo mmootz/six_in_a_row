@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:six/widgets/getPlayers.dart';
 import 'package:six/data/player.dart';
 
-class playersPage extends StatefulWidget {
+class AddplayersPage extends StatefulWidget {
   //const playersPage({Key? key}) : super(key: key);
   static const routeName = 'Players';
 
   @override
-  State<playersPage> createState() => _playersPageState();
+  State<AddplayersPage> createState() => _AddplayersPageState();
 }
 
-class _playersPageState extends State<playersPage> {
+class _AddplayersPageState extends State<AddplayersPage> {
   final newPlayerName = TextEditingController();
   List selectedPlayers = [];
   List loadedPlayers = [];
@@ -47,35 +46,23 @@ class _playersPageState extends State<playersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Players'),
+        title: Text('Add Player'),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () => {
-              selectedPlayers.forEach((element) {
-                deletePlayer(element);
-              }),
-            },
-            icon: const Icon(Icons.delete),
-            tooltip: 'Clear score',
-            splashColor: Theme.of(context).colorScheme.secondary,
-          ),
-        ],
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextField(
             decoration: InputDecoration(labelText: "Playername"),
             controller: newPlayerName,
             onSubmitted: (_) => submitData(),
+            key: const ValueKey('PlayerNameBox')
           ),
           TextButton(
             onPressed: submitData,
-            child: Text('Submit1'),
+            child: Text('Submit'),
+            key: const ValueKey('SubmitButton'),
           ),
-          //getPlayers()
-          getPlayers(
-              selectedPlayers: selectedPlayers, loadedPlayers: loadedPlayers)
         ],
       ),
     );

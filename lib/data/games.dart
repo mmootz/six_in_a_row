@@ -2,7 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:six/data/gamesData.dart';
-
+import 'package:six/data/playerData.dart';
 
 class Game {
   static Future<List> getGames() async {
@@ -12,6 +12,64 @@ class Game {
       foundGames.add(element['id'].toString());
     }
     return foundGames;
+  }
+
+  static Future<bool> checkHighScore(int Score, String playername,
+      [gameFinished = false]) async {
+    List<Map<String, dynamic>> getCurrentValue = [];
+
+    getCurrentValue = await playerData.getDataWhere(
+        'players', ['Highestscore'], 'playername = ?', [playername]);
+
+    if (getCurrentValue[0]['Highestscore'] == 0 && gameFinished == false ) {
+      return false;
+    }
+
+    if (getCurrentValue[0]['Highestscore'] < Score ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  static Future<void> updateHighScore(String playername, int score) async {
+    playerData.update(
+        'players', {'Highestscore': score}, 'playername = ?', [playername]);
+  }
+
+  static Future<void> _incrementGame(String playername) async {
+    List<Map<String, dynamic>> getCurrentValue = [];
+
+    getCurrentValue = await playerData.getDataWhere(
+        'players', ['Gamesplayed'], 'playername = ?', [playername]);
+    playerData.update(
+        'players',
+        {'Gamesplayed': getCurrentValue[0]['Gamesplayed'] + 1},
+        'playername = ?',
+        [playername]);
+  }
+
+  static Future<void> endGame(String winner, List lost) async {
+    List<Map<String, dynamic>> getWins = [];
+    List<Map<String, dynamic>> getlosses = [];
+    bool HighscoreCheck = false;
+    getWins = await playerData.getDataWhere(
+        'players', ['wins'], 'playername = ?', [winner]);
+    debugPrint(getWins.toString());
+    playerData.update('players', {'wins': getWins[0]['wins'] + 1},
+        'playername = ?', [winner]);
+
+    _incrementGame(winner);
+
+    lost.forEach((index) async {
+      getlosses = await playerData.getDataWhere(
+          'players', ['losses'], 'playername = ?', [index]);
+      playerData.update('players', {'losses': getlosses[0]['losses'] + 1},
+          'playername = ?', [index]);
+    });
+    lost.forEach((index) {
+      _incrementGame(index);
+    });
   }
 
   static _getPlayerIndex(int index) {
@@ -89,7 +147,11 @@ class Game {
         break;
       case 3:
         {
-          queryScoresList = ['FirstPlayerScore', 'SecondPlayerScore', 'ThirdPlayerScore'];
+          queryScoresList = [
+            'FirstPlayerScore',
+            'SecondPlayerScore',
+            'ThirdPlayerScore'
+          ];
         }
         break;
       case 4:
@@ -108,11 +170,11 @@ class Game {
         }
     }
 
-    final queryNames =
-        await DBHelper.getDataWhere('games', queryNamesList, 'Active = ?', ['Yes']);
+    final queryNames = await DBHelper.getDataWhere(
+        'games', queryNamesList, 'Active = ?', ['Yes']);
 
-    final queryScores =
-        await DBHelper.getDataWhere('games', queryScoresList, 'Active = ?', ['Yes']);
+    final queryScores = await DBHelper.getDataWhere(
+        'games', queryScoresList, 'Active = ?', ['Yes']);
 
     final getCurrentScores =
         await DBHelper.getDataWhere('games', ['*'], 'Active = ?', ['Yes']);
@@ -153,7 +215,6 @@ class Game {
           print("Invalid length");
         }
     }
-
 
     //debugPrint(getCurrentScores.toString());
     return scores;
@@ -204,39 +265,36 @@ class Game {
       'Date': "2022-11-25 19:29:32:321"
     });
   }
-  static Future<Map<String, String>> findEditedScores(Map<String, String> edited, Map<String, String> currentScores  )
-  async {
+
+  static Future<Map<String, String>> findEditedScores(
+      Map<String, String> edited, Map<String, String> currentScores) async {
     // take in the map from the edited page and compare it to what is in database
     // find the diff and get the index for each.
     // update score with the new index.
 
-      //edited(Map currentScores, Map editedScores ) {
-      Map<String, String> foundScores = {};
-      int index = 0;
-      edited.forEach((k,v) => {
-        if (v != currentScores.entries.elementAt(index).value) {
-          foundScores[index.toString()] = v
-        },
-        index++
-      });
-      return foundScores;
-      //print(foundScores);
-    }
+    //edited(Map currentScores, Map editedScores ) {
+    Map<String, String> foundScores = {};
+    int index = 0;
+    edited.forEach((k, v) => {
+          if (v != currentScores.entries.elementAt(index).value)
+            {foundScores[index.toString()] = v},
+          index++
+        });
+    return foundScores;
+    //print(foundScores);
+  }
 
-
-  static Future<void> updatePlayerScore(int playerIndex, int Score, [ edit = false]) async {
+  static Future<void> updatePlayerScore(int playerIndex, int Score,
+      [edit = false]) async {
     String playerPostion = "";
     int loadedScore = 0;
     int updatedScore = 0;
 
     playerPostion = Game._getPlayerIndex(playerIndex);
 
-
     if (edit) {
-      DBHelper.update(
-          'games', {playerPostion: Score}, 'Active = ?', ['Yes']);
-    }
-    else {
+      DBHelper.update('games', {playerPostion: Score}, 'Active = ?', ['Yes']);
+    } else {
       loadedScore = await loadPlayerScore(playerIndex);
       updatedScore = loadedScore + Score;
       DBHelper.update(
@@ -251,7 +309,6 @@ class Game {
     playerPostion = Game._getPlayerIndex(playerIndex);
     PlayerloadedScore = await DBHelper.getDataWhere(
         'games', [playerPostion], 'Active = ?', ['Yes']);
-    debugPrint('loaded ' + PlayerloadedScore[0].entries.first.value.toString());
     return PlayerloadedScore[0].entries.first.value;
   }
 

@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:six/screens/Players.dart';
 import 'GameBoard.dart';
 import 'package:six/widgets/getPlayers.dart';
 import 'package:six/data/player.dart';
 import 'package:six/data/games.dart';
+import 'package:six/widgets/BottomButton.dart';
+import 'package:six/widgets/MainMenuSidebar.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -18,10 +19,6 @@ class _MainMenuState extends State<MainMenu> {
   List loadedPlayers = [];
   List pastGames = [];
 
-  Future<List> loadplayers() async {
-    loadedPlayers = await player.getPlayers();
-    return loadedPlayers;
-  }
 
   initpastGames() async {
     final List initpastGames = await Game.getGames();
@@ -54,14 +51,14 @@ class _MainMenuState extends State<MainMenu> {
 
   void _showaddPlayer(context) {
     //Navigator.pop(context);
-    Navigator.pushNamed(context, playersPage.routeName);
+    Navigator.pushNamed(context, 'AddPlayer');
   }
 
   void _showGameboard(context) {
     if (selectedPlayers.length <= 1) {
       var snackBar = SnackBar(
         content: Text('Not enough players!'),
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         action:
             SnackBarAction(label: 'Okay', textColor: Theme.of(context).canvasColor , onPressed: () => debugPrint('test')),
       );
@@ -83,35 +80,33 @@ class _MainMenuState extends State<MainMenu> {
         actions: [
           IconButton(
             onPressed: () => _showaddPlayer(context),
-            icon: const Icon(Icons.people),
+            icon: const Icon(Icons.plus_one),
             tooltip: 'Clear score',
             splashColor: Theme.of(context).colorScheme.secondary,
           ),
         ],
       ),
+      drawer: MainMenuSideBar(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               ElevatedButton(
-                  onPressed: initloadedPlayers, child: Text('Refesh')),
-              Text('Select Players'),
+                  onPressed: initloadedPlayers, child: Text('Refresh')),
+            //  Text('Select Players'),
               loadedPlayers.isNotEmpty
                   ? getPlayers(
                       loadedPlayers: loadedPlayers,
                       selectedPlayers: selectedPlayers)
                   : Text('Add players to start!\n or not I am not your boss'),
-              ElevatedButton(
-                  onPressed: () => _showGameboard(context),
-                  child: Text('StartGame')),
-              Text('Past Games'),
-              getPlayers(selectedPlayers: selectedPlayers, loadedPlayers: pastGames)
+              BottomButton(text: 'Start Game', call: () => _showGameboard(context))
             ],
           ),
         ),
       ),
+
     );
   }
 }

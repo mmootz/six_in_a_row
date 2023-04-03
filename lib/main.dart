@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:six/screens/PastGames.dart';
 import 'package:six/screens/PlayersMoreInfo.dart';
 import 'package:six/screens/players.dart';
 import 'screens/MainMenu.dart';
@@ -69,6 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
         'AddPlayer': (ctx) => AddplayersPage(),
         'PlayersPage' : (ctx) => PlayersPage(),
         'PlayersPageMoreInfo' : (ctx) => PlayersPageMoreInfo(),
+        'PastGames' : (ctx) => pastGames(),
         'Edit': (ctx) => editScore(),
         'Quit': (ctx) => QuitGame()
       }, // This trailing comma makes auto-formatting nicer for build methods.

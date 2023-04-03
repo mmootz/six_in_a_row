@@ -91,7 +91,7 @@ class _MainMenuState extends State<MainMenu> {
         padding: const EdgeInsets.all(20.0),
         child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
                   onPressed: initloadedPlayers, child: Text('Refresh')),

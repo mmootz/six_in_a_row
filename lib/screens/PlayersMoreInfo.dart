@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:six/widgets/playerWins.dart';
+import 'package:six/widgets/PlayerStats.dart';
 
 class PlayersPageMoreInfo extends StatelessWidget {
   //const PlayersPageMoreInfo({Key? key}) : super(key: key);
@@ -14,79 +16,70 @@ class PlayersPageMoreInfo extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(player, style: TextStyle(fontSize: 26)),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text('Highest Score: 255'),
-                    Text('Most twelves in a game: 6'),
-                    Text('Total Score: 525'),
-                    Text('Total Twelves: 12'),
+                Text(player, style: const TextStyle(fontSize: 26)),
+                playerStats(player)
+              ],
+            ),
+            const SizedBox(height: 32),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Text(
+                      'Wins',
+                      style: TextStyle(fontSize: 26),
+                    )
                   ],
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Date'),
+                    const Text('Score'),
+                  ],
+                ),
+                const Divider(
+                  thickness: 2.0,
+                ),
+                playerWins(player),
+              ],
+            ),
 
-              ],
-            ),
-            SizedBox(height: 32),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Wins'),
-                Text('5'),
-              ],
-            ),
-            SizedBox(height: 32),
-            Card(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Jan 1'),
-                Text('156'),
-              ],
-            )),
-            Card(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Jan 2'),
-                Text('157'),
-              ],
-            )),
-            Card(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Jan 3'),
-                Text('158'),
-              ],
-            )),
-            SizedBox(height: 32),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text('Loses'),
-                Text('3'),
-              ],
-            ),
-            SizedBox(height: 32),
-            Card(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Date: Jan 1'),
-                    Text('Score: 156'),
-                  ],
-                )),
-            Card(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Date: Jan 2'),
-                    Text('Score: 157'),
-                  ],
-                )),
+            //       SizedBox(height: 32),
+            //       ListView(children: [
+            //       ListTile(leading: Text('Jan 1'), trailing: Text('156'),
+            //     ]),
+            //
+            // ),
+            //Row(
+            //  mainAxisAlignment: MainAxisAlignment.spaceAround,
+            //  children: [
+            //    Text('Loses'),
+            //    Text('3'),
+            //  ],
+            // ),
+
+            // Card(
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         Text('Date: Jan 1'),
+            //         Text('Score: 156'),
+            //       ],
+            //     )),
+            // Card(
+            //     child: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //       children: [
+            //         Text('Date: Jan 2'),
+            //         Text('Score: 157'),
+            //       ],
+            //     )),
+            ElevatedButton(onPressed: null, child: Text('Delete Player'))
           ],
         ),
       ),

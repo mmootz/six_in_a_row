@@ -30,7 +30,6 @@ class _PlayerCardState extends State<PlayerCard> {
     setState(() {
       loadedinfo = intLoadedPlayerinfo[0];
     });
-    debugPrint(loadedinfo.toString());
   }
 
   void initState() {

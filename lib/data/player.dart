@@ -41,7 +41,7 @@ class player {
     // get games played
     // get win
     PlayerInfo = await playerData.getDataWhere('players',
-        ['wins', 'Highestscore', 'Gamesplayed'], 'Playername = ?', [Player]);
+        ['wins', 'Highestscore', 'Gamesplayed', 'totalscore', 'losses' ], 'Playername = ?', [Player]);
 
     return PlayerInfo;
   }

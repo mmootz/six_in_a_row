@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqlite_api.dart';
@@ -32,6 +31,7 @@ class DBHelper {
       String table, Map<String, dynamic> values, String data, List args) async {
     final db = await DBHelper.database();
     db.update(table, values, where: data, whereArgs: args);
+
   }
 
   static Future<List<Map<String, dynamic>>> getDataWhere(String table,

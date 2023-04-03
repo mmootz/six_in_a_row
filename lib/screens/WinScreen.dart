@@ -29,7 +29,7 @@ class _WinScreenState extends State<WinScreen> {
     confetti.play();
   }
 
-  updateScores(List players, winningPlayer) async {
+  updateScores(List players, winningPlayer, WinningScore) async {
     // get list of players
     // remove winning player from list
     // update winner score maybe finish game function
@@ -38,7 +38,7 @@ class _WinScreenState extends State<WinScreen> {
     // increment the games played by 1 for everyone
 
     players.removeAt(0);
-    Game.endGame(winningPlayer, players);
+    Game.endGame(winningPlayer, players, WinningScore);
   }
 
   findWinner(Map<String, String> players) {
@@ -57,7 +57,7 @@ class _WinScreenState extends State<WinScreen> {
     });
     players.forEach((k, v) => playerList.add(k));
     playerList.removeAt(0);
-    updateScores(playerList, WinningPlayer);
+    updateScores(playerList, WinningPlayer, WinningScore);
     players.forEach((player, score) async {
       highscorecheck = await Game.checkHighScore(int.parse(score), player, true);
       if (highscorecheck) {

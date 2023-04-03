@@ -31,14 +31,14 @@ class _PlayersPageState extends State<PlayersPage> {
     });
   }
 
-  Playerinfo(playername) async {
-    List<Map<String,dynamic >> info = [];
-
-    info = await player.getPlayerInfo(playername);
-    debugPrint(info.toString());
-
-    //return info;
-  }
+  // Playerinfo(playername) async {
+  //   List<Map<String,dynamic >> info = [];
+  //
+  //   info = await player.getPlayerInfo(playername);
+  //   debugPrint(info.toString());
+  //
+  //   //return info;
+  // }
 
   @override
   Widget build(BuildContext context) {

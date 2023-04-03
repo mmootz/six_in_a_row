@@ -12,6 +12,7 @@ void main() {
     // Set up the test data
     final winner = 'Alice';
     final lost = ['Bob', 'Charlie'];
+    final winnerScore = 125;
 
     // Create a mock playerData object
     final playerData = MockPlayerData();
@@ -24,7 +25,7 @@ void main() {
     });
 
     // Call the function being tested
-    await Game.endGame(winner, lost);
+    await Game.endGame(winner, lost, winnerScore );
 
     // Verify that the expected updates were made to the player data
     verify(playerData.update('players', {'wins': 6}, 'playername = ?', [winner]));

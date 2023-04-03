@@ -50,7 +50,7 @@ class MainMenuSideBar extends StatelessWidget {
             onTap: () =>
             {
               Navigator.pop(context),
-              Navigator.pushNamed(context, 'Scores')
+              Navigator.pushNamed(context, 'PastGames')
             }),
         ListTile(
           leading: Icon(Icons.info),

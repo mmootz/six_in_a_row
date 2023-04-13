@@ -16,9 +16,6 @@ class _pastGamesState extends State<pastGames> {
       debugPrint('print');
     }
 
-
-
-    print(initLoadedGames.toString().length);
     setState(() {
       loadedGames = initLoadedGames;
     });

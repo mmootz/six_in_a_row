@@ -43,10 +43,10 @@ class _playerStatsState extends State<playerStats> {
         children: [
           Text('Highest Score:' + loadedStats[0]['Highestscore'].toString()),
           // Text('Most twelves in a game: 6'),
-          Text('Total Score:' + loadedStats[0]['Highestscore'].toString()),
+          Text('Total Score:' + loadedStats[0]['totalscore'].toString()),
           // Text('Total Twelves: 12'),
-          Text('wins:' + loadedStats[0]['Wins'].toString()),
-          Text('Losses:' + loadedStats[0]['Losses'].toString())
+          Text('wins:' + loadedStats[0]['wins'].toString()),
+          Text('Losses:' + loadedStats[0]['losses'].toString())
         ],
       );
     }

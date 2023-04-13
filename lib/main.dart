@@ -3,8 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:six/screens/PastGames.dart';
+import 'package:six/screens/PastGamesMoreInfo.dart';
 import 'package:six/screens/PlayersMoreInfo.dart';
 import 'package:six/screens/players.dart';
+import 'package:sqflite/sqflite.dart';
 import 'screens/MainMenu.dart';
 import 'screens/GameBoard.dart';
 import 'screens/scores.dart';
@@ -17,6 +19,8 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  DatabaseFactory? databaseFactoryFfi;
+  databaseFactory = databaseFactoryFfi;
   runApp(MyApp());
 }
 
@@ -71,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
         'PlayersPage' : (ctx) => PlayersPage(),
         'PlayersPageMoreInfo' : (ctx) => PlayersPageMoreInfo(),
         'PastGames' : (ctx) => pastGames(),
+        'PastGamesMoreInfo' : (ctx) => PastGamesMoreInfo(),
         'Edit': (ctx) => editScore(),
         'Quit': (ctx) => QuitGame()
       }, // This trailing comma makes auto-formatting nicer for build methods.

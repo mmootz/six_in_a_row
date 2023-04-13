@@ -35,18 +35,20 @@ class _playerWinsState extends State<playerWins> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: loadedWins.map((item) {
-      return Column(
-        children: [
-          ListTile(
-            leading: Text(item['Date'].toString()),
-            trailing: Text(item['WinningScore'].toString()),
-          ),
-          Divider(thickness: 2.0,)
-        ],
-      );
-    }).toList());
+    return ListView.builder(
+        itemCount: loadedWins.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Column(
+            children: [
+              ListTile(
+                leading: Text(loadedWins[index]['Date'].toString()),
+                trailing: Text(loadedWins[index]['WinningScore'].toString()),
+              ),
+              Divider(
+                thickness: 2.0,
+              )
+            ],
+          );
+        });
   }
 }

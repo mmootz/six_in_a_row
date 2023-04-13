@@ -93,14 +93,15 @@ class _GameBoardState extends State<GameBoard> {
     Scores = await Game.getScoresMAP(players);
     //ScoreProvider().totalScore(newTotalScore, true);
     if (FindNextPlayer == players.first) {
-      // debugPrint(1
-      //     "player: $FindNextPlayer, Total score: $currentScore, round: ${roundNumber++} ");
+
       setState(() {
         RoundNumber++;
         CurrentPlayer = FindNextPlayer;
         CurrentScore = 0;
         TotalScore = newTotalScore;
       });
+      debugPrint('updateRound');
+      Game.updateRound(RoundNumber);
       //ScoreProvider().clearScore();
     } else {
       setState(() {

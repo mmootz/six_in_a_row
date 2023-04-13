@@ -49,6 +49,11 @@ class _MainMenuState extends State<MainMenu> {
     });
   }
 
+  @override
+  didChangeDependencies() async {
+    initloadedPlayers();
+  }
+
   void _showaddPlayer(context) {
     //Navigator.pop(context);
     Navigator.pushNamed(context, 'AddPlayer');
@@ -93,14 +98,14 @@ class _MainMenuState extends State<MainMenu> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              ElevatedButton(
-                  onPressed: initloadedPlayers, child: Text('Refresh')),
+              // ElevatedButton(
+              //     onPressed: initloadedPlayers, child: Text('Refresh')),
             //  Text('Select Players'),
               loadedPlayers.isNotEmpty
                   ? getPlayers(
                       loadedPlayers: loadedPlayers,
                       selectedPlayers: selectedPlayers)
-                  : Text('Add players to start!\n or not I am not your boss'),
+                  : Text('Add players to start!\n ..or not I am not your boss'),
               BottomButton(text: 'Start Game', call: () => _showGameboard(context))
             ],
           ),

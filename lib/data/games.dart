@@ -10,7 +10,6 @@ class Game {
     for (var element in listPlayers) {
       foundGames.add(element['id'].toString());
     }
-    debugPrint(foundGames.toString());
     return foundGames;
   }
 
@@ -19,15 +18,36 @@ class Game {
 
     wins = await DBHelper.getDataWhere(
         'games', ['Date', 'WinningScore'], 'Winnner =?', [player]);
-    debugPrint(wins.toString());
     return wins;
+  }
+
+  static Future<List> getPlayers(int gameId) async {
+    List<Map<String, dynamic>> gamePlayers = [];
+    gamePlayers = await DBHelper.getDataWhere(
+        'games',
+        [
+          'FirstPlayer',
+          'FirstPlayerScore',
+          'SecondPlayer',
+          'SecondPlayerScore',
+          'ThirdPlayer',
+          'ThirdPlayerScore',
+          'ForthPlayer',
+          'ForthPlayerScore'
+        ],
+        'id = ?',
+        [gameId]);
+    return gamePlayers;
   }
 
   static Future<List<Map<String, dynamic>>> getGameInfo(int gameId) async {
     List<Map<String, dynamic>> GameInfo = [];
 
     GameInfo = await DBHelper.getDataWhere(
-        'games', ['Winnner', 'WinningScore', 'Date'], 'id = ?', [gameId]);
+        'games',
+        ['id', 'Winnner', 'WinningScore', 'LastRound', 'Date'],
+        'id = ?',
+        [gameId]);
     return GameInfo;
   }
 
@@ -49,9 +69,32 @@ class Game {
     }
   }
 
+  static Future<void> updateRound(int round) async {
+    DBHelper.update('games', {'LastRound': round}, 'Active = ?', ['Yes']);
+  }
+
   static Future<void> updateHighScore(String playername, int score) async {
     playerData.update(
         'players', {'Highestscore': score}, 'playername = ?', [playername]);
+  }
+
+  static Future<void> _updatetotalscore(String playername, int score) async {
+    List<Map<dynamic, dynamic>> getCurrentTotalScore = [];
+
+    debugPrint('score:' + score.toString());
+    debugPrint('playername:' + playername);
+
+    getCurrentTotalScore = await playerData.getDataWhere(
+        'players', ['totalscore'], 'playername = ?', [playername]);
+    debugPrint('totalscore for: ' +
+        playername +
+        ' ' +
+        getCurrentTotalScore[0]['totalscore'].toString());
+    playerData.update(
+        'players',
+        {'totalscore': getCurrentTotalScore[0]['totalscore'] + score},
+        'playername = ?',
+        [playername]);
   }
 
   static Future<void> _incrementGame(String playername) async {
@@ -66,25 +109,27 @@ class Game {
         [playername]);
   }
 
-  static Future<void> endGame(String winner, List lost, winningScore) async {
+  static Future<void> endGame(
+      String winner, Map players, int winningScore) async {
     List<Map<String, dynamic>> getWins = [];
     List<Map<String, dynamic>> getlosses = [];
-
+    List lost = [];
     final gameId =
-    await DBHelper.getDataWhere('games', ['id'], 'Active = ?', ['Yes']);
-
+        await DBHelper.getDataWhere('games', ['id'], 'Active = ?', ['Yes']);
+    // make lost list
+    players.forEach((k, v) => lost.add(k));
+    lost.removeAt(0); // first one is winner
 
     // winner block
     getWins = await playerData.getDataWhere(
         'players', ['wins'], 'playername = ?', [winner]);
-
     playerData.update('players', {'wins': getWins[0]['wins'] + 1},
         'playername = ?', [winner]);
     _incrementGame(winner);
-
     DBHelper.update('games', {'Winnner': winner, 'WinningScore': winningScore},
         'id = ?', [gameId[0]['id']]);
 
+    // losers
     lost.forEach((index) async {
       getlosses = await playerData.getDataWhere(
           'players', ['losses'], 'playername = ?', [index]);
@@ -94,6 +139,13 @@ class Game {
     lost.forEach((index) {
       _incrementGame(index);
     });
+
+    // update total scores for each player
+    for (var playermap in players.entries) {
+      String playername = playermap.key;
+      int playerscore = int.parse(playermap.value);
+      _updatetotalscore(playername, playerscore);
+    }
   }
 
   static _getPlayerIndex(int index) {
@@ -201,70 +253,37 @@ class Game {
         'games', queryScoresList, 'Active = ?', ['Yes']);
 
     final getCurrentScores =
-    await DBHelper.getDataWhere('games', ['*'], 'Active = ?', ['Yes']);
+        await DBHelper.getDataWhere('games', ['*'], 'Active = ?', ['Yes']);
 
     switch (players.length) {
       case 2:
         {
           scores[queryNames[0].entries.first.value.toString()] =
               queryScores[0].entries.first.value.toString();
-          scores[queryNames[0].entries
-              .elementAt(1)
-              .value
-              .toString()] =
-              queryScores[0].entries
-                  .elementAt(1)
-                  .value
-                  .toString();
+          scores[queryNames[0].entries.elementAt(1).value.toString()] =
+              queryScores[0].entries.elementAt(1).value.toString();
         }
         break;
       case 3:
         {
           scores[queryNames[0].entries.first.value.toString()] =
               queryScores[0].entries.first.value.toString();
-          scores[queryNames[0].entries
-              .elementAt(1)
-              .value
-              .toString()] =
-              queryScores[0].entries
-                  .elementAt(1)
-                  .value
-                  .toString();
-          scores[queryNames[0].entries
-              .elementAt(2)
-              .value
-              .toString()] =
-              queryScores[0].entries
-                  .elementAt(2)
-                  .value
-                  .toString();
+          scores[queryNames[0].entries.elementAt(1).value.toString()] =
+              queryScores[0].entries.elementAt(1).value.toString();
+          scores[queryNames[0].entries.elementAt(2).value.toString()] =
+              queryScores[0].entries.elementAt(2).value.toString();
         }
         break;
       case 4:
         {
           scores[queryNames[0].entries.first.value.toString()] =
               queryScores[0].entries.first.value;
-          scores[queryNames[0].entries
-              .elementAt(1)
-              .value
-              .toString()] =
-              queryScores[0].entries
-                  .elementAt(1)
-                  .value;
-          scores[queryNames[0].entries
-              .elementAt(2)
-              .value
-              .toString()] =
-              queryScores[0].entries
-                  .elementAt(2)
-                  .value;
-          scores[queryNames[0].entries
-              .elementAt(3)
-              .value
-              .toString()] =
-              queryScores[0].entries
-                  .elementAt(3)
-                  .value;
+          scores[queryNames[0].entries.elementAt(1).value.toString()] =
+              queryScores[0].entries.elementAt(1).value;
+          scores[queryNames[0].entries.elementAt(2).value.toString()] =
+              queryScores[0].entries.elementAt(2).value;
+          scores[queryNames[0].entries.elementAt(3).value.toString()] =
+              queryScores[0].entries.elementAt(3).value;
         }
         break;
       default:
@@ -279,7 +298,7 @@ class Game {
 
   static Future<List<Map<String, dynamic>>> getScoresSQL() async {
     final getCurrentScores =
-    await DBHelper.getDataWhere('games', ['*'], 'Active = ?', ['Yes']);
+        await DBHelper.getDataWhere('games', ['*'], 'Active = ?', ['Yes']);
     return getCurrentScores;
   }
 
@@ -337,14 +356,11 @@ class Game {
     //edited(Map currentScores, Map editedScores ) {
     Map<String, String> foundScores = {};
     int index = 0;
-    edited.forEach((k, v) =>
-    {
-      if (v != currentScores.entries
-          .elementAt(index)
-          .value)
-        {foundScores[index.toString()] = v},
-      index++
-    });
+    edited.forEach((k, v) => {
+          if (v != currentScores.entries.elementAt(index).value)
+            {foundScores[index.toString()] = v},
+          index++
+        });
     return foundScores;
     //print(foundScores);
   }

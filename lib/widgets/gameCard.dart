@@ -37,7 +37,8 @@ class _gameCardState extends State<gameCard> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: null,
+      onTap: () => Navigator.pushNamed(context, 'PastGamesMoreInfo',
+          arguments: loadedinfo),
       splashColor: Theme.of(context).colorScheme.primary,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

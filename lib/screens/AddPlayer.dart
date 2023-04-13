@@ -32,12 +32,20 @@ class _AddplayersPageState extends State<AddplayersPage> {
   }
 
   submitData() async {
-    if (newPlayerName.text.isNotEmpty) {
+    if (newPlayerName.text.isNotEmpty && newPlayerName.text.length < 30) {
       player.addPlayer(newPlayerName.text);
-      Navigator.pop(context, newPlayerName.text);
+      Navigator.popAndPushNamed(context, 'MainMenu');
     } else {
       // popup here or toast I guess
-      debugPrint('empty');
+      var SnackBarVar = SnackBar(
+        content: Text('Can not be empty or longer than 30 characters'),
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        action: SnackBarAction(
+            label: 'Okay',
+            textColor: Theme.of(context).canvasColor,
+            onPressed: () => debugPrint('test')),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBarVar);
     }
     //Navigator.pushNamed(context, 'MainMenu');
   }
@@ -53,11 +61,10 @@ class _AddplayersPageState extends State<AddplayersPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextField(
-            decoration: InputDecoration(labelText: "Playername"),
-            controller: newPlayerName,
-            onSubmitted: (_) => submitData(),
-            key: const ValueKey('PlayerNameBox')
-          ),
+              decoration: InputDecoration(labelText: "Playername"),
+              controller: newPlayerName,
+              onSubmitted: (_) => submitData(),
+              key: const ValueKey('PlayerNameBox')),
           TextButton(
             onPressed: submitData,
             child: Text('Submit'),

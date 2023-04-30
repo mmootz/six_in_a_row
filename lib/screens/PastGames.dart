@@ -1,6 +1,7 @@
 import 'package:six/data/games.dart';
 import 'package:flutter/material.dart';
 import 'package:six/widgets/gameCard.dart';
+
 class pastGames extends StatefulWidget {
   @override
   State<pastGames> createState() => _pastGamesState();
@@ -9,8 +10,8 @@ class pastGames extends StatefulWidget {
 class _pastGamesState extends State<pastGames> {
 //  const pastGames({Key? key}) : super(key: key);
   List loadedGames = [];
-  initloadedGames() async {
 
+  initloadedGames() async {
     final List initLoadedGames = await Game.getGames();
     if (initLoadedGames.isEmpty) {
       debugPrint('print');
@@ -31,14 +32,16 @@ class _pastGamesState extends State<pastGames> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Past Games'), centerTitle: true),
+        appBar: AppBar(
+          title: const Text('Past Games'),
+          centerTitle: true,
+          backgroundColor: Theme.of(context).primaryColor,
+        ),
         body: ListView.builder(
           itemCount: loadedGames.length,
           itemBuilder: (BuildContext context, int index) {
-
             return gameCard(loadedGames.elementAt(index));
           },
         ));
   }
 }
-

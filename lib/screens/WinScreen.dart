@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
 import 'dart:math';
 import 'package:six/data/games.dart';
+import 'package:six/widgets/BottomButton.dart';
+import 'package:six/widgets/GameButtons.dart';
 
 class WinScreen extends StatefulWidget {
   @override
@@ -41,6 +43,10 @@ class _WinScreenState extends State<WinScreen> {
     Game.endGame(winningPlayer, players, WinningScore, );
   }
 
+  void showMainMenu(){
+    Navigator.popAndPushNamed(context, 'MainMenu');
+  }
+
   findWinner(Map<String, String> players) {
 
     bool highscorecheck = false;
@@ -78,7 +84,7 @@ class _WinScreenState extends State<WinScreen> {
         centerTitle: true,
       ),
       body: Column(
-        //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(WinningPlayer,
               style: TextStyle(fontSize: 76), textAlign: TextAlign.center),
@@ -136,12 +142,8 @@ class _WinScreenState extends State<WinScreen> {
               ],
             ),
           ),
-          ElevatedButton(
-              onPressed: () => {
-                    Navigator.pop(context),
-                    Navigator.popAndPushNamed(context, 'MainMenu')
-                  },
-              child: Text('Main Menu')),
+          BottomButton(text: 'Main Menu', call: () => showMainMenu()
+          ),
         ],
       ),
     );

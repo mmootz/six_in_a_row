@@ -19,7 +19,7 @@ class MainMenuSideBar extends StatelessWidget {
           width: double.infinity,
           alignment: Alignment.center,
           color: Theme
-              .of(context).colorScheme.secondary,
+              .of(context).primaryColor,
           child: const Text(
             'Options',
             style: TextStyle(
@@ -31,6 +31,7 @@ class MainMenuSideBar extends StatelessWidget {
         ListTile(
             leading: Icon(Icons.plus_one),
             title: Text("Add Player"),
+            iconColor: Theme.of(context).colorScheme.secondary,
             onTap: () =>
             {
               Navigator.pop(context),

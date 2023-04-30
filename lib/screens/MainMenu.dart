@@ -80,6 +80,7 @@ class _MainMenuState extends State<MainMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('Six in a row'),
         centerTitle: true,
         actions: [
@@ -87,7 +88,7 @@ class _MainMenuState extends State<MainMenu> {
             onPressed: () => _showaddPlayer(context),
             icon: const Icon(Icons.plus_one),
             tooltip: 'Clear score',
-            splashColor: Theme.of(context).colorScheme.secondary,
+            splashColor: Theme.of(context).primaryColor,
           ),
         ],
       ),
@@ -98,9 +99,6 @@ class _MainMenuState extends State<MainMenu> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              // ElevatedButton(
-              //     onPressed: initloadedPlayers, child: Text('Refresh')),
-            //  Text('Select Players'),
               loadedPlayers.isNotEmpty
                   ? getPlayers(
                       loadedPlayers: loadedPlayers,

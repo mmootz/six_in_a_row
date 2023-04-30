@@ -1,9 +1,18 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:six/data/gamesData.dart';
 import 'package:six/data/playerData.dart';
 import 'package:intl/intl.dart';
 
 class Game {
+
+  static Future<Int> _getcurrentGameID() async {
+    List currentGameId = [];
+
+    return currentGameId[0]['id'];
+  }
+
   static Future<List> getGames() async {
     List foundGames = [];
     final listPlayers = await DBHelper.getData('games');
@@ -393,7 +402,14 @@ class Game {
     return PlayerloadedScore[0].entries.first.value;
   }
 
-  static Future<void> deleteGame(List gameids) async {
-    DBHelper.delete('players', 'playername = ?', gameids);
+  static Future<void> deleteGame() async {
+    List currentGameId = [];
+    List deleteGame = [];
+
+     currentGameId = await DBHelper.getDataWhere('games', ['id'], 'Active = ?', ['Yes']);
+
+     deleteGame.add(currentGameId[0]['id'].toString());
+     DBHelper.delete('games', 'id = ?', deleteGame);
+
   }
 }

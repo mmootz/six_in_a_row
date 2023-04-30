@@ -38,11 +38,17 @@ class _AddplayersPageState extends State<AddplayersPage> {
     } else {
       // popup here or toast I guess
       var SnackBarVar = SnackBar(
+        key: const ValueKey('SnackBarError'),
         content: Text('Can not be empty or longer than 30 characters'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .primary,
         action: SnackBarAction(
             label: 'Okay',
-            textColor: Theme.of(context).canvasColor,
+            textColor: Theme
+                .of(context)
+                .canvasColor,
             onPressed: () => debugPrint('test')),
       );
       ScaffoldMessenger.of(context).showSnackBar(SnackBarVar);
@@ -70,6 +76,8 @@ class _AddplayersPageState extends State<AddplayersPage> {
             child: Text('Submit'),
             key: const ValueKey('SubmitButton'),
           ),
+          TextButton(onPressed: () => Navigator.popAndPushNamed(context, 'MainMenu'),
+            child: Text('Cancel'),)
         ],
       ),
     );

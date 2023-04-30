@@ -42,7 +42,7 @@ class _gameCardState extends State<gameCard> {
       splashColor: Theme.of(context).colorScheme.primary,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: Colors.white,
+        color: Theme.of(context).canvasColor,
         elevation: 6,
         margin: EdgeInsets.all(10),
         child: Row(

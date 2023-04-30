@@ -30,15 +30,19 @@ class PlayersPageMoreInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     final player = ModalRoute.of(context)?.settings.arguments as String;
     return Scaffold(
-      appBar: AppBar(actions: [
-        IconButton(
-          color: Colors.red,
-          onPressed: () => deletePlayer(context, player),
-          icon: const Icon(Icons.delete_forever),
-          tooltip: 'Clear score',
-          splashColor: Theme.of(context).colorScheme.secondary,
-        ),
-      ], title: const Text('More Info'), centerTitle: true),
+      appBar: AppBar(
+          actions: [
+            IconButton(
+              color: Colors.red,
+              onPressed: () => deletePlayer(context, player),
+              icon: const Icon(Icons.delete_forever),
+              tooltip: 'Clear score',
+              splashColor: Theme.of(context).primaryColorDark,
+            ),
+          ],
+          title: const Text('More Info'),
+          centerTitle: true,
+          backgroundColor: Theme.of(context).primaryColor),
       body: Card(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

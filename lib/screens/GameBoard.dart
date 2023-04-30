@@ -23,8 +23,6 @@ class _GameBoardState extends State<GameBoard> {
   int CurrentScore = 0;
   int RoundNumber = 1;
   String CurrentPlayer = "";
-  int _pageIndex = 0;
-  int gameId = 0;
 
   @override
   void dispose() {
@@ -50,6 +48,11 @@ class _GameBoardState extends State<GameBoard> {
       }
     }
     return nxtPlayer;
+  }
+
+  void quitGame() {
+    Game.deleteGame();
+    Navigator.pushNamed(context, 'MainMenu');
   }
 
   void AddScore(add) {
@@ -93,7 +96,6 @@ class _GameBoardState extends State<GameBoard> {
     Scores = await Game.getScoresMAP(players);
     //ScoreProvider().totalScore(newTotalScore, true);
     if (FindNextPlayer == players.first) {
-
       setState(() {
         RoundNumber++;
         CurrentPlayer = FindNextPlayer;
@@ -147,6 +149,7 @@ class _GameBoardState extends State<GameBoard> {
       },
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           title: const Text('Six in a row'),
           centerTitle: true,
           actions: [
@@ -169,7 +172,7 @@ class _GameBoardState extends State<GameBoard> {
                 height: MediaQuery.of(context).size.height * 0.10,
                 width: double.infinity,
                 alignment: Alignment.center,
-                color: Theme.of(context).colorScheme.secondary,
+                color: Theme.of(context).primaryColor,
                 child: const Text(
                   'Options',
                   style: TextStyle(
@@ -205,14 +208,17 @@ class _GameBoardState extends State<GameBoard> {
                         Navigator.pop(context),
                         debugPrint(context.toString()),
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('Quit'),
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
+                            content:
+                                Text('Quit (This will delete the current game)',
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    )),
+                            backgroundColor: Theme.of(context).canvasColor,
                             action: SnackBarAction(
                               label: 'Okay',
-                              textColor: Theme.of(context).canvasColor,
-                              onPressed: () =>
-                                  Navigator.pushNamed(context, 'MainMenu'),
+                              onPressed: quitGame,
+                              // onPressed: () =>
+                              //     Navigator.pushNamed(context, 'MainMenu'),
                             )))
                       }),
               ListTile(
@@ -222,13 +228,14 @@ class _GameBoardState extends State<GameBoard> {
                         Navigator.pop(context),
                         debugPrint(context.toString()),
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('End Game?'),
-                            backgroundColor:
-                                Theme.of(context).colorScheme.primary,
+                            content: Text('End Game?',
+                                style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                )),
+                            backgroundColor: Theme.of(context).canvasColor,
                             action: SnackBarAction(
                               label: 'Yes',
-                              textColor: Theme.of(context).canvasColor,
-                              onPressed: () => Navigator.pushNamed(
+                              onPressed: () => Navigator.pushReplacementNamed(
                                   context, 'WinScreen',
                                   arguments: Scores),
                             )))

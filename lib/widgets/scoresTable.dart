@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:six/data/games.dart';
+import 'package:six/widgets/BottomButton.dart';
 
 class scoresTable extends StatefulWidget {
   //const scoresTable({Key? key}) : super(key: key);
@@ -70,7 +71,7 @@ class _scoresTableState extends State<scoresTable> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Card(
           shape:
@@ -116,13 +117,7 @@ class _scoresTableState extends State<scoresTable> {
           ),
         ),
         widget.editMode
-            ? Container(
-                height: MediaQuery.of(context).size.height * 0.06,
-                width: MediaQuery.of(context).size.width * 1,
-                child: ElevatedButton(
-                    onPressed: () => updateScores(widget.scores),
-                    child: Text('Update')),
-              )
+            ? BottomButton(text: 'Update', call:  () => updateScores(widget.scores))
             : Container()
       ],
     );

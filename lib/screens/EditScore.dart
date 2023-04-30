@@ -23,6 +23,7 @@ class _editScoreState extends State<editScore> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Edit Scores'),
+          backgroundColor: Theme.of(context).primaryColor,
           centerTitle: true,
         ),
         body: scoresTable(LoadedScores, true));

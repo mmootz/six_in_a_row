@@ -44,10 +44,10 @@ class _PlayerCardState extends State<PlayerCard> {
       onTap: () => Navigator.pushNamed(context, 'PlayersPageMoreInfo',
           arguments: widget.PlayerName),
       //onTap: () => playerManagment(PlayerName),
-      splashColor: Theme.of(context).colorScheme.primary,
+      splashColor: Theme.of(context).primaryColorDark,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: Colors.white,
+        color: Theme.of(context).canvasColor,
         elevation: 6,
         margin: EdgeInsets.all(10),
         child: Row(

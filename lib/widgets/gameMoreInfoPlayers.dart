@@ -66,7 +66,7 @@ class _gameMoreInfoPlayersState extends State<gameMoreInfoPlayers> {
                     : Text(" "),
                 title: Text(player1),
                 trailing: Text('Score: $player1Score'),
-                iconColor: Theme.of(context).colorScheme.primary,
+                iconColor: Theme.of(context).primaryColor,
               ),
             if (player2 != 'None')
               ListTile(
@@ -75,19 +75,19 @@ class _gameMoreInfoPlayersState extends State<gameMoreInfoPlayers> {
                     : Text(" "),
                 title: Text(player2),
                 trailing: Text('Score: $player2Score'),
-                iconColor: Theme.of(context).colorScheme.primary,
+                iconColor: Theme.of(context).primaryColor,
               ),
             if (player3 != 'None')
               ListTile(
                 title: Text(player3),
                 subtitle: Text('Score: $player3Score'),
-                iconColor: Theme.of(context).colorScheme.primary,
+                iconColor: Theme.of(context).primaryColor,
               ),
             if (player4 != 'None')
               ListTile(
                 title: Text(player4),
                 subtitle: Text('Score: $player4Score'),
-                iconColor: Theme.of(context).colorScheme.primary,
+                iconColor: Theme.of(context).primaryColor,
               ),
           ],
         );

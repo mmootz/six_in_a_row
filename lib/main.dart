@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:six/screens/PastGames.dart';
@@ -15,6 +13,11 @@ import 'screens/ExitGame.dart';
 import 'screens/AddPlayer.dart';
 import 'screens/EditScore.dart';
 
+var kColorScheme =
+    ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 20, 79, 163));
+var kDarkColorScheme = ColorScheme.fromSeed(
+    brightness: Brightness.dark, seedColor: Color.fromARGB(255, 5, 99, 125));
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
@@ -24,8 +27,7 @@ void main() {
   runApp(MyApp());
 }
 
-class ChangeNotifierProvider {
-}
+class ChangeNotifierProvider {}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -35,33 +37,32 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Six in a row',
-      theme: ThemeData(
-        primarySwatch: Colors.lightBlue,
-      ),
-      home: const MyHomePage(title: 'Six in a row'),
+      home: const Main(title: 'Six in a row'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class Main extends StatefulWidget {
+  const Main({Key? key, required this.title}) : super(key: key);
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<Main> createState() => _MainState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-
+class _MainState extends State<Main> {
   Map<String, int> ScoresMap = {};
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Six in a row',
+      darkTheme: ThemeData.dark()
+          .copyWith(useMaterial3: true, colorScheme: kDarkColorScheme,primaryColor: Colors.indigo),
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue)
-            .copyWith(secondary: Colors.blueAccent),
+        colorScheme: kColorScheme.copyWith(secondary: Colors.blueAccent),
+        //colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue)
+        //  .copyWith(secondary: Colors.blueAccent),
         canvasColor: Colors.white,
       ),
       home: const MainMenu(),
@@ -72,10 +73,10 @@ class _MyHomePageState extends State<MyHomePage> {
         'Scores': (ctx) => Scores(),
         'WinScreen': (ctx) => WinScreen(),
         'AddPlayer': (ctx) => AddplayersPage(),
-        'PlayersPage' : (ctx) => PlayersPage(),
-        'PlayersPageMoreInfo' : (ctx) => PlayersPageMoreInfo(),
-        'PastGames' : (ctx) => pastGames(),
-        'PastGamesMoreInfo' : (ctx) => PastGamesMoreInfo(),
+        'PlayersPage': (ctx) => PlayersPage(),
+        'PlayersPageMoreInfo': (ctx) => PlayersPageMoreInfo(),
+        'PastGames': (ctx) => pastGames(),
+        'PastGamesMoreInfo': (ctx) => PastGamesMoreInfo(),
         'Edit': (ctx) => editScore(),
         'Quit': (ctx) => QuitGame()
       }, // This trailing comma makes auto-formatting nicer for build methods.

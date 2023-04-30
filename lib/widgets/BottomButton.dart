@@ -16,9 +16,7 @@ class BottomButton extends StatelessWidget {
           onTap: call,
           child: Card(
             color: Theme
-                .of(context)
-                .colorScheme
-                .primary,
+                .of(context).primaryColor,
           elevation: 6,
           child: Container(
             width: MediaQuery.of(context).size.width * 0.87,

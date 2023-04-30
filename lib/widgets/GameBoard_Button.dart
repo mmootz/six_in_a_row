@@ -67,9 +67,7 @@ class _GameBoard_ButtonState extends State<GameBoard_Button> {
           // shape:
           // RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           color: Theme
-              .of(context)
-              .colorScheme
-              .primary,
+              .of(context).primaryColor,
           elevation: 6,
           margin: EdgeInsets.all(5),
           child: Container(

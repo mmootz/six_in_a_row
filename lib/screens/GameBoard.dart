@@ -67,28 +67,43 @@ class _GameBoardState extends State<GameBoard> {
     });
   }
 
+
   void shootConfetti() {
     debugPrint('fire');
   }
 
-  Future<void> EndRound(
-      {required int currentScore,
-      required String currentPlayer,
-      required int roundNumber,
-      required List players,
-      required Map<String, String>? scores}) async {
+  Future<void> EndRound({required int currentScore,
+    required String currentPlayer,
+    required int roundNumber,
+    required List players,
+    required Map<String, String>? scores}) async {
     var FindNextPlayer = "";
     bool newHighScore = false;
     var playerIndex = 0;
     int newTotalScore = 0;
 
-    playerIndex = players.indexOf(currentPlayer);
-    Game.updatePlayerScore(playerIndex, currentScore);
+    if (currentScore >= 100) {
+      ClearScore();
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Score Too High!'),
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .primary,
+      ));
+    } else {
+        playerIndex = players.indexOf(currentPlayer);
+        Game.updatePlayerScore(playerIndex, currentScore);
+    }
+
     newHighScore = await Game.checkHighScore(CurrentScore, CurrentPlayer);
     if (newHighScore) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('New HighScore!'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme
+            .of(context)
+            .colorScheme
+            .primary,
       ));
     }
     FindNextPlayer = _nextPlayer(players, currentPlayer);
@@ -118,7 +133,10 @@ class _GameBoardState extends State<GameBoard> {
   @override
   void didChangeDependencies() {
     if (!_loadedPlayers) {
-      final loadPlayers = ModalRoute.of(context)?.settings.arguments as List;
+      final loadPlayers = ModalRoute
+          .of(context)
+          ?.settings
+          .arguments as List;
       Map<String, int> loadPlayersIntoMap = {};
       //ScoreProvider().generateScoresMap(loadPlayers);
       for (String player in loadPlayers) {
@@ -140,7 +158,10 @@ class _GameBoardState extends State<GameBoard> {
   @override
   Widget build(BuildContext context) {
     // This keeps the screen on during the scoring
-    final loadPlayers = ModalRoute.of(context)?.settings.arguments as List;
+    final loadPlayers = ModalRoute
+        .of(context)
+        ?.settings
+        .arguments as List;
     bool shouldPop = false;
     KeepScreenOn.turnOn();
     return WillPopScope(
@@ -149,19 +170,24 @@ class _GameBoardState extends State<GameBoard> {
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: Theme
+              .of(context)
+              .primaryColor,
           title: const Text('Six in a row'),
           centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () {
-                ClearScore();
-              },
-              icon: const Icon(Icons.delete),
-              tooltip: 'Clear score',
-              splashColor: Theme.of(context).colorScheme.secondary,
-            ),
-          ],
+          // actions: [
+          //   IconButton(
+          //     onPressed: () {
+          //       ClearScore();
+          //     },
+          //     icon: const Icon(Icons.delete),
+          //     tooltip: 'Clear score',
+          //     splashColor: Theme
+          //         .of(context)
+          //         .colorScheme
+          //         .secondary,
+          //   ),
+          // ],
         ),
         // this doesn't work in the sidebar widget because of context error
         // not sure how to pass it
@@ -169,10 +195,15 @@ class _GameBoardState extends State<GameBoard> {
           child: ListView(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.10,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height * 0.10,
                 width: double.infinity,
                 alignment: Alignment.center,
-                color: Theme.of(context).primaryColor,
+                color: Theme
+                    .of(context)
+                    .primaryColor,
                 child: const Text(
                   'Options',
                   style: TextStyle(
@@ -184,18 +215,20 @@ class _GameBoardState extends State<GameBoard> {
               ListTile(
                   leading: Icon(Icons.score),
                   title: Text("Current Scores"),
-                  onTap: () => {
-                        Navigator.pop(context),
-                        Navigator.pushNamed(context, 'Scores',
-                            arguments: Scores)
-                      }),
+                  onTap: () =>
+                  {
+                    Navigator.pop(context),
+                    Navigator.pushNamed(context, 'Scores',
+                        arguments: Scores)
+                  }),
               ListTile(
                   leading: Icon(Icons.edit),
                   title: Text("Edit Scores"),
-                  onTap: () => {
-                        Navigator.pop(context),
-                        Navigator.pushNamed(context, 'Edit', arguments: Scores)
-                      }),
+                  onTap: () =>
+                  {
+                    Navigator.pop(context),
+                    Navigator.pushNamed(context, 'Edit', arguments: Scores)
+                  }),
               ListTile(
                 leading: Icon(Icons.delete),
                 title: Text("Clear Score"),
@@ -204,44 +237,55 @@ class _GameBoardState extends State<GameBoard> {
               ListTile(
                   leading: Icon(Icons.clear),
                   title: Text("Quit Game"),
-                  onTap: () => {
-                        Navigator.pop(context),
-                        debugPrint(context.toString()),
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content:
-                                Text('Quit (This will delete the current game)',
-                                    style: TextStyle(
-                                      color: Theme.of(context).primaryColor,
-                                    )),
-                            backgroundColor: Theme.of(context).canvasColor,
-                            action: SnackBarAction(
-                              label: 'Okay',
-                              onPressed: quitGame,
-                              // onPressed: () =>
-                              //     Navigator.pushNamed(context, 'MainMenu'),
-                            )))
-                      }),
+                  onTap: () =>
+                  {
+                    Navigator.pop(context),
+                    debugPrint(context.toString()),
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                        Text('Quit (This will delete the current game)',
+                            style: TextStyle(
+                              color: Theme
+                                  .of(context)
+                                  .primaryColor,
+                            )),
+                        backgroundColor: Theme
+                            .of(context)
+                            .canvasColor,
+                        action: SnackBarAction(
+                          label: 'Okay',
+                          onPressed: quitGame,
+                          // onPressed: () =>
+                          //     Navigator.pushNamed(context, 'MainMenu'),
+                        )))
+                  }),
               ListTile(
                   leading: Icon(Icons.done_all),
                   title: Text("End Game"),
-                  onTap: () => {
-                        Navigator.pop(context),
-                        debugPrint(context.toString()),
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text('End Game?',
-                                style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                )),
-                            backgroundColor: Theme.of(context).canvasColor,
-                            action: SnackBarAction(
-                              label: 'Yes',
-                              onPressed: () => Navigator.pushReplacementNamed(
+                  onTap: () =>
+                  {
+                    Navigator.pop(context),
+                    debugPrint(context.toString()),
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('End Game?',
+                            style: TextStyle(
+                              color: Theme
+                                  .of(context)
+                                  .primaryColor,
+                            )),
+                        backgroundColor: Theme
+                            .of(context)
+                            .canvasColor,
+                        action: SnackBarAction(
+                          label: 'Yes',
+                          onPressed: () =>
+                              Navigator.pushReplacementNamed(
                                   context, 'WinScreen',
                                   arguments: Scores),
-                            )))
-                      }
-                  // Navigator.pushNamed(context, 'WinScreen', arguments: Scores )),
-                  )
+                        )))
+                  }
+                // Navigator.pushNamed(context, 'WinScreen', arguments: Scores )),
+              )
             ],
           ),
         ),
@@ -253,21 +297,30 @@ class _GameBoardState extends State<GameBoard> {
                 topInfo(
                   currentPlayer: CurrentPlayer,
                   totalScore: TotalScore,
-                  currentScore: CurrentScore,
                   roundNumber: RoundNumber,
                   endGame: () => debugPrint('Null for some reason'),
                 ),
                 //const SizedBox(height: 150),
+                InkWell(
+                  onTap: ClearScore,
+                  child: Text(
+                    CurrentScore.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 75),
+                  ),
+                ),
                 bottomButtons(AddScore),
+
                 BottomButton(
                     text: 'End Turn',
-                    call: () => EndRound(
-                        roundNumber: RoundNumber,
-                        currentPlayer: CurrentPlayer,
-                        currentScore: CurrentScore,
-                        players: loadPlayers,
-                        // loads the players form init this doesn't change
-                        scores: Scores))
+                    call: () =>
+                        EndRound(
+                            roundNumber: RoundNumber,
+                            currentPlayer: CurrentPlayer,
+                            currentScore: CurrentScore,
+                            players: loadPlayers,
+                            // loads the players form init this doesn't change
+                            scores: Scores))
               ],
             ),
           ),

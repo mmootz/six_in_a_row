@@ -8,20 +8,18 @@ class topInfo extends StatefulWidget {
   State<topInfo> createState() => _topInfoState();
   final String currentPlayer;
   final int totalScore;
-  final int currentScore;
   final int roundNumber;
   final VoidCallback endGame;
 
   topInfo(
       {required this.currentPlayer,
       required this.totalScore,
-      required this.currentScore,
       required this.roundNumber,
       required this.endGame});
 }
 
 class _topInfoState extends State<topInfo> {
-  bool gameOver = false;
+  bool clear = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,22 +48,6 @@ class _topInfoState extends State<topInfo> {
           Container(
               height: MediaQuery.of(context).size.height * 0.05
           ),
-          Text(
-            widget.currentScore.toString(),
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 75),
-          ),
-          // Container(
-          //     height: MediaQuery.of(context).size.height * 0.09
-          // )
-          // Consumer<ScoreProvider>(
-          //   builder: (context, ScoreProvider, child) => Text(
-          //     //widget.currentScore.toString(),
-          //     '${ScoreProvider.value}',
-          //     textAlign: TextAlign.center,
-          //     style: TextStyle(fontSize: 32),
-          //   ),
-          // ),
         ]);
   }
 }

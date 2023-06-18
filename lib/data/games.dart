@@ -15,7 +15,8 @@ class Game {
 
   static Future<List> getGames() async {
     List foundGames = [];
-    final listPlayers = await DBHelper.getData('games');
+    deleteGame();
+    final listPlayers = await DBHelper.getGames();
     for (var element in listPlayers) {
       foundGames.add(element['id'].toString());
     }
@@ -405,11 +406,15 @@ class Game {
   static Future<void> deleteGame() async {
     List currentGameId = [];
     List deleteGame = [];
+    List nullGames = [];
 
-     currentGameId = await DBHelper.getDataWhere('games', ['id'], 'Active = ?', ['Yes']);
+     //currentGameId = await DBHelper.getDataWhere('games', ['id'], 'Active = ?', ['Yes']);
+     nullGames = await DBHelper.getDataWhere('games', ['id'], 'Winnner = ?', ['null']);
+     debugPrint(nullGames.toString());
+     //deleteGame.add(nullGames[0]['id'].toString());
+      //deleteGame.add(currentGameId[0]['id'].toString());
 
-     deleteGame.add(currentGameId[0]['id'].toString());
-     DBHelper.delete('games', 'id = ?', deleteGame);
+     // DBHelper.delete('games', 'id = ?', ['2']);
 
   }
 }

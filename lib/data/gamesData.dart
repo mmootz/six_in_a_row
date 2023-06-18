@@ -43,6 +43,13 @@ class DBHelper {
     return maps;
   }
 
+  static Future<List<Map<String, dynamic>>> getGames() async {
+    final db = await DBHelper.database();
+    final List<Map<String, dynamic>> maps = await db.query('Games', orderBy: "Date DESC");
+
+    return maps;
+  }
+
   static Future<List<Map<String, dynamic>>> getData(String table) async {
     final db = await DBHelper.database();
     final List<Map<String, dynamic>> maps = await db.query(table);

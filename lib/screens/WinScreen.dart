@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:six/data/games.dart';
 import 'package:six/widgets/BottomButton.dart';
 import 'package:six/widgets/GameButtons.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class WinScreen extends StatefulWidget {
   @override
@@ -40,15 +41,18 @@ class _WinScreenState extends State<WinScreen> {
     // increment the games played by 1 for everyone
 
     //players.removeAt(0);
-    Game.endGame(winningPlayer, players, WinningScore, );
+    Game.endGame(
+      winningPlayer,
+      players,
+      WinningScore,
+    );
   }
 
-  void showMainMenu(){
+  void showMainMenu() {
     Navigator.popAndPushNamed(context, 'MainMenu');
   }
 
   findWinner(Map<String, String> players) {
-
     bool highscorecheck = false;
     var Winner = players.entries.toList()
       ..sort((b, a) => a.value.compareTo(b.value));
@@ -65,7 +69,8 @@ class _WinScreenState extends State<WinScreen> {
     // playerList.removeAt(0);
     updateScores(players, WinningPlayer, int.parse(WinningScore));
     players.forEach((player, score) async {
-      highscorecheck = await Game.checkHighScore(int.parse(score), player, true);
+      highscorecheck =
+          await Game.checkHighScore(int.parse(score), player, true);
       if (highscorecheck) {
         Game.updateHighScore(player, int.parse(score));
       }
@@ -87,7 +92,7 @@ class _WinScreenState extends State<WinScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(WinningPlayer,
-              style: TextStyle(fontSize: 76), textAlign: TextAlign.center),
+                  style: TextStyle(fontSize: 76), textAlign: TextAlign.center),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.5,
             child: Stack(
@@ -100,7 +105,7 @@ class _WinScreenState extends State<WinScreen> {
                   WinningScore,
                   style: TextStyle(fontSize: 76),
                   textAlign: TextAlign.center,
-                ),
+                ).animate().fadeIn(duration: 2.seconds).scale(duration: 1.seconds),
                 Align(
                   alignment: Alignment.centerRight,
                   child: ConfettiWidget(
@@ -142,8 +147,19 @@ class _WinScreenState extends State<WinScreen> {
               ],
             ),
           ),
-          BottomButton(text: 'Main Menu', call: () => showMainMenu()
+          Container(
+            height: MediaQuery.of(context).size.height * 0.15,
+            child: ListView.builder(
+              itemCount: players.entries.length - 1,
+              itemBuilder: (context, index) {
+                final entry = players.entries.elementAt(index + 1);
+                return ListTile(
+                  title: Text(entry.key + ": " +  entry.value, textAlign: TextAlign.center) ,
+                );
+              },
+            ),
           ),
+          BottomButton(text: 'Main Menu', call: () => showMainMenu()),
         ],
       ),
     );

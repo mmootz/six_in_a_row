@@ -286,14 +286,15 @@ class Game {
         break;
       case 4:
         {
+          debugPrint(queryScores.toString());
           scores[queryNames[0].entries.first.value.toString()] =
-              queryScores[0].entries.first.value;
+              queryScores[0].entries.first.value.toString();
           scores[queryNames[0].entries.elementAt(1).value.toString()] =
-              queryScores[0].entries.elementAt(1).value;
+              queryScores[0].entries.elementAt(1).value.toString();
           scores[queryNames[0].entries.elementAt(2).value.toString()] =
-              queryScores[0].entries.elementAt(2).value;
+              queryScores[0].entries.elementAt(2).value.toString();
           scores[queryNames[0].entries.elementAt(3).value.toString()] =
-              queryScores[0].entries.elementAt(3).value;
+              queryScores[0].entries.elementAt(3).value.toString();
         }
         break;
       default:

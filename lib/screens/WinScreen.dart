@@ -92,20 +92,28 @@ class _WinScreenState extends State<WinScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(WinningPlayer,
-                  style: TextStyle(fontSize: 76), textAlign: TextAlign.center),
+              style: TextStyle(fontSize: 76), textAlign: TextAlign.center),
+          Text(
+              WinningScore,
+              style: TextStyle(fontSize: 76),
+              textAlign: TextAlign.center
+          )
+              .animate()
+              .fadeIn(duration: 2.seconds)
+              .scale(duration: 1.seconds),
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.5,
+            height: MediaQuery.of(context).size.height * 0.4,
             child: Stack(
-              alignment: Alignment(-0.07, -0.3),
+              alignment: Alignment(0.12, -0.3),
               children: [
-                Image.asset(
-                  'lib/images/Trophy.png',
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.4,
+                  child: Image.asset(
+                    'lib/images/Trophy.png',
+                    fit: BoxFit.contain,
+                  ),
                 ),
-                Text(
-                  WinningScore,
-                  style: TextStyle(fontSize: 76),
-                  textAlign: TextAlign.center,
-                ).animate().fadeIn(duration: 2.seconds).scale(duration: 1.seconds),
+
                 Align(
                   alignment: Alignment.centerRight,
                   child: ConfettiWidget(
@@ -143,22 +151,27 @@ class _WinScreenState extends State<WinScreen> {
                       Colors.yellow
                     ],
                   ),
-                )
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.5,
+                  child: ListView.builder(
+                    // padding: EdgeInsets.symmetric(vertical: 1.0),
+                    itemCount: players.entries.length - 1,
+                    itemBuilder: (context, index) {
+                      final entry = players.entries.elementAt(index + 1);
+                      return ListTile(
+                        // contentPadding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+                        leading: Text(entry.key),
+                        trailing: Text(entry.value),
+                        // title: Text(entry.key + ": " +  entry.value, textAlign: TextAlign.center) ,
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
           ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.15,
-            child: ListView.builder(
-              itemCount: players.entries.length - 1,
-              itemBuilder: (context, index) {
-                final entry = players.entries.elementAt(index + 1);
-                return ListTile(
-                  title: Text(entry.key + ": " +  entry.value, textAlign: TextAlign.center) ,
-                );
-              },
-            ),
-          ),
+
           BottomButton(text: 'Main Menu', call: () => showMainMenu()),
         ],
       ),

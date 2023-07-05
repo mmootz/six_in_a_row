@@ -11,30 +11,14 @@ class AddplayersPage extends StatefulWidget {
 
 class _AddplayersPageState extends State<AddplayersPage> {
   final newPlayerName = TextEditingController();
-  List selectedPlayers = [];
-  List loadedPlayers = [];
-  List deletedplayers = [];
 
-  Future<List> loadplayers() async {
-    loadedPlayers = await player.getPlayers();
-    return loadedPlayers;
-  }
+  void submitData(context, String playername) {
+    if (playername.isNotEmpty && playername.length < 30) {
+     final debugtest = player.addPlayer(playername);
 
-  void deletePlayer(String playername) {
-    List stupidworkaround = [];
-    stupidworkaround.add(playername);
-    player.deletePlayer(stupidworkaround);
-  }
-
-  @override
-  didChangeDependencies() async {
-    loadedPlayers = await loadplayers();
-  }
-
-  submitData() async {
-    if (newPlayerName.text.isNotEmpty && newPlayerName.text.length < 30) {
-      player.addPlayer(newPlayerName.text);
-      Navigator.popAndPushNamed(context, 'MainMenu');
+     // Navigator.pushReplacementNamed(context, 'MainMenu');
+      //Navigator.popAndPushNamed(context, 'MainMenu');
+      Navigator.pushNamed(context, 'MainMenu');
     } else {
       // popup here or toast I guess
       var SnackBarVar = SnackBar(
@@ -69,14 +53,14 @@ class _AddplayersPageState extends State<AddplayersPage> {
           TextField(
               decoration: InputDecoration(labelText: "Playername"),
               controller: newPlayerName,
-              onSubmitted: (_) => submitData(),
+              onSubmitted: (_) => submitData(context,newPlayerName.text),
               key: const ValueKey('PlayerNameBox')),
           TextButton(
-            onPressed: submitData,
+            onPressed: () => submitData(context,newPlayerName.text),
             child: Text('Submit'),
             key: const ValueKey('SubmitButton'),
           ),
-          TextButton(onPressed: () => Navigator.popAndPushNamed(context, 'MainMenu'),
+          TextButton(onPressed: () => Navigator.pushNamed(context, 'MainMenu'),
             child: Text('Cancel'),)
         ],
       ),

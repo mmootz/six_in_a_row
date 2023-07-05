@@ -58,20 +58,20 @@ class PlayersPageMoreInfo extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
+                  children: [
                     Text(
                       'Wins',
                       style: TextStyle(fontSize: 26),
                     )
                   ],
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Date'),
-                    const Text('Score'),
+                    Text('Date'),
+                    Text('Score'),
                   ],
                 ),
                 const Divider(

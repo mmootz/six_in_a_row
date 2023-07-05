@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 import '../data/playerData.dart';
 
 class player {
@@ -13,12 +15,14 @@ class player {
 
   static Future<void> addPlayer(String playername) async {
     int newID = 0;
+    int testID = 0;
     final getid = await playerData.getRawData('SELECT MAX(id) FROM players');
     if (getid[0]['MAX(id)'] != null) {
       newID = getid[0]['MAX(id)'];
       newID++;
     }
-    playerData.insert('players', {
+
+    testID = await  playerData.insert('players', {
       'id': newID,
       'playername': playername,
       'wins': 0,
@@ -28,6 +32,7 @@ class player {
       'totalscore' : 0,
       'Gamesplayed' : 0,
     });
+  debugPrint(testID.toString());
   }
 
   static Future<void> deletePlayer(List playernames) async {

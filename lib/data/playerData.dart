@@ -19,9 +19,10 @@ class playerData {
     }, version: 1);
   }
 
-  static Future<void> insert(String table, Map<String, Object> data) async {
+  static Future<int> insert(String table, Map<String, Object> data) async {
     final db = await playerData.database();
-    db.insert(
+
+    return await db!.insert(
       table,
       data,
       conflictAlgorithm: ConflictAlgorithm.replace,

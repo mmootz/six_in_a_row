@@ -169,6 +169,7 @@ class _GameBoardState extends State<GameBoard> {
         return shouldPop;
       },
       child: Scaffold(
+
         appBar: AppBar(
           backgroundColor: Theme
               .of(context)
@@ -242,17 +243,15 @@ class _GameBoardState extends State<GameBoard> {
                     Navigator.pop(context),
                     debugPrint(context.toString()),
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+
                         content:
                         Text('Quit (This will delete the current game)',
                             style: TextStyle(
-                              color: Theme
-                                  .of(context)
-                                  .primaryColor,
+                              color: Colors.white,
                             )),
-                        backgroundColor: Theme
-                            .of(context)
-                            .canvasColor,
+                        backgroundColor: Colors.red,
                         action: SnackBarAction(
+                          textColor: Colors.white,
                           label: 'Okay',
                           onPressed: quitGame,
                           // onPressed: () =>
@@ -269,14 +268,13 @@ class _GameBoardState extends State<GameBoard> {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('End Game?',
                             style: TextStyle(
-                              color: Theme
-                                  .of(context)
-                                  .primaryColor,
+                              color: Colors.white,
                             )),
                         backgroundColor: Theme
                             .of(context)
-                            .canvasColor,
+                            .primaryColor,
                         action: SnackBarAction(
+                          textColor: Colors.white,
                           label: 'Yes',
                           onPressed: () =>
                               Navigator.pushReplacementNamed(

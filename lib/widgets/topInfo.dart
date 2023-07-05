@@ -31,20 +31,22 @@ class _topInfoState extends State<topInfo> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(widget.currentPlayer,
-                  textAlign: TextAlign.left, style: TextStyle(fontSize: 32)),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text("Score: ${widget.totalScore}",
+              Text(" ${widget.currentPlayer} : ${widget.totalScore}"  ,
                   textAlign: TextAlign.left, style: TextStyle(fontSize: 32)),
               Text("Round: ${widget.roundNumber}",
-                  textAlign: TextAlign.right, style: TextStyle(fontSize: 32)),
+                  textAlign: TextAlign.right, style: TextStyle(fontSize: 32))
             ],
           ),
+          // Row(
+          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //   crossAxisAlignment: CrossAxisAlignment.center,
+          //   children: [
+          //     // Text("Score: ${widget.totalScore}",
+          //     //     textAlign: TextAlign.left, style: TextStyle(fontSize: 32)),
+          //     Text("Round: ${widget.roundNumber}",
+          //         textAlign: TextAlign.right, style: TextStyle(fontSize: 32)),
+          //   ],
+          // ),
           Container(
               height: MediaQuery.of(context).size.height * 0.05
           ),

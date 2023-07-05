@@ -35,7 +35,7 @@ class MainMenuSideBar extends StatelessWidget {
             onTap: () =>
             {
               Navigator.pop(context),
-              Navigator.pushReplacementNamed(context, 'AddPlayer')
+              Navigator.pushNamed(context, 'AddPlayer')
             }),
         ListTile(
             leading: Icon(Icons.people),

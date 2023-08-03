@@ -9,7 +9,7 @@ import 'screens/MainMenu.dart';
 import 'screens/GameBoard.dart';
 import 'screens/scores.dart';
 import 'screens/WinScreen.dart';
-import 'screens/ExitGame.dart';
+import 'screens/About.dart';
 import 'screens/AddPlayer.dart';
 import 'screens/EditScore.dart';
 
@@ -58,13 +58,9 @@ class _MainState extends State<Main> {
     return MaterialApp(
       title: 'Six in a row',
       darkTheme: ThemeData.dark()
-          .copyWith(useMaterial3: true, colorScheme: kDarkColorScheme,primaryColor: Colors.indigo),
+          .copyWith(useMaterial3: true, colorScheme: kDarkColorScheme,primaryColor: Colors.red),
       theme: ThemeData(
-        colorScheme: kColorScheme.copyWith(secondary: Colors.blueAccent),
-        //colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.lightBlue)
-        //  .copyWith(secondary: Colors.blueAccent),
-        canvasColor: Colors.white,
-      ),
+      ).copyWith(useMaterial3: true, colorScheme: kColorScheme, primaryColor: Colors.lightBlue ),
       home: const MainMenu(),
       initialRoute: 'MainMenu',
       routes: {
@@ -78,7 +74,7 @@ class _MainState extends State<Main> {
         'PastGames': (ctx) => pastGames(),
         'PastGamesMoreInfo': (ctx) => PastGamesMoreInfo(),
         'Edit': (ctx) => editScore(),
-        'Quit': (ctx) => QuitGame()
+        'About': (ctx) => About()
       }, // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

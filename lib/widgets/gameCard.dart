@@ -21,7 +21,7 @@ class _gameCardState extends State<gameCard> {
         await Game.getGameInfo(GameId);
     // if (initLoadedplayers.isEmpty) {
     //   debugPrint('print');
-    debugPrint("loaded info:" + intLoadedGameinfo[0].toString());
+    //debugPrint("loaded info:" + intLoadedGameinfo[0].toString());
     // }
     setState(() {
       loadedinfo = intLoadedGameinfo[0];
@@ -44,7 +44,7 @@ class _gameCardState extends State<gameCard> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: Theme.of(context).canvasColor,
         elevation: 6,
-        margin: EdgeInsets.all(10),
+        margin: EdgeInsets.all(5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

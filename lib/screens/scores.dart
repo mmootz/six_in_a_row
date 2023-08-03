@@ -27,6 +27,7 @@ class Scores extends StatelessWidget {
         appBar: AppBar(
           title: Text('Scores'),
           centerTitle: true,
+          elevation: 6,
         ),
         body: scoresTable(SortScores(Scores)));
   }

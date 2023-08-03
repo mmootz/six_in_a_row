@@ -7,15 +7,9 @@ import 'package:intl/intl.dart';
 
 class Game {
 
-  static Future<Int> _getcurrentGameID() async {
-    List currentGameId = [];
-
-    return currentGameId[0]['id'];
-  }
-
   static Future<List> getGames() async {
     List foundGames = [];
-    deleteGame();
+    cleanUpGames(); // delete all games with None as winner
     final listPlayers = await DBHelper.getGames();
     for (var element in listPlayers) {
       foundGames.add(element['id'].toString());
@@ -354,7 +348,9 @@ class Game {
       'SecondPlayerScore': 0,
       'ThirdPlayerScore': 0,
       'ForthPlayerScore': 0,
-      'Date': formatted
+      'Date': formatted,
+      'Winnner' : 'None',
+      'WinningScore' : 0
     });
   }
 
@@ -404,18 +400,24 @@ class Game {
     return PlayerloadedScore[0].entries.first.value;
   }
 
+  static Future<void> cleanUpGames() async {
+    // delete names with no score or winner if exited app or game
+    DBHelper.delete('games', 'Winnner = ?', ['None']);
+    var test = await  DBHelper.getRawData('DELETE FROM games where Winnner IS NULL');
+    //var nullGames = await DBHelper.getDataWhere('games', ['Winnner', 'id', 'Active', 'WinningScore'], 'Winnner IS NULL', ['']);
+    debugPrint(test.toString());
+  }
+
+
   static Future<void> deleteGame() async {
     List currentGameId = [];
-    List deleteGame = [];
-    List nullGames = [];
 
-     //currentGameId = await DBHelper.getDataWhere('games', ['id'], 'Active = ?', ['Yes']);
-     nullGames = await DBHelper.getDataWhere('games', ['id'], 'Winnner = ?', ['null']);
-     debugPrint(nullGames.toString());
-     //deleteGame.add(nullGames[0]['id'].toString());
-      //deleteGame.add(currentGameId[0]['id'].toString());
+    //nullGames = await DBHelper.getRawData("SELECT id,Winnner FROM games where Winnner = '' ");
+     currentGameId = await DBHelper.getDataWhere('games', ['id'], 'Active = ?', ['Yes']);
+     //nullGames = await DBHelper.getDataWhere('games', ['Winnner', 'id', 'Active', 'WinningScore'], 'Winnner = ?', ['None']);
 
-     // DBHelper.delete('games', 'id = ?', ['2']);
+     DBHelper.delete('games', 'id = ?', [currentGameId[0]['id'].toString()]);
+
 
   }
 }

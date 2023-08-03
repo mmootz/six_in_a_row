@@ -36,6 +36,7 @@ class _pastGamesState extends State<pastGames> {
           title: const Text('Past Games'),
           centerTitle: true,
           backgroundColor: Theme.of(context).primaryColor,
+          elevation: 6,
         ),
         body: ListView.builder(
           itemCount: loadedGames.length,

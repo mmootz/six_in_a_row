@@ -51,6 +51,8 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void quitGame() {
+    // error on quit game?
+    //
     Game.deleteGame();
     Navigator.pushNamed(context, 'MainMenu');
   }
@@ -176,6 +178,7 @@ class _GameBoardState extends State<GameBoard> {
               .primaryColor,
           title: const Text('Six in a row'),
           centerTitle: true,
+          elevation: 6,
           // actions: [
           //   IconButton(
           //     onPressed: () {

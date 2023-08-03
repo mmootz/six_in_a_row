@@ -3,7 +3,6 @@ import 'package:confetti/confetti.dart';
 import 'dart:math';
 import 'package:six/data/games.dart';
 import 'package:six/widgets/BottomButton.dart';
-import 'package:six/widgets/GameButtons.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class WinScreen extends StatefulWidget {
@@ -87,6 +86,7 @@ class _WinScreenState extends State<WinScreen> {
       appBar: AppBar(
         title: Text('Six in a row'),
         centerTitle: true,
+        elevation: 6,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,

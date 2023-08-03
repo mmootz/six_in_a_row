@@ -44,9 +44,11 @@ class _PlayersPageState extends State<PlayersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 6,
             title: const Text('Players'),
             centerTitle: true,
             backgroundColor: Theme.of(context).primaryColor),
+
         body: ListView.builder(
           itemCount: loadedPlayers.length,
           itemBuilder: (BuildContext context, int index) {

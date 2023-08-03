@@ -44,8 +44,10 @@ class _AddplayersPageState extends State<AddplayersPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('Add Player'),
         centerTitle: true,
+        elevation: 6,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

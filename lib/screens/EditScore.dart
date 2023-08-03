@@ -25,6 +25,7 @@ class _editScoreState extends State<editScore> {
           title: Text('Edit Scores'),
           backgroundColor: Theme.of(context).primaryColor,
           centerTitle: true,
+          elevation: 6,
         ),
         body: scoresTable(LoadedScores, true));
   }

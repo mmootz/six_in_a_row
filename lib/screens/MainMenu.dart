@@ -82,6 +82,7 @@ class _MainMenuState extends State<MainMenu> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text('Six in a row'),
+        elevation: 6,
         centerTitle: true,
         actions: [
           IconButton(
@@ -103,7 +104,7 @@ class _MainMenuState extends State<MainMenu> {
                   ? getPlayers(
                       loadedPlayers: loadedPlayers,
                       selectedPlayers: selectedPlayers)
-                  : Text('Add players to start!\n ..or not I am not your boss'),
+                  : Text('Add players to start!\n\n ...or not I am not your boss'),
               BottomButton(text: 'Start Game', call: () => _showGameboard(context))
             ],
           ),

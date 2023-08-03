@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:six/widgets/gameMoreInfoPlayers.dart';
 
@@ -13,6 +14,7 @@ class PastGamesMoreInfo extends StatelessWidget {
           title: const Text('More Info'),
           centerTitle: true,
           backgroundColor: Theme.of(context).primaryColor,
+          elevation: 6,
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -24,7 +26,7 @@ class PastGamesMoreInfo extends StatelessWidget {
             Divider(thickness: 4.0),
             Container(
                 height: 500,
-                child: gameMoreInfoPlayers(gameInfo['id'], gameInfo['Winnner']))
+                child:gameMoreInfoPlayers(gameInfo['id'], gameInfo['Winnner']))
           ],
         ));
   }

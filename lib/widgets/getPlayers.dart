@@ -40,7 +40,7 @@ class _getPlayersState extends State<getPlayers> {
     return Flexible(
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: Theme.of(context).canvasColor,
+        color: Theme.of(context).cardColor,
         elevation: 6,
         margin: EdgeInsets.all(10),
         child: ListView.separated(

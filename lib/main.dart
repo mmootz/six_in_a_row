@@ -58,7 +58,7 @@ class _MainState extends State<Main> {
     return MaterialApp(
       title: 'Six in a row',
       darkTheme: ThemeData.dark()
-          .copyWith(useMaterial3: true, colorScheme: kDarkColorScheme,primaryColor: Colors.red),
+          .copyWith(useMaterial3: true, colorScheme: kDarkColorScheme,primaryColor: Colors.blue),
       theme: ThemeData(
       ).copyWith(useMaterial3: true, colorScheme: kColorScheme, primaryColor: Colors.lightBlue ),
       home: const MainMenu(),

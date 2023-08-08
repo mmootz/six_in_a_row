@@ -45,9 +45,10 @@ class DBHelper {
 
   static Future<List<Map<String, dynamic>>> getGames() async {
     final db = await DBHelper.database();
-    final List<Map<String, dynamic>> maps = await db.query('Games', orderBy: "Date DESC");
-
-    return maps;
+    // DESC doesn't do anything but allows you to sort by date correctly
+    final List<Map<String, dynamic>> maps = await db.query('Games', orderBy: "date(Date) DESC");
+    // just reversing the map has the desired affect.
+    return maps.reversed.toList();
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {

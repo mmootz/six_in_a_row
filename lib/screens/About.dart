@@ -12,6 +12,7 @@ class About extends StatelessWidget {
         title: const Text('About'),
         centerTitle: true,
         elevation: 6,
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Center(
         child: Padding(
@@ -29,21 +30,16 @@ class About extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Card(
-                margin: EdgeInsets.all(5),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                elevation: 6,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      '\u2022 During play tap entered score to clear mistakes',
-                      textAlign: TextAlign.left,
-                    ),
-                    Text('\u2022 Long press any score button to double the value',
-                        textAlign: TextAlign.left),
-                  ],
-                ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '\u2022 During play tap entered score to clear mistakes',
+                    textAlign: TextAlign.left,
+                  ),
+                  Text('\u2022 Long press any score button to double the value',
+                      textAlign: TextAlign.left),
+                ],
               ),
 
             ],

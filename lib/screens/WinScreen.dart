@@ -84,6 +84,7 @@ class _WinScreenState extends State<WinScreen> {
     shootConfetti();
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).primaryColor,
         title: Text('Six in a row'),
         centerTitle: true,
         elevation: 6,
@@ -92,12 +93,9 @@ class _WinScreenState extends State<WinScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(WinningPlayer,
-              style: TextStyle(fontSize: 76), textAlign: TextAlign.center),
-          Text(
-              WinningScore,
-              style: TextStyle(fontSize: 76),
-              textAlign: TextAlign.center
-          )
+              style: TextStyle(fontSize: 50), textAlign: TextAlign.center),
+          Text(WinningScore,
+                  style: TextStyle(fontSize: 50), textAlign: TextAlign.center)
               .animate()
               .fadeIn(duration: 2.seconds)
               .scale(duration: 1.seconds),
@@ -106,13 +104,13 @@ class _WinScreenState extends State<WinScreen> {
             child: Stack(
               alignment: Alignment(0.12, -0.3),
               children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.4,
-                  child: Image.asset(
-                    'lib/images/Trophy.png',
-                    fit: BoxFit.contain,
-                  ),
-                ),
+                // SizedBox(
+                //   height: MediaQuery.of(context).size.height * 0.4,
+                //   child: Image.asset(
+                //     'lib/images/Trophy.png',
+                //     fit: BoxFit.contain,
+                //   ),
+                // ),
 
                 Align(
                   alignment: Alignment.centerRight,
@@ -153,7 +151,7 @@ class _WinScreenState extends State<WinScreen> {
                   ),
                 ),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.5,
+                  height: MediaQuery.of(context).size.height * 0.7,
                   child: ListView.builder(
                     // padding: EdgeInsets.symmetric(vertical: 1.0),
                     itemCount: players.entries.length - 1,
@@ -161,8 +159,9 @@ class _WinScreenState extends State<WinScreen> {
                       final entry = players.entries.elementAt(index + 1);
                       return ListTile(
                         // contentPadding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
-                        leading: Text(entry.key),
-                        trailing: Text(entry.value),
+                        leading:
+                            Text(entry.key, style: TextStyle(fontSize: 32)),
+                        trailing: Text(entry.value, style: TextStyle(fontSize: 32) ),
                         // title: Text(entry.key + ": " +  entry.value, textAlign: TextAlign.center) ,
                       );
                     },
@@ -171,7 +170,6 @@ class _WinScreenState extends State<WinScreen> {
               ],
             ),
           ),
-
           BottomButton(text: 'Main Menu', call: () => showMainMenu()),
         ],
       ),

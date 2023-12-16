@@ -68,6 +68,6 @@ class DBHelper {
   static Future<void> delete(String table, String data, List args) async {
     final db = await DBHelper.database();
     db.delete(table, where: data, whereArgs: args);
-    //db.rawDelete(sql)
+
   }
 }

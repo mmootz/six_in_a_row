@@ -42,7 +42,7 @@ class player {
   static Future<List<Map<String, dynamic>>> getPlayerInfo(Player) async {
     List<Map<String, dynamic>> PlayerInfo = [];
 
-    //get highest score
+    // get highest score
     // get games played
     // get win
     PlayerInfo = await playerData.getDataWhere('players',

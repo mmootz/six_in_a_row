@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-// this might not be needed.
+
 class About extends StatelessWidget {
   const About({Key? key}) : super(key: key);
   static const routeName = 'ExitGame';
@@ -34,11 +34,13 @@ class About extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '\u2022 During play tap entered score to clear mistakes',
+                    '\u2022 During play tap entered score to clear mistakes.',
                     textAlign: TextAlign.left,
                   ),
-                  Text('\u2022 Long press any score button to double the value',
+                  Text('\u2022 Long press any score button to double the value.',
                       textAlign: TextAlign.left),
+                  Text('\u2022 Before you end a game add 6 to the player who uses all their tiles.',
+                      textAlign: TextAlign.left)
                 ],
               ),
 

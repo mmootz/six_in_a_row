@@ -4,8 +4,10 @@ import 'GameBoard.dart';
 import 'package:six/widgets/getPlayers.dart';
 import 'package:six/data/player.dart';
 import 'package:six/data/games.dart';
+import 'package:six/data/playerData.dart';
 import 'package:six/widgets/BottomButton.dart';
 import 'package:six/widgets/MainMenuSidebar.dart';
+import 'package:six/models/player.dart';
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -19,7 +21,6 @@ class _MainMenuState extends State<MainMenu> {
   List loadedPlayers = [];
   List pastGames = [];
 
-
   initpastGames() async {
     final List initpastGames = await Game.getGames();
     if (initpastGames.isEmpty) {
@@ -30,29 +31,26 @@ class _MainMenuState extends State<MainMenu> {
     });
   }
 
-  initloadedPlayers() async {
-    final List initLoadedplayers = await player.getPlayers();
-    if (initLoadedplayers.isEmpty) {
-      debugPrint('print');
+  Future<List> _getPlayers() async {
+    final List playerList = [];
+    final List playersMap = await playerData.getRawData("SELECT playername FROM players");
+
+    for (var element in playersMap) {
+      loadedPlayers.add(element['playername']);
     }
-    setState(() {
-      loadedPlayers = initLoadedplayers;
-    });
+    return loadedPlayers;
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      initloadedPlayers();
-      initpastGames();
-    });
+    playerData.initDatabase();
   }
 
-  @override
-  didChangeDependencies() async {
-    initloadedPlayers();
-  }
+  // @override
+  // didChangeDependencies() async {
+  //   initloadedPlayers();
+  // }
 
   void _showaddPlayer(context) {
     //Navigator.pop(context);
@@ -64,8 +62,10 @@ class _MainMenuState extends State<MainMenu> {
       var snackBar = SnackBar(
         content: Text('Not enough players!'),
         backgroundColor: Theme.of(context).colorScheme.primary,
-        action:
-            SnackBarAction(label: 'Okay', textColor: Theme.of(context).canvasColor , onPressed: () => debugPrint('test')),
+        action: SnackBarAction(
+            label: 'Okay',
+            textColor: Theme.of(context).canvasColor,
+            onPressed: () => debugPrint('test')),
       );
       // debugPrint('Not enough players');
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -100,17 +100,30 @@ class _MainMenuState extends State<MainMenu> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              loadedPlayers.isNotEmpty
-                  ? getPlayers(
-                      loadedPlayers: loadedPlayers,
-                      selectedPlayers: selectedPlayers)
-                  : Text('Add players to start!\n\n ...or not I am not your boss'),
-              BottomButton(text: 'Start Game', call: () => _showGameboard(context))
+              FutureBuilder<List<dynamic>>(
+                future: _getPlayers(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(
+                      child: Text('No players added yet.'),
+                    );
+                  } else {
+                    return getPlayers(
+                        selectedPlayers: selectedPlayers,
+                        loadedPlayers: snapshot.data!.toList());
+                  }
+                },
+              ),
+              BottomButton(
+                  text: 'Start Game', call: () => _showGameboard(context))
             ],
           ),
         ),
       ),
-
     );
   }
 }

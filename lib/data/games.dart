@@ -369,7 +369,6 @@ class Game {
           index++
         });
     return foundScores;
-    //print(foundScores);
   }
 
   static Future<void> updatePlayerScore(int playerIndex, int Score,
@@ -404,18 +403,14 @@ class Game {
     // delete names with no score or winner if exited app or game
     DBHelper.delete('games', 'Winnner = ?', ['None']);
     var test = await  DBHelper.getRawData('DELETE FROM games where Winnner IS NULL');
-    //var nullGames = await DBHelper.getDataWhere('games', ['Winnner', 'id', 'Active', 'WinningScore'], 'Winnner IS NULL', ['']);
+
     debugPrint(test.toString());
   }
 
 
   static Future<void> deleteGame() async {
     List currentGameId = [];
-
-    //nullGames = await DBHelper.getRawData("SELECT id,Winnner FROM games where Winnner = '' ");
      currentGameId = await DBHelper.getDataWhere('games', ['id'], 'Active = ?', ['Yes']);
-     //nullGames = await DBHelper.getDataWhere('games', ['Winnner', 'id', 'Active', 'WinningScore'], 'Winnner = ?', ['None']);
-
      DBHelper.delete('games', 'id = ?', [currentGameId[0]['id'].toString()]);
 
 

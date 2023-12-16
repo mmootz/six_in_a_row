@@ -22,8 +22,6 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  DatabaseFactory? databaseFactoryFfi;
-  databaseFactory = databaseFactoryFfi;
   runApp(MyApp());
 }
 
@@ -56,6 +54,7 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Six in a row',
       darkTheme: ThemeData.dark()
           .copyWith(useMaterial3: true, colorScheme: kDarkColorScheme,primaryColor: Colors.blue),

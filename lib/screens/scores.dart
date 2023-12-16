@@ -25,6 +25,7 @@ class Scores extends StatelessWidget {
         ModalRoute.of(context)?.settings.arguments as Map<String, String>;
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
           title: Text('Scores'),
           centerTitle: true,
           elevation: 6,

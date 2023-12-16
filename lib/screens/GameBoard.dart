@@ -145,11 +145,10 @@ class _GameBoardState extends State<GameBoard> {
         loadPlayersIntoMap[player] = 0;
       }
 
-      /// maybe call scores.dart here?
+
       /// setup the map there and then handle all the data that way
       setState(() {
         CurrentPlayer = loadPlayers.first;
-        //Scores = ScoreProvider().getScores();
       });
 
       Game.newGame(loadPlayers);

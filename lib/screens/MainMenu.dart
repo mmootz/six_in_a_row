@@ -118,8 +118,10 @@ class _MainMenuState extends State<MainMenu> {
                   }
                 },
               ),
+
               BottomButton(
-                  text: 'Start Game', call: () => _showGameboard(context))
+                  text: 'Start Game', call: () => _showGameboard(context)),
+
             ],
           ),
         ),

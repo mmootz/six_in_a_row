@@ -57,13 +57,18 @@ class _AddplayersPageState extends State<AddplayersPage> {
               controller: newPlayerName,
               onSubmitted: (_) => submitData(context,newPlayerName.text),
               key: const ValueKey('PlayerNameBox')),
-          TextButton(
-            onPressed: () => submitData(context,newPlayerName.text),
-            child: Text('Submit'),
-            key: const ValueKey('SubmitButton'),
-          ),
-          TextButton(onPressed: () => Navigator.pushNamed(context, 'MainMenu'),
-            child: Text('Cancel'),)
+          Row(mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: () => submitData(context,newPlayerName.text),
+                child: Text('Submit'),
+                key: const ValueKey('SubmitButton'),
+              ),
+              SizedBox(width: 75),
+              TextButton(onPressed: () => Navigator.pushNamed(context, 'MainMenu'),
+                child: Text('Cancel'),),
+            ],
+          )
         ],
       ),
     );

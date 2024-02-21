@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:six/data/gamesData.dart';
 import 'package:six/data/playerData.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:six/data/player.dart';
+import 'package:six/data/playerData.dart';
 
 class AddplayersPage extends StatefulWidget {
   //const playersPage({Key? key}) : super(key: key);
@@ -12,13 +13,13 @@ class AddplayersPage extends StatefulWidget {
 class _AddplayersPageState extends State<AddplayersPage> {
   final newPlayerName = TextEditingController();
 
-  void submitData(context, String playername) {
+  Future<void> submitData(context, String playername) async {
     if (playername.isNotEmpty && playername.length < 30) {
-     final debugtest = player.addPlayer(playername);
+     player.addPlayer(playername);
 
      // Navigator.pushReplacementNamed(context, 'MainMenu');
       //Navigator.popAndPushNamed(context, 'MainMenu');
-      Navigator.pushNamed(context, 'MainMenu');
+        Navigator.pushNamed(context, 'MainMenu');
     } else {
       // popup here or toast I guess
       var SnackBarVar = SnackBar(

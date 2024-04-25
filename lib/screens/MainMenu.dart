@@ -34,7 +34,6 @@ class _MainMenuState extends State<MainMenu> {
   Future<List> _getPlayers() async {
     final List playerList = [];
     final List playersMap = await playerData.getRawData("SELECT playername FROM players");
-
     for (var element in playersMap) {
       loadedPlayers.add(element['playername']);
     }

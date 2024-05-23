@@ -27,7 +27,7 @@ class _getPlayersState extends State<getPlayers> {
       widget.selectedPlayers.remove(player);
     } else {
       widget.selectedPlayers.add(player);
-      debugPrint('added player');
+      debugPrint('added player  $player');
     }
     setState(() {});
   }

@@ -17,8 +17,6 @@ class _AddplayersPageState extends State<AddplayersPage> {
     if (playername.isNotEmpty && playername.length < 30) {
      player.addPlayer(playername);
 
-     // Navigator.pushReplacementNamed(context, 'MainMenu');
-      //Navigator.popAndPushNamed(context, 'MainMenu');
         Navigator.pushNamed(context, 'MainMenu');
     } else {
       // popup here or toast I guess

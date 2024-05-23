@@ -18,7 +18,7 @@ class _WinScreenState extends State<WinScreen> {
   @override
   void initState() {
     super.initState();
-    confetti = ConfettiController(duration: const Duration(seconds: 1));
+    confetti = ConfettiController(duration: const Duration(seconds: 2));
   }
 
   @override
@@ -93,12 +93,15 @@ class _WinScreenState extends State<WinScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(WinningPlayer,
-              style: TextStyle(fontSize: 50), textAlign: TextAlign.center),
+                  style: TextStyle(fontSize: 50), textAlign: TextAlign.center)
+              .animate()
+              .fadeIn(duration: 1.seconds)
+              .scale(duration: 1.seconds),
           Text(WinningScore,
                   style: TextStyle(fontSize: 50), textAlign: TextAlign.center)
               .animate()
               .fadeIn(duration: 2.seconds)
-              .scale(duration: 1.seconds),
+              .scale(duration: 2.seconds),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.4,
             child: Stack(
@@ -160,8 +163,9 @@ class _WinScreenState extends State<WinScreen> {
                       return ListTile(
                         // contentPadding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
                         leading:
-                            Text(entry.key, style: TextStyle(fontSize: 32)),
-                        trailing: Text(entry.value, style: TextStyle(fontSize: 32) ),
+                            Text(entry.key, style: TextStyle(fontSize: 32)).animate().fadeIn(duration: 3.seconds).scale(duration: 3.seconds),
+                        trailing:
+                            Text(entry.value, style: TextStyle(fontSize: 32)).animate().fadeIn(duration: 3.seconds).scale(duration: 3.seconds),
                         // title: Text(entry.key + ": " +  entry.value, textAlign: TextAlign.center) ,
                       );
                     },

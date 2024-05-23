@@ -69,6 +69,7 @@ class _MainMenuState extends State<MainMenu> {
       // debugPrint('Not enough players');
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
+
       Navigator.pop(context);
       Navigator.pushNamed(context, GameBoard.routeName,
           arguments: selectedPlayers);

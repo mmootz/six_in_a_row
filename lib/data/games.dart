@@ -322,7 +322,8 @@ class Game {
     }
 
     if (playernames.length == 4) {
-      thirdPlayer = playernames.elementAt(3);
+      thirdPlayer = playernames.elementAt(2);
+      forthPlayer = playernames.elementAt(3);
     }
     int newID = 0;
     final getid = await DBHelper.getRawData('SELECT MAX(id) FROM games');

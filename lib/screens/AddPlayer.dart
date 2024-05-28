@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:six/data/player.dart';
-import 'package:six/data/playerData.dart';
+
 
 class AddplayersPage extends StatefulWidget {
   //const playersPage({Key? key}) : super(key: key);
@@ -14,29 +14,39 @@ class _AddplayersPageState extends State<AddplayersPage> {
   final newPlayerName = TextEditingController();
 
   Future<void> submitData(context, String playername) async {
-    if (playername.isNotEmpty && playername.length < 30) {
-     player.addPlayer(playername);
+    String result = await player.addPlayer(playername);
 
+    switch (result) {
+      case 'Created':
         Navigator.pushNamed(context, 'MainMenu');
-    } else {
-      // popup here or toast I guess
-      var SnackBarVar = SnackBar(
-        key: const ValueKey('SnackBarError'),
-        content: Text('Can not be empty or longer than 30 characters'),
-        backgroundColor: Theme
-            .of(context)
-            .colorScheme
-            .primary,
-        action: SnackBarAction(
-            label: 'Okay',
-            textColor: Theme
-                .of(context)
-                .canvasColor,
-            onPressed: () => debugPrint('test')),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(SnackBarVar);
+        break;
+      case 'empty' :
+        _showErrorSnackBar(context, 'Name cannot be empty');
+        break;
+      case 'too_long':
+        _showErrorSnackBar(context, 'Name cannot be longer than 30 characters');
+        break;
+      case 'exists' :
+        _showErrorSnackBar(context, 'Name already exists');
+        break;
+      default:
+        _showErrorSnackBar(context, 'An unknown error occurred');
+        break;
     }
-    //Navigator.pushNamed(context, 'MainMenu');
+  }
+
+  void _showErrorSnackBar(BuildContext context, String message){
+    var snackBar = SnackBar(
+      key: const ValueKey('SnackBarError'),
+      content: Text(message),
+      backgroundColor: Theme.of(context).colorScheme.primary,
+      action: SnackBarAction(
+        label: 'Okay',
+        textColor: Theme.of(context).canvasColor,
+        onPressed: () => debugPrint('SnackBar action pressed'),
+      ),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override

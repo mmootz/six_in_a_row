@@ -60,4 +60,11 @@ class playerData {
     db.delete(table, where: data, whereArgs: args);
     //db.rawDelete(sql)
   }
+
+  static Future<bool> checkExits(String playername) async {
+    final db = await playerData.initDatabase();
+    var check = await db.query('players', where: 'playername = ?', whereArgs: [playername] );
+    return check.isNotEmpty;
+
+  }
 }

@@ -4,21 +4,22 @@ import 'package:six/widgets/PlayerStats.dart';
 import 'package:six/data/player.dart';
 
 class PlayersPageMoreInfo extends StatelessWidget {
-  //const PlayersPageMoreInfo({Key? key}) : super(key: key);
-  static const routeName = 'PlayersPageMoreInfo';
 
-  void deletePlayer(context, String playername) {
-    List stupidworkaround = [];
-    stupidworkaround.add(playername);
-    //player.deletePlayer(stupidworkaround);
+  static const routeName = 'PlayersPageMoreInfo';
+  const PlayersPageMoreInfo({Key? key}) : super(key: key);
+
+  void deletePlayer(context, String playerName) {
+    List stupidWorkAround = [];
+    stupidWorkAround.add(playerName);
+
     var snackBar = SnackBar(
-      content: Text('Remove player?'),
+      content: const Text('Remove player?'),
       backgroundColor: Colors.red,
       action: SnackBarAction(
           label: 'Yes',
           textColor: Theme.of(context).canvasColor,
           onPressed: () => {
-                player.deletePlayer(stupidworkaround),
+                Player.deletePlayer(stupidWorkAround),
                 Navigator.popAndPushNamed(context, 'MainMenu')
               }),
     );
@@ -81,7 +82,7 @@ class PlayersPageMoreInfo extends StatelessWidget {
                 ),
                 SizedBox(
                     height: MediaQuery.of(context).size.height * 0.55,
-                    child: playerWins(player)),
+                    child: PlayerWins(player)),
               ],
             ),
           ],

@@ -6,39 +6,33 @@ class PlayersPage extends StatefulWidget {
   // const PlayersPage({Key? key}) : super(key: key);
   static const routeName = 'PlayersPage';
 
+  const PlayersPage({Key? key}) : super(key: key);
+
   @override
   State<PlayersPage> createState() => _PlayersPageState();
 }
 
 class _PlayersPageState extends State<PlayersPage> {
   List loadedPlayers = [];
-  Map PlayerInfo = {};
+  Map playerInfo = {};
 
-  initloadedPlayers() async {
-    final List initLoadedplayers = await player.getPlayers();
-    if (initLoadedplayers.isEmpty) {
+  initLoadedPlayers() async {
+    final List initLoadedPlayers = await Player.getPlayers();
+    if (initLoadedPlayers.isEmpty) {
       debugPrint('print');
     }
     setState(() {
-      loadedPlayers = initLoadedplayers;
+      loadedPlayers = initLoadedPlayers;
     });
   }
 
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      initloadedPlayers();
+      initLoadedPlayers();
     });
   }
-
-  // Playerinfo(playername) async {
-  //   List<Map<String,dynamic >> info = [];
-  //
-  //   info = await player.getPlayerInfo(playername);
-  //   debugPrint(info.toString());
-  //
-  //   //return info;
-  // }
 
   @override
   Widget build(BuildContext context) {

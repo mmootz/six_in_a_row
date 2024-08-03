@@ -23,10 +23,10 @@ class PastGamesMoreInfo extends StatelessWidget {
             Text(gameInfo['Date']),
             Text('Rounds:' + gameInfo['LastRound'].toString()),
             Text('Winning Score:' + gameInfo['WinningScore'].toString()),
-            Divider(thickness: 4.0),
-            Container(
+            const Divider(thickness: 4.0),
+            SizedBox(
                 height: 500,
-                child:gameMoreInfoPlayers(gameInfo['id'], gameInfo['Winnner']))
+                child:GameMoreInfoPlayers(gameInfo['id'], gameInfo['Winner']))
           ],
         ));
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MainMenuSideBar extends StatelessWidget {
-  //const MainMenuSideBar({Key? key}) : super(key: key);
+  const MainMenuSideBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,30 +21,30 @@ class MainMenuSideBar extends StatelessWidget {
           ),
         ),
         ListTile(
-            leading: Icon(Icons.plus_one),
-            title: Text("Add Player"),
+            leading: const Icon(Icons.plus_one),
+            title: const Text("Add Player"),
             //iconColor: Theme.of(context).colorScheme.secondary,
             onTap: () => {
                   Navigator.pop(context),
                   Navigator.pushNamed(context, 'AddPlayer')
                 }),
         ListTile(
-            leading: Icon(Icons.people),
-            title: Text("Players"),
+            leading: const Icon(Icons.people),
+            title: const Text("Players"),
             onTap: () => {
                   Navigator.pop(context),
                   Navigator.pushNamed(context, 'PlayersPage')
                 }),
         ListTile(
-            leading: Icon(Icons.history),
-            title: Text("Past Games"),
+            leading: const Icon(Icons.history),
+            title: const Text("Past Games"),
             onTap: () => {
                   Navigator.pop(context),
                   Navigator.pushNamed(context, 'PastGames')
                 }),
         ListTile(
-            leading: Icon(Icons.info),
-            title: Text('About'),
+            leading: const Icon(Icons.info),
+            title: const Text('About'),
             onTap: () => {
                   Navigator.pop(context),
                   Navigator.pushNamed(context, 'About')

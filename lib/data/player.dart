@@ -4,45 +4,45 @@ import 'package:flutter/cupertino.dart';
 
 import '../data/playerData.dart';
 
-class player {
+class Player {
   static Future<List> getPlayers() async {
     List loadedPlayers = [];
-    final listPlayers = await playerData.getData('players');
+    final listPlayers = await PlayerData.getData('players');
     for (var element in listPlayers) {
-      loadedPlayers.add(element['playername']);
+      loadedPlayers.add(element['PlayerName']);
     }
 
     return loadedPlayers;
   }
 
-  static Future<String> addPlayer(String playername) async {
+  static Future<String> addPlayer(String playerName) async {
     int newID = 0;
     int testID = 0;
-    if (playername.isEmpty) {
+    if (playerName.isEmpty) {
       return 'empty';
-    } else if (playername.length >= 30) {
+    } else if (playerName.length >= 30) {
       return 'too_long';
     } else {
-      bool alreadyExists = await playerData.checkExits(playername);
+      bool alreadyExists = await PlayerData.checkExits(playerName);
       if (alreadyExists) {
         return 'exists';
       } else {
-        final getid = await playerData.getRawData(
+        final getId = await PlayerData.getRawData(
             'SELECT MAX(id) FROM players');
-        if (getid[0]['MAX(id)'] != null) {
-          newID = getid[0]['MAX(id)'];
+        if (getId[0]['MAX(id)'] != null) {
+          newID = getId[0]['MAX(id)'];
           newID++;
         }
 
-        testID = await playerData.insert('players', {
+        testID = await PlayerData.insert('players', {
           'id': newID,
-          'playername': playername,
+          'PlayerName': playerName,
           'wins': 0,
           'losses': 0,
-          'Highestscore': 0,
+          'HighestScore': 0,
           'totalTwelves': 0,
-          'totalscore': 0,
-          'Gamesplayed': 0,
+          'TotalScore': 0,
+          'GamesPlayed': 0,
         });
 
         debugPrint(testID.toString());
@@ -52,21 +52,21 @@ class player {
   }
 
   static Future<void> deletePlayer(List playernames) async {
-    playerData.delete('players', 'playername = ?', playernames);
+    PlayerData.delete('players', 'PlayerName = ?', playernames);
   }
 
   static Future<List<Map<String, dynamic>>> getPlayerInfo(Player) async {
-    List<Map<String, dynamic>> PlayerInfo = [];
+    List<Map<String, dynamic>> playerInfo = [];
 
     // get highest score
     // get games played
     // get win
-    PlayerInfo = await playerData.getDataWhere(
+    playerInfo = await PlayerData.getDataWhere(
         'players',
-        ['wins', 'Highestscore', 'Gamesplayed', 'totalscore', 'losses'],
-        'Playername = ?',
+        ['wins', 'HighestScore', 'GamesPlayed', 'TotalScore', 'losses'],
+        'PlayerName = ?',
         [Player]);
 
-    return PlayerInfo;
+    return playerInfo;
   }
 }

@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import '../widgets/GameButtons.dart';
 import '../widgets/topInfo.dart';
-import 'package:keep_screen_on/keep_screen_on.dart';
 import 'package:six/data/games.dart';
 import 'package:six/widgets/BottomButton.dart';
-
-
-// need to pop call back to reload scores again?
-// not sure if you can do that but will need to trigger a reload after scores change.
+import 'package:keep_screen_on/keep_screen_on.dart';
 
 class GameBoard extends StatefulWidget {
-  //const GameBoard({Key? key}) : super(key: key);
+  const GameBoard({Key? key}) : super(key: key);
   static const routeName = 'GameBoard';
 
   @override
@@ -20,16 +16,10 @@ class GameBoard extends StatefulWidget {
 class _GameBoardState extends State<GameBoard> {
   Map<String, String> Scores = {};
   bool _loadedPlayers = false;
-  int TotalScore = 0;
-  int CurrentScore = 0;
-  int RoundNumber = 1;
-  String CurrentPlayer = "";
-
-  // @override
-  // void dispose() {
-  //   KeepScreenOn.turnOff();
-  //   super.dispose();
-  // }
+  int totalScore = 0;
+  int currentScore = 0;
+  int roundNumber = 1;
+  String currentPlayer = "";
 
   _nextPlayer(List players, String currentPlayer) {
     // Find the next player by going though the list of players
@@ -59,18 +49,25 @@ class _GameBoardState extends State<GameBoard> {
   }
 
   void endGame() {
-    Navigator.pushReplacementNamed(context, 'WinScreen', arguments: Scores);
+    // try pop and push named here. to get rid of back arrow.
+    //Navigator.pushNamed(context, 'WinScreen', arguments: Scores);
+
+    //Navigator.popAndPushNamed(context, 'WinScreen', arguments: Scores);
+    //Navigator.pushReplacementNamed(context, 'WinScreen', arguments: Scores);
+    Navigator.pushNamedAndRemoveUntil(
+        context, 'WinScreen', (Route<dynamic> route) => false,
+        arguments: Scores);
   }
 
-  void AddScore(add) {
+  void addScore(add) {
     setState(() {
-      CurrentScore = CurrentScore + add as int;
+      currentScore = currentScore + add as int;
     });
   }
 
-  void ClearScore() {
+  void clearScore() {
     setState(() {
-      CurrentScore = 0;
+      currentScore = 0;
     });
   }
 
@@ -78,54 +75,54 @@ class _GameBoardState extends State<GameBoard> {
     debugPrint('fire');
   }
 
-  Future<void> EndRound(
-      {required int currentScore,
-      required String currentPlayer,
-      required int roundNumber,
+  Future<void> endRound(
+      {required int currentScoreEndRound,
+      required String currentPlayerEndRound,
+      required int roundNumberEndRound,
       required List players,
       required Map<String, String>? scores}) async {
-    var FindNextPlayer = "";
+    var findNextPlayer = "";
     bool newHighScore = false;
     var playerIndex = 0;
     int newTotalScore = 0;
 
-    if (currentScore >= 100) {
-      ClearScore();
+    if (currentScoreEndRound >= 100) {
+      clearScore();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Score Too High!'),
+        content: const Text('Score Too High!'),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ));
     } else {
-      playerIndex = players.indexOf(currentPlayer);
-      Game.updatePlayerScore(playerIndex, currentScore);
+      playerIndex = players.indexOf(currentPlayerEndRound);
+      Game.updatePlayerScore(playerIndex, currentScoreEndRound);
     }
 
-    newHighScore = await Game.checkHighScore(CurrentScore, CurrentPlayer);
+    newHighScore = await Game.checkHighScore(currentScore, currentPlayer);
     if (newHighScore) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('New HighScore!'),
+        content: const Text('New HighScore!'),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ));
     }
-    FindNextPlayer = _nextPlayer(players, currentPlayer);
-    newTotalScore = await Game.loadPlayerScore(players.indexOf(FindNextPlayer));
+    findNextPlayer = _nextPlayer(players, currentPlayerEndRound);
+    newTotalScore = await Game.loadPlayerScore(players.indexOf(findNextPlayer));
     Scores = await Game.getScoresMAP(players);
 
-    if (FindNextPlayer == players.first) {
+    if (findNextPlayer == players.first) {
       setState(() {
-        RoundNumber++;
-        CurrentPlayer = FindNextPlayer;
-        CurrentScore = 0;
-        TotalScore = newTotalScore;
+        roundNumber++;
+        currentPlayer = findNextPlayer;
+        currentScore = 0;
+        totalScore = newTotalScore;
       });
       debugPrint('updateRound');
-      Game.updateRound(RoundNumber);
+      Game.updateRound(roundNumber);
       //ScoreProvider().clearScore();
     } else {
       setState(() {
-        CurrentPlayer = FindNextPlayer;
-        CurrentScore = 0;
-        TotalScore = newTotalScore;
+        currentPlayer = findNextPlayer;
+        currentScore = 0;
+        totalScore = newTotalScore;
       });
       //ScoreProvider().clearScore();
     }
@@ -136,14 +133,13 @@ class _GameBoardState extends State<GameBoard> {
     if (!_loadedPlayers) {
       final loadPlayers = ModalRoute.of(context)?.settings.arguments as List;
       Map<String, int> loadPlayersIntoMap = {};
-      //ScoreProvider().generateScoresMap(loadPlayers);
       for (String player in loadPlayers) {
         loadPlayersIntoMap[player] = 0;
       }
 
       /// setup the map there and then handle all the data that way
       setState(() {
-        CurrentPlayer = loadPlayers.first;
+        currentPlayer = loadPlayers.first;
       });
 
       Game.newGame(loadPlayers);
@@ -187,35 +183,36 @@ class _GameBoardState extends State<GameBoard> {
                 ),
               ),
               ListTile(
-                  leading: Icon(Icons.score),
-                  title: Text("Current Scores"),
+                  leading: const Icon(Icons.score),
+                  title: const Text("Current Scores"),
                   onTap: () => {
                         Navigator.pop(context),
                         Navigator.pushNamed(context, 'Scores',
                             arguments: Scores)
                       }),
               ListTile(
-                  leading: Icon(Icons.edit),
-                  title: Text("Edit Scores"),
+                  leading: const Icon(Icons.edit),
+                  title: const Text("Edit Scores"),
                   onTap: () => {
                         Navigator.pop(context),
                         Navigator.pushNamed(context, 'Edit', arguments: Scores)
                       }),
               ListTile(
-                leading: Icon(Icons.delete),
-                title: Text("Clear Score"),
-                onTap: ClearScore,
+                leading: const Icon(Icons.delete),
+                title: const Text("Clear Score"),
+                onTap: clearScore,
               ),
               ListTile(
-                  leading: Icon(Icons.clear),
-                  title: Text("Quit Game"),
+                  leading: const Icon(Icons.clear),
+                  title: const Text("Quit Game"),
                   onTap: () => {
                         showDialog(
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: Text('Quit game?'),
-                                content: Text("Do you want to quit the game?"),
+                                title: const Text('Quit game?'),
+                                content:
+                                    const Text("Do you want to quit the game?"),
                                 actions: [
                                   TextButton(
                                       onPressed: () => {
@@ -226,54 +223,37 @@ class _GameBoardState extends State<GameBoard> {
                                   TextButton(
                                       onPressed: () =>
                                           Navigator.of(context).pop(),
-                                      child: Text('No'))
+                                      child: const Text('No'))
                                 ],
                               );
                             })
                       }),
               ListTile(
-                  leading: Icon(Icons.done_all),
-                  title: Text("End Game"),
+                  leading: const Icon(Icons.done_all),
+                  title: const Text("End Game"),
                   onTap: () => {
-                        // Navigator.pop(context),
-                        // debugPrint(context.toString()),
-                        // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        //     content: Text('End Game?',
-                        //         style: TextStyle(
-                        //           color: Colors.white,
-                        //         )),
-                        //     backgroundColor: Theme.of(context).primaryColor,
-                        //     action: SnackBarAction(
-                        //       textColor: Colors.white,
-                        //       label: 'Yes',
-                        //       onPressed: () => Navigator.pushReplacementNamed(
-                        //           context, 'WinScreen',
-                        //           arguments: Scores),
-                        //     )))
                         showDialog(
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                title: Text('End game?'),
-                                content: Text("Do you want to end the game?"),
+                                title: const Text('End game?'),
+                                content:
+                                    const Text("Do you want to end the game?"),
                                 actions: [
                                   TextButton(
                                       onPressed: () => {
                                             Navigator.of(context).pop(),
                                             endGame(),
-                                            //Navigator.pushNamed(context, 'WinScreen', arguments: Scores)
                                           },
                                       child: const Text('Yes')),
                                   TextButton(
                                       onPressed: () =>
                                           Navigator.of(context).pop(),
-                                      child: Text('No'))
+                                      child: const Text('No'))
                                 ],
                               );
                             })
-                      }
-                  // Navigator.pushNamed(context, 'WinScreen', arguments: Scores )),
-                  )
+                      })
             ],
           ),
         ),
@@ -283,31 +263,28 @@ class _GameBoardState extends State<GameBoard> {
           child: Center(
             child: Column(
               children: [
-                topInfo(
-                  currentPlayer: CurrentPlayer,
-                  totalScore: TotalScore,
-                  roundNumber: RoundNumber,
+                TopInfo(
+                  currentPlayer: currentPlayer,
+                  totalScore: totalScore,
+                  roundNumber: roundNumber,
                   endGame: () => debugPrint('Null for some reason'),
                 ),
-
-                //const SizedBox(height: 150),
                 InkWell(
-                  onTap: ClearScore,
+                  onTap: clearScore,
                   child: Text(
-                    CurrentScore.toString(),
+                    currentScore.toString(),
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 75),
                   ),
                 ),
-                bottomButtons(AddScore),
+                BottomButtons(addScore),
                 BottomButton(
                     text: 'End Turn',
-                    call: () => EndRound(
-                        roundNumber: RoundNumber,
-                        currentPlayer: CurrentPlayer,
-                        currentScore: CurrentScore,
+                    call: () => endRound(
+                        roundNumberEndRound: roundNumber,
+                        currentPlayerEndRound: currentPlayer,
+                        currentScoreEndRound: currentScore,
                         players: loadPlayers,
-                        // loads the players form init this doesn't change
                         scores: Scores))
               ],
             ),

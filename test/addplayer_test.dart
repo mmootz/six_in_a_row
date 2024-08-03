@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
-import 'package:six/main.dart';
 import 'package:six/screens/AddPlayer.dart';
 import 'package:six/screens/MainMenu.dart';
-import 'package:mockito/mockito.dart';
+
 
 
 

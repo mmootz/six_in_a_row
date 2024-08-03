@@ -7,11 +7,11 @@ class RulesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tips'),
+        title: const Text('Tips'),
         centerTitle: true,
       ),
       body: RichText(
-        text: TextSpan(
+        text: const TextSpan(
             text: 'Staring Game',
             style: TextStyle(fontWeight: FontWeight.bold)),
       ),

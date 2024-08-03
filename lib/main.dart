@@ -4,7 +4,6 @@ import 'package:six/screens/PastGames.dart';
 import 'package:six/screens/PastGamesMoreInfo.dart';
 import 'package:six/screens/PlayersMoreInfo.dart';
 import 'package:six/screens/players.dart';
-import 'package:sqflite/sqflite.dart';
 import 'screens/MainMenu.dart';
 import 'screens/GameBoard.dart';
 import 'screens/scores.dart';
@@ -12,6 +11,8 @@ import 'screens/WinScreen.dart';
 import 'screens/About.dart';
 import 'screens/AddPlayer.dart';
 import 'screens/EditScore.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 
 var kColorScheme =
     ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 20, 79, 163));
@@ -30,12 +31,17 @@ class ChangeNotifierProvider {}
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
+  Future<InitializationStatus> _initGoogleMobileAds() {
+    // TODO: Initialize Google Mobile Ads SDK
+    return MobileAds.instance.initialize();
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Six in a row',
-      home: const Main(title: 'Six in a row'),
+      title: 'Six',
+      home: const Main(title: 'Six'),
     );
   }
 }
@@ -55,7 +61,7 @@ class _MainState extends State<Main> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Six in a row',
+      title: 'Six',
       darkTheme: ThemeData.dark()
           .copyWith(useMaterial3: true, colorScheme: kDarkColorScheme,primaryColor: Colors.blue),
       theme: ThemeData(
@@ -72,7 +78,7 @@ class _MainState extends State<Main> {
         'PlayersPageMoreInfo': (ctx) => PlayersPageMoreInfo(),
         'PastGames': (ctx) => pastGames(),
         'PastGamesMoreInfo': (ctx) => PastGamesMoreInfo(),
-        'Edit': (ctx) => editScore(),
+        'Edit': (ctx) => EditScore(),
         'About': (ctx) => About()
       }, // This trailing comma makes auto-formatting nicer for build methods.
     );

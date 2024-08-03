@@ -7,14 +7,14 @@ class AddplayersPage extends StatefulWidget {
   static const routeName = 'Players';
 
   @override
-  State<AddplayersPage> createState() => _AddplayersPageState();
+  State<AddplayersPage> createState() => _AddPlayersPageState();
 }
 
-class _AddplayersPageState extends State<AddplayersPage> {
+class _AddPlayersPageState extends State<AddplayersPage> {
   final newPlayerName = TextEditingController();
 
-  Future<void> submitData(context, String playername) async {
-    String result = await player.addPlayer(playername);
+  Future<void> submitData(context, String playerName) async {
+    String result = await Player.addPlayer(playerName);
 
     switch (result) {
       case 'Created':
@@ -54,7 +54,7 @@ class _AddplayersPageState extends State<AddplayersPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Add Player'),
+        title: const Text('Add Player'),
         centerTitle: true,
         elevation: 6,
       ),
@@ -62,7 +62,7 @@ class _AddplayersPageState extends State<AddplayersPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextField(
-              decoration: InputDecoration(labelText: "Playername"),
+              decoration: const InputDecoration(labelText: "Playername"),
               controller: newPlayerName,
               onSubmitted: (_) => submitData(context,newPlayerName.text),
               key: const ValueKey('PlayerNameBox')),
@@ -70,12 +70,12 @@ class _AddplayersPageState extends State<AddplayersPage> {
             children: [
               TextButton(
                 onPressed: () => submitData(context,newPlayerName.text),
-                child: Text('Submit'),
+                child: const Text('Submit'),
                 key: const ValueKey('SubmitButton'),
               ),
-              SizedBox(width: 75),
+              const SizedBox(width: 75),
               TextButton(onPressed: () => Navigator.pushNamed(context, 'MainMenu'),
-                child: Text('Cancel'),),
+                child: const Text('Cancel'),),
             ],
           )
         ],

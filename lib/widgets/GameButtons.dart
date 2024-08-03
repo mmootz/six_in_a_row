@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import '../widgets/GameBoard_Button.dart';
 
-class bottomButtons extends StatefulWidget {
+class BottomButtons extends StatefulWidget {
   //const bottomButtons({Key? key}) : super(key: key);
 
   final Function addScore;
-  bottomButtons(this.addScore);
+  const BottomButtons(this.addScore, {Key? key}) : super(key: key);
 
   @override
-  State<bottomButtons> createState() => _bottomButtonsState();
+  State<BottomButtons> createState() => _BottomButtonsState();
 }
 
-class _bottomButtonsState extends State<bottomButtons> {
+class _BottomButtonsState extends State<BottomButtons> {
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +25,17 @@ class _bottomButtonsState extends State<bottomButtons> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  GameBoard_Button(
-                    ButtonText: "2",
-                    ButtonValue: 2,
-                    ShortPress: widget.addScore,
+                  GameBoardButton(
+                    buttonText: "2",
+                    buttonValue: 2,
+                    shortPress: widget.addScore,
                     fireConfetti: false,
                   ),
 
-                  GameBoard_Button(
-                    ButtonText: "3",
-                    ButtonValue: 3,
-                    ShortPress: widget.addScore,
+                  GameBoardButton(
+                    buttonText: "3",
+                    buttonValue: 3,
+                    shortPress: widget.addScore,
                     fireConfetti: false,
                   )
 
@@ -48,16 +48,16 @@ class _bottomButtonsState extends State<bottomButtons> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    GameBoard_Button(
-                      ButtonText: '4',
-                      ButtonValue: 4,
-                      ShortPress: widget.addScore,
+                    GameBoardButton(
+                      buttonText: '4',
+                      buttonValue: 4,
+                      shortPress: widget.addScore,
                       fireConfetti: false,
                     ),
-                    GameBoard_Button(
-                      ButtonText: '5',
-                      ButtonValue: 5,
-                      ShortPress: widget.addScore,
+                    GameBoardButton(
+                      buttonText: '5',
+                      buttonValue: 5,
+                      shortPress: widget.addScore,
                       fireConfetti: false,
                     ),
                   ]),
@@ -65,15 +65,15 @@ class _bottomButtonsState extends State<bottomButtons> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    GameBoard_Button(
-                        ButtonText: '6',
-                        ButtonValue: 6,
-                        ShortPress: widget.addScore,
+                    GameBoardButton(
+                        buttonText: '6',
+                        buttonValue: 6,
+                        shortPress: widget.addScore,
                         fireConfetti: false),
-                    GameBoard_Button(
-                      ButtonText: '12',
-                      ButtonValue: 12,
-                      ShortPress: widget.addScore,
+                    GameBoardButton(
+                      buttonText: '12',
+                      buttonValue: 12,
+                      shortPress: widget.addScore,
                       fireConfetti: true,
                     )
                   ]),

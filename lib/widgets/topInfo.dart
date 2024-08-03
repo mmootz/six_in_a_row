@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 
 
-class topInfo extends StatefulWidget {
+class TopInfo extends StatefulWidget {
   //const top_info({Key? key}) : super(key: key);
 
   @override
-  State<topInfo> createState() => _topInfoState();
+  State<TopInfo> createState() => _TopInfoState();
   final String currentPlayer;
   final int totalScore;
   final int roundNumber;
   final VoidCallback endGame;
 
-  topInfo(
-      {required this.currentPlayer,
+  const TopInfo(
+      {Key? key, required this.currentPlayer,
       required this.totalScore,
       required this.roundNumber,
-      required this.endGame});
+      required this.endGame}) : super(key: key);
 }
 
-class _topInfoState extends State<topInfo> {
+class _TopInfoState extends State<TopInfo> {
   bool clear = false;
 
   @override
@@ -32,21 +32,11 @@ class _topInfoState extends State<topInfo> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(" ${widget.currentPlayer} : ${widget.totalScore}"  ,
-                  textAlign: TextAlign.left, style: TextStyle(fontSize: 32)),
+                  textAlign: TextAlign.left, style: const TextStyle(fontSize: 32)),
               Text("Round: ${widget.roundNumber}",
-                  textAlign: TextAlign.right, style: TextStyle(fontSize: 32))
+                  textAlign: TextAlign.right, style: const TextStyle(fontSize: 32))
             ],
           ),
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   crossAxisAlignment: CrossAxisAlignment.center,
-          //   children: [
-          //     // Text("Score: ${widget.totalScore}",
-          //     //     textAlign: TextAlign.left, style: TextStyle(fontSize: 32)),
-          //     Text("Round: ${widget.roundNumber}",
-          //         textAlign: TextAlign.right, style: TextStyle(fontSize: 32)),
-          //   ],
-          // ),
           Container(
               height: MediaQuery.of(context).size.height * 0.05
           ),

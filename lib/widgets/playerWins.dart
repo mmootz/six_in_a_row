@@ -1,35 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:six/data/games.dart';
 
-class playerWins extends StatefulWidget {
+class PlayerWins extends StatefulWidget {
   final String PlayerName;
 
-  playerWins(this.PlayerName);
+  const PlayerWins(this.PlayerName, {Key? key}) : super(key: key);
 
   @override
-  State<playerWins> createState() => _playerWinsState();
+  State<PlayerWins> createState() => _PlayerWinsState();
 }
 
-class _playerWinsState extends State<playerWins> {
+class _PlayerWinsState extends State<PlayerWins> {
   //const playerWins({Key? key}) : super(key: key);
   List loadedWins = [];
 
-  initloadedWins() async {
+  initLoadedWins() async {
     final List initLoadedWins = await Game.getWins(widget.PlayerName);
     if (initLoadedWins.isEmpty) {
-      debugPrint('print');
+      debugPrint('Wins Empty');
     }
-
-    print(initLoadedWins.toString().length);
     setState(() {
       loadedWins = initLoadedWins;
     });
   }
 
+  @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      initloadedWins();
+      initLoadedWins();
     });
   }
 
@@ -44,7 +43,7 @@ class _playerWinsState extends State<playerWins> {
                 leading: Text(loadedWins[index]['Date'].toString()),
                 trailing: Text(loadedWins[index]['WinningScore'].toString()),
               ),
-              Divider(
+              const Divider(
                 thickness: 2.0,
               )
             ],

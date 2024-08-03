@@ -35,7 +35,7 @@ void main() {
 
 }
 
-class MockPlayerData extends Mock implements playerData {
+class MockPlayerData extends Mock implements PlayerData {
   @override
   Future<List<Map<String, dynamic>>> getDataWhere(String table,
       List<String> columns, String where, List<dynamic> whereArgs) {

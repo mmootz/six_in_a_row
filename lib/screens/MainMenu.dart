@@ -1,13 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'GameBoard.dart';
 import 'package:six/widgets/getPlayers.dart';
-import 'package:six/data/player.dart';
 import 'package:six/data/games.dart';
 import 'package:six/data/playerData.dart';
 import 'package:six/widgets/BottomButton.dart';
 import 'package:six/widgets/MainMenuSidebar.dart';
-import 'package:six/models/player.dart';
+
 
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
@@ -21,21 +19,20 @@ class _MainMenuState extends State<MainMenu> {
   List loadedPlayers = [];
   List pastGames = [];
 
-  initpastGames() async {
-    final List initpastGames = await Game.getGames();
-    if (initpastGames.isEmpty) {
+  initPastGames() async {
+    final List initPastGames = await Game.getGames();
+    if (initPastGames.isEmpty) {
       debugPrint('print');
     }
     setState(() {
-      pastGames = initpastGames;
+      pastGames = initPastGames;
     });
   }
 
   Future<List> _getPlayers() async {
-    final List playerList = [];
-    final List playersMap = await playerData.getRawData("SELECT playername FROM players");
+    final List playersMap = await PlayerData.getRawData("SELECT PlayerName FROM players");
     for (var element in playersMap) {
-      loadedPlayers.add(element['playername']);
+      loadedPlayers.add(element['PlayerName']);
     }
     return loadedPlayers;
   }
@@ -43,30 +40,23 @@ class _MainMenuState extends State<MainMenu> {
   @override
   void initState() {
     super.initState();
-    playerData.initDatabase();
+    PlayerData.initDatabase();
   }
 
-  // @override
-  // didChangeDependencies() async {
-  //   initloadedPlayers();
-  // }
-
-  void _showaddPlayer(context) {
-    //Navigator.pop(context);
+  void _showAddPlayer(context) {
     Navigator.pushNamed(context, 'AddPlayer');
   }
 
-  void _showGameboard(context) {
+  void _showGameBoard(context) {
     if (selectedPlayers.length <= 1) {
       var snackBar = SnackBar(
-        content: Text('Not enough players!'),
+        content: const Text('Not enough players!'),
         backgroundColor: Theme.of(context).colorScheme.primary,
         action: SnackBarAction(
             label: 'Okay',
             textColor: Theme.of(context).canvasColor,
             onPressed: () => debugPrint('test')),
       );
-      // debugPrint('Not enough players');
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
 
@@ -81,19 +71,19 @@ class _MainMenuState extends State<MainMenu> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Six in a row'),
+        title: const Text('Six'),
         elevation: 6,
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () => _showaddPlayer(context),
+            onPressed: () => _showAddPlayer(context),
             icon: const Icon(Icons.plus_one),
             tooltip: 'Clear score',
             splashColor: Theme.of(context).primaryColor,
           ),
         ],
       ),
-      drawer: MainMenuSideBar(),
+      drawer: const MainMenuSideBar(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Center(
@@ -104,15 +94,15 @@ class _MainMenuState extends State<MainMenu> {
                 future: _getPlayers(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: Text('No players added yet.'),
                     );
                   } else {
-                    return getPlayers(
+                    return GetPlayers(
                         selectedPlayers: selectedPlayers,
                         loadedPlayers: snapshot.data!.toList());
                   }
@@ -120,7 +110,7 @@ class _MainMenuState extends State<MainMenu> {
               ),
 
               BottomButton(
-                  text: 'Start Game', call: () => _showGameboard(context)),
+                  text: 'Start Game', call: () => _showGameBoard(context)),
 
             ],
           ),

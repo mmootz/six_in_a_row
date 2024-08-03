@@ -15,7 +15,7 @@ class _playerStatsState extends State<playerStats> {
   List loadedStats = [];
 
   initloadedStats() async {
-    final List initLoadedStats = await player.getPlayerInfo(widget.PlayerName);
+    final List initLoadedStats = await Player.getPlayerInfo(widget.PlayerName);
     if (initLoadedStats.isEmpty) {
       debugPrint('print');
     }

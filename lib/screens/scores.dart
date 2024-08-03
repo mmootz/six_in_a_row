@@ -26,10 +26,10 @@ class Scores extends StatelessWidget {
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
-          title: Text('Scores'),
+          title: const Text('Scores'),
           centerTitle: true,
           elevation: 6,
         ),
-        body: scoresTable(SortScores(Scores)));
+        body: ScoresTable(SortScores(Scores)));
   }
 }

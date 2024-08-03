@@ -4,29 +4,27 @@ import 'package:flutter/material.dart';
 
 import '../widgets/scoresTable.dart';
 
-class editScore extends StatefulWidget {
-  //const editScore({Key? key}) : super(key: key);
+class EditScore extends StatefulWidget {
+  const EditScore({Key? key}) : super(key: key);
   static const routeName = 'Edit';
 
   @override
-  State<editScore> createState() => _editScoreState();
+  State<EditScore> createState() => _EditScoreState();
 }
 
-class _editScoreState extends State<editScore> {
-  Map<String, int>LoadedScores = {};
+class _EditScoreState extends State<EditScore> {
+  Map<String, int>loadedScores = {};
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, String> LoadedScores = ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-    // final Scores =
-    // ModalRoute.of(context)?.settings.arguments as Map<String, int>;
+    final Map<String, String> loadedScores = ModalRoute.of(context)?.settings.arguments as Map<String, String>;
     return Scaffold(
         appBar: AppBar(
-          title: Text('Edit Scores'),
+          title: const Text('Edit Scores'),
           backgroundColor: Theme.of(context).primaryColor,
           centerTitle: true,
           elevation: 6,
         ),
-        body: scoresTable(LoadedScores, true));
+        body: ScoresTable(loadedScores, true));
   }
 }

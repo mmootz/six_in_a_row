@@ -1,33 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:six/data/games.dart';
 
-class gameCard extends StatefulWidget {
-  //const gameCard(elementAt, {Key? key}) : super(key: key);
+class GameCard extends StatefulWidget {
+  
+  final gameId;  // come back to this.
 
-  final gameId;
-
-  gameCard(this.gameId);
+  const GameCard(this.gameId, {Key? key}) : super(key: key);
 
   @override
-  State<gameCard> createState() => _gameCardState();
+  State<GameCard> createState() => _GameCardState();
 }
 
-class _gameCardState extends State<gameCard> {
-  Map<String, dynamic> loadedinfo = {};
+class _GameCardState extends State<GameCard> {
+  Map<String, dynamic> loadedInfo = {};
 
   initGameInfo(gameId) async {
-    var GameId = int.parse(gameId);
-    final List<Map<String, dynamic>> intLoadedGameinfo =
-        await Game.getGameInfo(GameId);
-    // if (initLoadedplayers.isEmpty) {
-    //   debugPrint('print');
-    //debugPrint("loaded info:" + intLoadedGameinfo[0].toString());
-    // }
+    var gameIdParsed = int.parse(gameId);
+    final List<Map<String, dynamic>> intLoadedGameInfo =
+        await Game.getGameInfo(gameIdParsed);
+    
     setState(() {
-      loadedinfo = intLoadedGameinfo[0];
+      loadedInfo = intLoadedGameInfo[0];
     });
   }
 
+  @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       initGameInfo(widget.gameId);
@@ -38,35 +35,33 @@ class _gameCardState extends State<gameCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.pushNamed(context, 'PastGamesMoreInfo',
-          arguments: loadedinfo),
+          arguments: loadedInfo),
       splashColor: Theme.of(context).colorScheme.primary,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: Theme.of(context).canvasColor,
         elevation: 6,
-        margin: EdgeInsets.all(5),
+        margin: const EdgeInsets.all(5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Column(
               children: [
-                Text(loadedinfo['Date'].toString()),
-                Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(loadedinfo['Winnner'].toString(),
-                          style: TextStyle(fontSize: 26),
-                          textAlign: TextAlign.center),
-                    ],
-                  ),
+                Text(loadedInfo['Date'].toString()),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(loadedInfo['Winner'].toString(),
+                        style: const TextStyle(fontSize: 26),
+                        textAlign: TextAlign.center),
+                  ],
                 ),
               ],
             ),
             Column(
               children: [
-                Text("Score: " + loadedinfo['WinningScore'].toString(),
-                    style: TextStyle(fontSize: 26)),
+                Text("Score: " + loadedInfo['WinningScore'].toString(),
+                    style: const TextStyle(fontSize: 26)),
               ],
             ),
           ],

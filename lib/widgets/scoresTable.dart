@@ -2,22 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:six/data/games.dart';
 import 'package:six/widgets/BottomButton.dart';
 
-class scoresTable extends StatefulWidget {
-  //const scoresTable({Key? key}) : super(key: key);
+class ScoresTable extends StatefulWidget {
+  //const ScoresTable({Key? key}) : super(key: key);
 
   final Map<String, String> scores;
   final bool editMode;
 
-  scoresTable(this.scores, [this.editMode = false]);
+  const ScoresTable(this.scores, [this.editMode = false]);
 
   @override
-  State<scoresTable> createState() => _scoresTableState();
+  State<ScoresTable> createState() => _ScoresTableState();
 }
 
-class _scoresTableState extends State<scoresTable> {
+class _ScoresTableState extends State<ScoresTable> {
   final List<int> colorCodes = <int>[600, 500, 100];
 
-  SortScores(Map<String, String> players) {
+  sortScores(Map<String, String> players) {
     var sortedlist = players.entries.toList()
       ..sort((b, a) => a.value.compareTo(b.value));
     players
@@ -26,23 +26,23 @@ class _scoresTableState extends State<scoresTable> {
     return players;
   }
 
-  void add(String playername) {
-    int currentScore = int.parse(widget.scores[playername]!);
+  void add(String playerName) {
+    int currentScore = int.parse(widget.scores[playerName]!);
     int newScore = 0;
     newScore = currentScore + 1;
     debugPrint(newScore.toString());
     setState(() {
-      widget.scores[playername] = newScore.toString();
+      widget.scores[playerName] = newScore.toString();
     });
   }
 
-  void sub(String playername) {
-    int currentScore = int.parse(widget.scores[playername]!);
+  void sub(String playerName) {
+    int currentScore = int.parse(widget.scores[playerName]!);
     int newScore = 0;
     newScore = currentScore - 1;
     debugPrint(newScore.toString());
     setState(() {
-      widget.scores[playername] = newScore.toString();
+      widget.scores[playerName] = newScore.toString();
     });
   }
 
@@ -77,16 +77,16 @@ class _scoresTableState extends State<scoresTable> {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           elevation: 6,
-          margin: EdgeInsets.all(10),
+          margin: const EdgeInsets.all(10),
           child: ListView.separated(
             padding: const EdgeInsets.all(8),
             shrinkWrap: true,
             itemCount: widget.scores.length,
             itemBuilder: (BuildContext context, int index) {
-              String playername = widget.scores.keys.elementAt(index);
-              String playerscore = widget.scores[playername].toString();
+              String playerName = widget.scores.keys.elementAt(index);
+              String playerScore = widget.scores[playerName].toString();
               return ListTile(
-                leading: Text(playername, style: const TextStyle(fontSize: 32)),
+                leading: Text(playerName, style: const TextStyle(fontSize: 32)),
                 // title: Text( ':',
                 //   style: const TextStyle(fontSize: 32),
                 //   textAlign: TextAlign.center,
@@ -97,22 +97,22 @@ class _scoresTableState extends State<scoresTable> {
                         children: [
                           IconButton(
                             icon: const Icon(Icons.remove),
-                            onPressed: () => sub(playername),
+                            onPressed: () => sub(playerName),
                             splashColor: Theme.of(context).primaryColor,
                           ),
-                          Text(playerscore,
+                          Text(playerScore,
                               style: const TextStyle(fontSize: 32)),
                           IconButton(
                               icon: const Icon(Icons.add),
-                              onPressed: () => add(playername),
+                              onPressed: () => add(playerName),
                               splashColor: Theme.of(context).primaryColor),
                         ],
                       )
-                    : Text(playerscore, style: const TextStyle(fontSize: 32)),
+                    : Text(playerScore, style: const TextStyle(fontSize: 32)),
               );
             },
             separatorBuilder: (BuildContext context, int index) {
-              return Divider(thickness: 2.0);
+              return const Divider(thickness: 2.0);
             },
           ),
         ),

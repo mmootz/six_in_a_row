@@ -3,16 +3,9 @@ import 'package:six/data/player.dart';
 class PlayerCard extends StatefulWidget {
   //const PlayerCard({Key? key}) : super(key: key);
 
-  final String PlayerName;
-
-  // final String Losses;
-
-  //final Function selectedButton;
-  //final Function playerManagment;
-
-
-
-  PlayerCard(this.PlayerName);
+  final String playerName;
+  
+  const PlayerCard(this.playerName, {Key? key}) : super(key: key);
 
   @override
   State<PlayerCard> createState() => _PlayerCardState();
@@ -20,21 +13,19 @@ class PlayerCard extends StatefulWidget {
 
 class _PlayerCardState extends State<PlayerCard> {
 
-  Map<String, dynamic> loadedinfo = {};
+  Map<String, dynamic> loadedInfo = {};
 
-  initPlayerInfo(playername) async {
-    final List<Map<String, dynamic>> intLoadedPlayerinfo = await player.getPlayerInfo(playername);
-    // if (initLoadedplayers.isEmpty) {
-    //   debugPrint('print');
-    // }
+  initPlayerInfo(playerName) async {
+    final List<Map<String, dynamic>> intLoadedPlayerInfo = await Player.getPlayerInfo(playerName);
     setState(() {
-      loadedinfo = intLoadedPlayerinfo[0];
+      loadedInfo = intLoadedPlayerInfo[0];
     });
   }
 
+  @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      initPlayerInfo(widget.PlayerName);
+      initPlayerInfo(widget.playerName);
     });
   }
 
@@ -42,45 +33,39 @@ class _PlayerCardState extends State<PlayerCard> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.pushNamed(context, 'PlayersPageMoreInfo',
-          arguments: widget.PlayerName),
-      //onTap: () => playerManagment(PlayerName),
+          arguments: widget.playerName),
       splashColor: Theme.of(context).primaryColorDark,
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: Theme.of(context).canvasColor,
         elevation: 6,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Column(
               children: [
-                Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(widget.PlayerName,
-                          style: TextStyle(fontSize: 26),
-                          textAlign: TextAlign.center),
-                    ],
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(widget.playerName,
+                        style: const TextStyle(fontSize: 26),
+                        textAlign: TextAlign.center),
+                  ],
                 ),
-                Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    //mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text('Highest Score: ' + loadedinfo['Highestscore'].toString()),
-                      Text('Games Played: ' + loadedinfo['Gamesplayed'].toString() ),
-                    ],
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Highest Score: ' + loadedInfo['HighestScore'].toString()),
+                    Text('Games Played: ' + loadedInfo['GamesPlayed'].toString() ),
+                  ],
                 )
               ],
             ),
             Column(
               children: [
-                Text('Wins'),
-                Text(loadedinfo['wins'].toString(), style: TextStyle(fontSize: 26))
+                const Text('Wins'),
+                Text(loadedInfo['wins'].toString(), style: const TextStyle(fontSize: 26))
               ],
             ),
           ],

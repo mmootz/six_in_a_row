@@ -3,24 +3,24 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:confetti/confetti.dart';
 
-class GameBoard_Button extends StatefulWidget {
+class GameBoardButton extends StatefulWidget {
 //  const GameBoard_Button({Key? key}) : super(key: key);
 
-  final String ButtonText;
-  final int ButtonValue;
-  final Function ShortPress;
+  final String buttonText;
+  final int buttonValue;
+  final Function shortPress;
   bool fireConfetti;
 
-  GameBoard_Button({required this.ButtonText,
-    required this.ButtonValue,
-    required this.ShortPress,
-    required this.fireConfetti});
+  GameBoardButton({Key? key, required this.buttonText,
+    required this.buttonValue,
+    required this.shortPress,
+    required this.fireConfetti}) : super(key: key);
 
   @override
-  State<GameBoard_Button> createState() => _GameBoard_ButtonState();
+  State<GameBoardButton> createState() => _GameBoardButtonState();
 }
 
-class _GameBoard_ButtonState extends State<GameBoard_Button> {
+class _GameBoardButtonState extends State<GameBoardButton> {
   late ConfettiController confetti;
 
   @override
@@ -37,10 +37,10 @@ class _GameBoard_ButtonState extends State<GameBoard_Button> {
 
   void shootConfetti() {
     confetti.play();
-    widget.ShortPress(12);
+    widget.shortPress(12);
   }
 
-  sixcheck(buttonValue) {
+  sixCheck(buttonValue) {
     if (buttonValue == 6) {
       return true;
     } else {
@@ -53,32 +53,27 @@ class _GameBoard_ButtonState extends State<GameBoard_Button> {
     return Stack(children: [
       InkWell(
         onLongPress: () =>
-        sixcheck(widget.ButtonValue) ? shootConfetti() : widget.ShortPress(
-            widget.ButtonValue * 2),
+        sixCheck(widget.buttonValue) ? shootConfetti() : widget.shortPress(
+            widget.buttonValue * 2),
         onTap: () =>
         widget.fireConfetti
             ? shootConfetti()
-            : widget.ShortPress(widget.ButtonValue),
+            : widget.shortPress(widget.buttonValue),
         splashColor: Theme
             .of(context)
             .colorScheme
             .secondary,
         child: Card(
-          // shape:
-          // RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-          // color: Colors.black,
           color: Theme.of(context).primaryColor,
-          // color: Theme
-          //     .of(context).primaryColor,
           elevation: 6,
-          margin: EdgeInsets.all(5),
-          child: Container(
+          margin: const EdgeInsets.all(5),
+          child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.40,
             height: MediaQuery.of(context).size.height * 0.06,
             child: Center(
                 child: Text(
-                  widget.ButtonText,
-                  style: TextStyle(color: Colors.white),
+                  widget.buttonText,
+                  style: const TextStyle(color: Colors.white),
                 )),
           ),
         ),

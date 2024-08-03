@@ -6,14 +6,16 @@ import 'package:six/widgets/BottomButton.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 class WinScreen extends StatefulWidget {
+  const WinScreen({Key? key}) : super(key: key);
+
   @override
   State<WinScreen> createState() => _WinScreenState();
 }
 
 class _WinScreenState extends State<WinScreen> {
   late ConfettiController confetti;
-  var WinningScore = "";
-  var WinningPlayer = "";
+  var winningScore = "";
+  var winningPlayer = "";
 
   @override
   void initState() {
@@ -31,7 +33,7 @@ class _WinScreenState extends State<WinScreen> {
     confetti.play();
   }
 
-  updateScores(Map players, winningPlayer, WinningScore) async {
+  updateScores(Map players, winningPlayer, winningScore) async {
     // get list of players
     // remove winning player from list
     // update winner score maybe finish game function
@@ -43,7 +45,7 @@ class _WinScreenState extends State<WinScreen> {
     Game.endGame(
       winningPlayer,
       players,
-      WinningScore,
+      winningScore,
     );
   }
 
@@ -52,25 +54,25 @@ class _WinScreenState extends State<WinScreen> {
   }
 
   findWinner(Map<String, String> players) {
-    bool highscorecheck = false;
-    var Winner = players.entries.toList()
+    bool highScoreCheck = false;
+    var winner = players.entries.toList()
       ..sort((b, a) => a.value.compareTo(b.value));
     players
       ..clear()
-      ..addEntries(Winner);
+      ..addEntries(winner);
 
     setState(() {
-      debugPrint(WinningPlayer);
-      WinningPlayer = players.entries.first.key.toString();
-      WinningScore = players.entries.first.value.toString();
+      debugPrint(winningPlayer);
+      winningPlayer = players.entries.first.key.toString();
+      winningScore = players.entries.first.value.toString();
     });
     // players.forEach((k, v) => playerList.add(k));
     // playerList.removeAt(0);
-    updateScores(players, WinningPlayer, int.parse(WinningScore));
+    updateScores(players, winningPlayer, int.parse(winningScore));
     players.forEach((player, score) async {
-      highscorecheck =
+      highScoreCheck =
           await Game.checkHighScore(int.parse(score), player, true);
-      if (highscorecheck) {
+      if (highScoreCheck) {
         Game.updateHighScore(player, int.parse(score));
       }
     });
@@ -85,27 +87,27 @@ class _WinScreenState extends State<WinScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text('Six in a row'),
+        title: const Text('Six in a row'),
         centerTitle: true,
         elevation: 6,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(WinningPlayer,
-                  style: TextStyle(fontSize: 50), textAlign: TextAlign.center)
+          Text(winningPlayer,
+                  style: const TextStyle(fontSize: 50), textAlign: TextAlign.center)
               .animate()
               .fadeIn(duration: 1.seconds)
               .scale(duration: 1.seconds),
-          Text(WinningScore,
-                  style: TextStyle(fontSize: 50), textAlign: TextAlign.center)
+          Text(winningScore,
+                  style: const TextStyle(fontSize: 50), textAlign: TextAlign.center)
               .animate()
               .fadeIn(duration: 2.seconds)
               .scale(duration: 2.seconds),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.4,
             child: Stack(
-              alignment: Alignment(0.12, -0.3),
+              alignment: const Alignment(0.12, -0.3),
               children: [
                 // SizedBox(
                 //   height: MediaQuery.of(context).size.height * 0.4,
@@ -153,7 +155,7 @@ class _WinScreenState extends State<WinScreen> {
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: MediaQuery.of(context).size.height * 0.7,
                   child: ListView.builder(
                     // padding: EdgeInsets.symmetric(vertical: 1.0),
@@ -163,9 +165,9 @@ class _WinScreenState extends State<WinScreen> {
                       return ListTile(
                         // contentPadding: EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
                         leading:
-                            Text(entry.key, style: TextStyle(fontSize: 32)).animate().fadeIn(duration: 3.seconds).scale(duration: 3.seconds),
+                            Text(entry.key, style: const TextStyle(fontSize: 32)).animate().fadeIn(duration: 3.seconds).scale(duration: 3.seconds),
                         trailing:
-                            Text(entry.value, style: TextStyle(fontSize: 32)).animate().fadeIn(duration: 3.seconds).scale(duration: 3.seconds),
+                            Text(entry.value, style: const TextStyle(fontSize: 32)).animate().fadeIn(duration: 3.seconds).scale(duration: 3.seconds),
                         // title: Text(entry.key + ": " +  entry.value, textAlign: TextAlign.center) ,
                       );
                     },

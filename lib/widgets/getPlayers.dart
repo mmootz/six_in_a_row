@@ -2,21 +2,17 @@
 import 'package:flutter/material.dart';
 
 
-class getPlayers extends StatefulWidget {
+class GetPlayers extends StatefulWidget {
   final List selectedPlayers;
   final List loadedPlayers;
 
-  //final Function Selection;
-
-  getPlayers({required this.selectedPlayers, required this.loadedPlayers});
+  const GetPlayers({Key? key, required this.selectedPlayers, required this.loadedPlayers}) : super(key: key);
 
   @override
-  State<getPlayers> createState() => _getPlayersState();
+  State<GetPlayers> createState() => _GetPlayersState();
 }
 
-//HashSet<Player> players = HashSet();
-
-class _getPlayersState extends State<getPlayers> {
+class _GetPlayersState extends State<GetPlayers> {
   //const getPlayers({Key? key}) : super(key: key);
   //late final List<Map<String, dynamic>> playerList;
   int selectedPlayersNum = 0;
@@ -32,9 +28,6 @@ class _getPlayersState extends State<getPlayers> {
     setState(() {});
   }
 
-// https://api.flutter.dev/flutter/widgets/FutureBuilder-class.html
-// likely need to figure this out.
-
   @override
   Widget build(BuildContext context) {
     return Flexible(
@@ -42,7 +35,7 @@ class _getPlayersState extends State<getPlayers> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         color: Theme.of(context).cardColor,
         elevation: 6,
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         child: ListView.separated(
             padding: const EdgeInsets.all(8),
             shrinkWrap: true,
@@ -60,7 +53,7 @@ class _getPlayersState extends State<getPlayers> {
                     Text(
                       widget.loadedPlayers[index],
                       textAlign: TextAlign.right,
-                      style: TextStyle(fontSize: 32),
+                      style: const TextStyle(fontSize: 32),
                     ),
                     widget.selectedPlayers.contains(widget.loadedPlayers[index])
                         ? Icon(Icons.check_box, color: Theme.of(context).primaryColor,)
@@ -70,7 +63,7 @@ class _getPlayersState extends State<getPlayers> {
               );
             },
             separatorBuilder: (BuildContext context, int index) {
-      return Divider(thickness: 2.0);
+      return const Divider(thickness: 2.0);
       },
             ),
       ),

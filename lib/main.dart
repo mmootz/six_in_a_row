@@ -39,9 +39,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Six',
-      home: const Main(title: 'Six'),
+      home: Main(title: 'Six'),
     );
   }
 }
@@ -65,7 +66,7 @@ class _MainState extends State<Main> {
       darkTheme: ThemeData.dark()
           .copyWith(useMaterial3: true, colorScheme: kDarkColorScheme,primaryColor: Colors.blue),
       theme: ThemeData(
-      ).copyWith(useMaterial3: true, colorScheme: kColorScheme, primaryColor: Colors.lightBlue ),
+      ).copyWith(useMaterial3: true, colorScheme: kColorScheme, primaryColor: Colors.red),
       home: const MainMenu(),
       initialRoute: 'MainMenu',
       routes: {

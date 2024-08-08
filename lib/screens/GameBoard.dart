@@ -160,7 +160,7 @@ class _GameBoardState extends State<GameBoard> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
-          title: const Text('Six in a row'),
+          title: const Text('Six'),
           centerTitle: true,
           elevation: 6,
         ),

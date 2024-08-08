@@ -20,7 +20,7 @@ class BottomButton extends StatelessWidget {
           elevation: 6,
           child: SizedBox(
             width: MediaQuery.of(context).size.width * 0.87,
-            height: MediaQuery.of(context).size.height * 0.06,
+            height: MediaQuery.of(context).size.height * 0.12,
             child: Center(
                 child: Text(
                   text,

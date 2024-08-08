@@ -18,6 +18,7 @@ class _MainMenuState extends State<MainMenu> {
   List selectedPlayers = [];
   List loadedPlayers = [];
   List pastGames = [];
+  late Future<List<dynamic>> _playersFuture;
 
   initPastGames() async {
     final List initPastGames = await Game.getGames();
@@ -41,6 +42,8 @@ class _MainMenuState extends State<MainMenu> {
   void initState() {
     super.initState();
     PlayerData.initDatabase();
+    _playersFuture = _getPlayers();
+
   }
 
   void _showAddPlayer(context) {
@@ -91,7 +94,7 @@ class _MainMenuState extends State<MainMenu> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               FutureBuilder<List<dynamic>>(
-                future: _getPlayers(),
+                future: _playersFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const CircularProgressIndicator();

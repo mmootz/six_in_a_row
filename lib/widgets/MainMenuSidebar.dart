@@ -43,6 +43,13 @@ class MainMenuSideBar extends StatelessWidget {
                   Navigator.pushNamed(context, 'PastGames')
                 }),
         ListTile(
+            leading: const Icon(Icons.color_lens),
+            title: const Text('Colors'),
+            onTap: () => {
+              Navigator.pop(context),
+              Navigator.pushNamed(context, 'ColorPicker')
+            }),
+        ListTile(
             leading: const Icon(Icons.info),
             title: const Text('About'),
             onTap: () => {

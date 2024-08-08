@@ -4,6 +4,7 @@ import 'package:six/screens/PastGames.dart';
 import 'package:six/screens/PastGamesMoreInfo.dart';
 import 'package:six/screens/PlayersMoreInfo.dart';
 import 'package:six/screens/players.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/MainMenu.dart';
 import 'screens/GameBoard.dart';
 import 'screens/scores.dart';
@@ -11,6 +12,7 @@ import 'screens/WinScreen.dart';
 import 'screens/About.dart';
 import 'screens/AddPlayer.dart';
 import 'screens/EditScore.dart';
+import 'screens/ColorPicker.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 
@@ -28,8 +30,15 @@ void main() {
 
 class ChangeNotifierProvider {}
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
 
   Future<InitializationStatus> _initGoogleMobileAds() {
     // TODO: Initialize Google Mobile Ads SDK
@@ -56,7 +65,39 @@ class Main extends StatefulWidget {
 }
 
 class _MainState extends State<Main> {
+  Color _primaryColor = Colors.blue;
   Map<String, int> ScoresMap = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSavedColor();
+  }
+
+  // Load saved color from shared preferences
+  void _loadSavedColor() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? savedColorValue = prefs.getInt('primaryColor');
+    if (savedColorValue != null) {
+      setState(() {
+        _primaryColor = Color(savedColorValue);
+      });
+    }
+  }
+
+  // Save selected color to shared preferences
+  void _saveColor(Color color) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setInt('primaryColor', color.value);
+  }
+
+  // Function to change the color dynamically
+  void _changeColor(Color color) {
+    setState(() {
+      _primaryColor = color;
+    });
+    _saveColor(color);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +105,9 @@ class _MainState extends State<Main> {
       debugShowCheckedModeBanner: false,
       title: 'Six',
       darkTheme: ThemeData.dark()
-          .copyWith(useMaterial3: true, colorScheme: kDarkColorScheme,primaryColor: Colors.blue),
+          .copyWith(useMaterial3: true, colorScheme: kDarkColorScheme,primaryColor: _primaryColor),
       theme: ThemeData(
-      ).copyWith(useMaterial3: true, colorScheme: kColorScheme, primaryColor: Colors.red),
+      ).copyWith(useMaterial3: true, colorScheme: kColorScheme, primaryColor: _primaryColor),
       home: const MainMenu(),
       initialRoute: 'MainMenu',
       routes: {
@@ -80,7 +121,9 @@ class _MainState extends State<Main> {
         'PastGames': (ctx) => pastGames(),
         'PastGamesMoreInfo': (ctx) => PastGamesMoreInfo(),
         'Edit': (ctx) => EditScore(),
-        'About': (ctx) => About()
+        'About': (ctx) => About(),
+        'ColorPicker': (ctx) => ColorPickerScreen(onColorSelected: _changeColor)
+
       }, // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

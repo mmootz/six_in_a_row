@@ -15,9 +15,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 
 var kColorScheme =
-    ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 20, 79, 163));
+    ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 20, 79, 163));
 var kDarkColorScheme = ColorScheme.fromSeed(
-    brightness: Brightness.dark, seedColor: Color.fromARGB(255, 5, 99, 125));
+    brightness: Brightness.dark, seedColor: const Color.fromARGB(255, 5, 99, 125));
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

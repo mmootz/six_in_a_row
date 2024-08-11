@@ -90,7 +90,7 @@ class _GameBoardState extends State<GameBoard> {
       clearScore();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('Score Too High!'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).primaryColor
       ));
     } else {
       playerIndex = players.indexOf(currentPlayerEndRound);
@@ -101,7 +101,7 @@ class _GameBoardState extends State<GameBoard> {
     if (newHighScore) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: const Text('New HighScore!'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).primaryColor
       ));
     }
     findNextPlayer = _nextPlayer(players, currentPlayerEndRound);

@@ -39,7 +39,7 @@ class _AddPlayersPageState extends State<AddplayersPage> {
     var snackBar = SnackBar(
       key: const ValueKey('SnackBarError'),
       content: Text(message),
-      backgroundColor: Theme.of(context).colorScheme.primary,
+      backgroundColor: Theme.of(context).primaryColor,
       action: SnackBarAction(
         label: 'Okay',
         textColor: Theme.of(context).canvasColor,

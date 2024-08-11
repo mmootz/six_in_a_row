@@ -6,7 +6,6 @@ import 'package:six/data/playerData.dart';
 import 'package:six/widgets/BottomButton.dart';
 import 'package:six/widgets/MainMenuSidebar.dart';
 
-
 class MainMenu extends StatefulWidget {
   const MainMenu({Key? key}) : super(key: key);
 
@@ -31,7 +30,8 @@ class _MainMenuState extends State<MainMenu> {
   }
 
   Future<List> _getPlayers() async {
-    final List playersMap = await PlayerData.getRawData("SELECT PlayerName FROM players");
+    final List playersMap =
+        await PlayerData.getRawData("SELECT PlayerName FROM players");
     for (var element in playersMap) {
       loadedPlayers.add(element['PlayerName']);
     }
@@ -43,7 +43,6 @@ class _MainMenuState extends State<MainMenu> {
     super.initState();
     PlayerData.initDatabase();
     _playersFuture = _getPlayers();
-
   }
 
   void _showAddPlayer(context) {
@@ -54,7 +53,7 @@ class _MainMenuState extends State<MainMenu> {
     if (selectedPlayers.length <= 1) {
       var snackBar = SnackBar(
         content: const Text('Not enough players!'),
-        backgroundColor: Theme.of(context).colorScheme.primary,
+        backgroundColor: Theme.of(context).primaryColor,
         action: SnackBarAction(
             label: 'Okay',
             textColor: Theme.of(context).canvasColor,
@@ -62,7 +61,6 @@ class _MainMenuState extends State<MainMenu> {
       );
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     } else {
-
       Navigator.pop(context);
       Navigator.pushNamed(context, GameBoard.routeName,
           arguments: selectedPlayers);
@@ -111,10 +109,8 @@ class _MainMenuState extends State<MainMenu> {
                   }
                 },
               ),
-
               BottomButton(
-                  text: 'Start Game', call: () => _showGameBoard(context)),
-
+                  text: 'Start Game', call: () => _showGameBoard(context))
             ],
           ),
         ),

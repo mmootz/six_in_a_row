@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:six/widgets/BottomButton.dart';
 class ColorPickerScreen extends StatefulWidget {
   static const routeName = 'ColorPicker';
   final Function(Color) onColorSelected;
@@ -27,6 +27,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
                 ElevatedButton(
                   onPressed: () {
                     widget.onColorSelected(Colors.red);
+                    Navigator.pop(context);
                   },
                   child: Text(''),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
@@ -37,6 +38,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
                 ElevatedButton(
                   onPressed: () {
                     widget.onColorSelected(Colors.green);
+                    Navigator.pop(context);
                   },
                   child: Text(''),
                   style:
@@ -50,6 +52,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
                 ElevatedButton(
                   onPressed: () {
                     widget.onColorSelected(Colors.blue);
+                    Navigator.pop(context);
                   },
                   child: Text(''),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
@@ -60,6 +63,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
                 ElevatedButton(
                   onPressed: () {
                     widget.onColorSelected(Colors.purple);
+                    Navigator.pop(context);
                   },
                   child: Text(''),
                   style:
@@ -73,6 +77,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
                 ElevatedButton(
                   onPressed: () {
                     widget.onColorSelected(Colors.orange);
+                    Navigator.pop(context);
                   },
                   child: Text(''),
                   style:
@@ -84,6 +89,7 @@ class _ColorPickerScreenState extends State<ColorPickerScreen> {
                 ElevatedButton(
                   onPressed: () {
                     widget.onColorSelected(Colors.yellow);
+                    Navigator.pop(context);
                   },
                   child: Text(''),
                   style:

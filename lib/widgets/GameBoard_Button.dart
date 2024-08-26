@@ -59,10 +59,7 @@ class _GameBoardButtonState extends State<GameBoardButton> {
         widget.fireConfetti
             ? shootConfetti()
             : widget.shortPress(widget.buttonValue),
-        splashColor: Theme
-            .of(context)
-            .colorScheme
-            .secondary,
+        //splashColor: Colors.grey,
         child: Card(
           color: Theme.of(context).primaryColor,
           elevation: 6,

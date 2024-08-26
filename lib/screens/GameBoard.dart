@@ -198,6 +198,39 @@ class _GameBoardState extends State<GameBoard> {
                         Navigator.pushNamed(context, 'Edit', arguments: Scores)
                       }),
               ListTile(
+                  leading: const Icon(Icons.swap_vert_rounded),
+                  title: const Text("Swap Tile"),
+                  onTap: () => {
+                    Navigator.of(context).pop(),
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Swap Tile?'),
+                            content:
+                            const Text("Do you want to swap a tile for zero points?"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () => {
+                                    Navigator.of(context).pop(),
+                                    endRound(currentScoreEndRound: 0,
+                                        currentPlayerEndRound: currentPlayer,
+                                        roundNumberEndRound: roundNumber,
+                                        players: loadPlayers,
+                                        scores: Scores),
+                                  },
+                                  child: const Text('Yes')),
+                              TextButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(),
+                                  child: const Text('No'))
+                            ],
+                          );
+                        }),
+
+                  },
+              ),
+              ListTile(
                 leading: const Icon(Icons.delete),
                 title: const Text("Clear Score"),
                 onTap: clearScore,
@@ -270,6 +303,8 @@ class _GameBoardState extends State<GameBoard> {
                   endGame: () => debugPrint('Null for some reason'),
                 ),
                 InkWell(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   onTap: clearScore,
                   child: Text(
                     currentScore.toString(),

@@ -6,7 +6,7 @@ import FlutterMacOS
 import Foundation
 
 import shared_preferences_foundation
-import sqflite
+import sqflite_darwin
 import sqlite3_flutter_libs
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {

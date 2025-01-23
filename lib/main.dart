@@ -13,7 +13,7 @@ import 'screens/About.dart';
 import 'screens/AddPlayer.dart';
 import 'screens/EditScore.dart';
 import 'screens/ColorPicker.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+
 
 
 var kColorScheme =
@@ -38,12 +38,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
-
-  Future<InitializationStatus> _initGoogleMobileAds() {
-    // TODO: Initialize Google Mobile Ads SDK
-    return MobileAds.instance.initialize();
-  }
 
   // This widget is the root of your application.
   @override

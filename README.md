@@ -1,16 +1,23 @@
-# six
+# Six
+A scoring application for the board game Qwirkle.
 
-A new Flutter project.
+# Features
 
-## Getting Started
+Player tracking of scores over games. Cumulative score, Wins
+Game tracking. Who won how many rounds and what were the scores.
+Set the menu colors to one of the six colors in Qwirkle Red,Green,Blue,Orange,Purple,Yellow
+Confetti shoots when you enter a Qwirkle!
+Screen stays on during scoring.
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+Build using Flutter and SQLlite 
+Made as a side project/hobby
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+screenshots below
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Main menu] screenshots/main_menu.png
+![Sidebar ] screenshots/main_menu_sidebar.png
+![Scoring window] screenshots/scoring_window.png
+![Confetti ] screenshots/confetti_shot.png
+
+

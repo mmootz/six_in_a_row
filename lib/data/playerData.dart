@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart' as sql;
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqlite_api.dart';
@@ -17,6 +21,36 @@ class PlayerData {
               'TotalScore INTEGER,'
               'GamesPlayed INTEGER )');
     }, version: 1);
+  }
+
+  // Debug helper: export the app database file to external storage so it can
+  // be pulled when `run-as` is not available (release builds or non-debuggable APKs).
+  // Returns the destination path on success, or null on failure.
+  static Future<String?> exportDatabaseToExternal() async {
+    if (!kDebugMode) return null;
+    try {
+      final dbPath = await sql.getDatabasesPath();
+      final src = path.join(dbPath, 'playerData.db');
+      final srcFile = File(src);
+      if (!await srcFile.exists()) {
+        print('exportDatabaseToExternal: source DB not found at $src');
+        return null;
+      }
+
+      final extDir = await getExternalStorageDirectory();
+      if (extDir == null) {
+        print('exportDatabaseToExternal: external storage directory unavailable');
+        return null;
+      }
+
+      final dest = path.join(extDir.path, 'playerData_export.db');
+      await srcFile.copy(dest);
+      print('exportDatabaseToExternal: copied DB to $dest');
+      return dest;
+    } catch (e) {
+      print('exportDatabaseToExternal error: $e');
+      return null;
+    }
   }
 
   static Future<int> insert(String table, Map<String, Object> data) async {

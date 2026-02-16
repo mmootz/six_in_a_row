@@ -125,28 +125,44 @@ class Game {
     // winner block
     getWins = await PlayerData.getDataWhere(
         'players', ['wins'], 'PlayerName = ?', [winner]);
-    PlayerData.update('players', {'wins': getWins[0]['wins'] + 1},
+    
+    // Debug: log what we got back
+    debugPrint('DEBUG endGame: winner=$winner, getWins=$getWins');
+    if (getWins.isNotEmpty) {
+      debugPrint('DEBUG endGame: getWins[0]=${getWins[0]}, wins value=${getWins[0]['wins']} (type: ${getWins[0]['wins'].runtimeType})');
+    }
+    
+    // Null-safe handling: coalesce NULL to 0, then increment
+    final currentWins = getWins.isNotEmpty && getWins[0]['wins'] != null ? getWins[0]['wins'] : 0;
+    final newWins = currentWins + 1;
+    debugPrint('DEBUG endGame: currentWins=$currentWins, newWins=$newWins');
+    
+    await PlayerData.update('players', {'wins': newWins},
         'PlayerName = ?', [winner]);
-    _incrementGame(winner);
-    gameData.update('games', {'Winner': winner, 'WinningScore': winningScore},
+    await _incrementGame(winner);
+    await gameData.update('games', {'Winner': winner, 'WinningScore': winningScore},
         'id = ?', [gameId[0]['id']]);
 
-    // losers
-    lost.forEach((index) async {
+    // losers - properly await all updates
+    for (String index in lost) {
       getLosses = await PlayerData.getDataWhere(
-          'players', ['losses'], 'playername = ?', [index]);
-      PlayerData.update('players', {'losses': getLosses[0]['losses'] + 1},
-          'playername = ?', [index]);
-    });
-    lost.forEach((index) {
-      _incrementGame(index);
-    });
+          'players', ['losses'], 'PlayerName = ?', [index]);
+      
+      debugPrint('DEBUG endGame losers: player=$index, getLosses=$getLosses');
+      final currentLosses = getLosses.isNotEmpty && getLosses[0]['losses'] != null ? getLosses[0]['losses'] : 0;
+      final newLosses = currentLosses + 1;
+      debugPrint('DEBUG endGame losers: currentLosses=$currentLosses, newLosses=$newLosses');
+      
+      await PlayerData.update('players', {'losses': newLosses},
+          'PlayerName = ?', [index]);
+      await _incrementGame(index);
+    }
 
     // update total scores for each player
     for (var playerMap in players.entries) {
       String playerName = playerMap.key;
       int playerScore = int.parse(playerMap.value);
-      _updateTotalScore(playerName, playerScore);
+      await _updateTotalScore(playerName, playerScore);
     }
   }
 

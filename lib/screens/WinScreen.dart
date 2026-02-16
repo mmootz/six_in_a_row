@@ -21,6 +21,13 @@ class _WinScreenState extends State<WinScreen> {
   void initState() {
     super.initState();
     confetti = ConfettiController(duration: const Duration(seconds: 2));
+    // Process winner immediately, only once
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final players = ModalRoute.of(context)?.settings.arguments as Map<String, String>?;
+      if (players != null && mounted) {
+        findWinner(players);
+      }
+    });
   }
 
   @override
@@ -42,7 +49,7 @@ class _WinScreenState extends State<WinScreen> {
     // increment the games played by 1 for everyone
 
     //players.removeAt(0);
-    Game.endGame(
+    await Game.endGame(
       winningPlayer,
       players,
       winningScore,
@@ -53,7 +60,7 @@ class _WinScreenState extends State<WinScreen> {
     Navigator.popAndPushNamed(context, 'MainMenu');
   }
 
-  findWinner(Map<String, String> players) {
+  findWinner(Map<String, String> players) async {
     bool highScoreCheck = false;
     var winner = players.entries.toList()
       ..sort((b, a) => a.value.compareTo(b.value));
@@ -68,21 +75,20 @@ class _WinScreenState extends State<WinScreen> {
     });
     // players.forEach((k, v) => playerList.add(k));
     // playerList.removeAt(0);
-    updateScores(players, winningPlayer, int.parse(winningScore));
-    players.forEach((player, score) async {
+    await updateScores(players, winningPlayer, int.parse(winningScore));
+    
+    // Check high scores for all players - properly await
+    for (var entry in players.entries) {
       highScoreCheck =
-          await Game.checkHighScore(int.parse(score), player, true);
+          await Game.checkHighScore(int.parse(entry.value), entry.key, true);
       if (highScoreCheck) {
-        Game.updateHighScore(player, int.parse(score));
+        await Game.updateHighScore(entry.key, int.parse(entry.value));
       }
-    });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final players =
-        ModalRoute.of(context)?.settings.arguments as Map<String, String>;
-    findWinner(players);
     shootConfetti();
     return Scaffold(
       appBar: AppBar(

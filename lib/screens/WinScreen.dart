@@ -16,15 +16,16 @@ class _WinScreenState extends State<WinScreen> {
   late ConfettiController confetti;
   var winningScore = "";
   var winningPlayer = "";
+  bool _handled = false;
 
   @override
   void initState() {
     super.initState();
     confetti = ConfettiController(duration: const Duration(seconds: 2));
-    // Process winner immediately, only once
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final players = ModalRoute.of(context)?.settings.arguments as Map<String, String>?;
-      if (players != null && mounted) {
+      if (players != null && mounted && !_handled) {
+        _handled = true;
         findWinner(players);
       }
     });
@@ -60,7 +61,7 @@ class _WinScreenState extends State<WinScreen> {
     Navigator.popAndPushNamed(context, 'MainMenu');
   }
 
-  findWinner(Map<String, String> players) async {
+  Future<void> findWinner(Map<String, String> players) async {
     bool highScoreCheck = false;
     var winner = players.entries.toList()
       ..sort((b, a) => a.value.compareTo(b.value));
@@ -76,8 +77,7 @@ class _WinScreenState extends State<WinScreen> {
     // players.forEach((k, v) => playerList.add(k));
     // playerList.removeAt(0);
     await updateScores(players, winningPlayer, int.parse(winningScore));
-    
-    // Check high scores for all players - properly await
+
     for (var entry in players.entries) {
       highScoreCheck =
           await Game.checkHighScore(int.parse(entry.value), entry.key, true);
@@ -89,6 +89,8 @@ class _WinScreenState extends State<WinScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final players =
+      ModalRoute.of(context)?.settings.arguments as Map<String, String>;
     shootConfetti();
     return Scaffold(
       appBar: AppBar(

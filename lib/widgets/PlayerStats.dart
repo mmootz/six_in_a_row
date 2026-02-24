@@ -17,13 +17,17 @@ class _playerStatsState extends State<playerStats> {
   initloadedStats() async {
     final List initLoadedStats = await Player.getPlayerInfo(widget.PlayerName);
     if (initLoadedStats.isEmpty) {
-      debugPrint('print');
+      debugPrint('Player data is empty');
     }
-    debugPrint(initLoadedStats.toString());
+    debugPrint('Raw data: $initLoadedStats');
+    if (initLoadedStats.isNotEmpty) {
+      debugPrint('Keys in data: ${initLoadedStats[0].keys}');
+      debugPrint('HighestScore: ${initLoadedStats[0]['HighestScore']}');
+      debugPrint('TotalScore: ${initLoadedStats[0]['TotalScore']}');
+    }
     setState(() {
       loadedStats = initLoadedStats;
     });
-    debugPrint("loaded state:" + loadedStats.toString());
   }
 
   void initState() {
@@ -41,10 +45,8 @@ class _playerStatsState extends State<playerStats> {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text('Highest Score:' + loadedStats[0]['Highestscore'].toString()),
-          // Text('Most twelves in a game: 6'),
-          Text('Total Score:' + loadedStats[0]['totalscore'].toString()),
-          // Text('Total Twelves: 12'),
+          Text('Highest Score:' + loadedStats[0]['HighestScore'].toString()),
+          Text('Total Score:' + loadedStats[0]['TotalScore'].toString()),
           Text('wins:' + loadedStats[0]['wins'].toString()),
           Text('Losses:' + loadedStats[0]['losses'].toString())
         ],

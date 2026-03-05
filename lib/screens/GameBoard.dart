@@ -3,7 +3,7 @@ import '../widgets/GameButtons.dart';
 import '../widgets/topInfo.dart';
 import 'package:six/data/games.dart';
 import 'package:six/widgets/BottomButton.dart';
-import 'package:keep_screen_on/keep_screen_on.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class GameBoard extends StatefulWidget {
   const GameBoard({Key? key}) : super(key: key);
@@ -152,7 +152,7 @@ class _GameBoardState extends State<GameBoard> {
     final loadPlayers = ModalRoute.of(context)?.settings.arguments as List;
     bool shouldPop = false;
     // This keeps the screen on during the scoring
-    KeepScreenOn.turnOn();
+    WakelockPlus.enable();
     return WillPopScope(
       onWillPop: () async {
         return shouldPop;
